@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandon Dunes Golf Trip Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .table-auto {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem; /* Standard font size for table content */
+        }
+        .table-auto th, .table-auto td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .table-auto th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #4a5568;
+            text-transform: uppercase;
+            font-size: 0.875rem; /* Standard font size for all headers */
+        }
+        /* Removed specific smaller font size for tee-time-pairings-container th */
+        .table-auto tr:last-child td {
+            border-bottom: none;
+        }
+        .table-auto tbody tr:hover {
+            background-color: #f0f4f8;
+        }
+        h1 {
+            font-size: 2.25rem; /* text-4xl */
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            font-size: 1.5rem; /* text-2xl */
+            margin-bottom: 1rem;
+        }
+        h3 {
+            font-size: 1.25rem; /* text-xl */
+            margin-bottom: 1rem;
+        }
+        /* Ensure tables stack vertically on small screens and side-by-side on md and larger */
+        .flex-col.md\:flex-row {
+            flex-direction: column; /* Default to column for small screens */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .flex-col.md\:flex-row {
+                flex-direction: row; /* Change to row for medium and larger screens */
+            }
+            .flex-1.md\:w-1\/2 {
+                width: 50%; /* Each takes half width on medium and larger screens */
+            }
+        }
+        /* Removed specific width for Estimated Completion Time column */
+    </style>
+</head>
+<body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
+        <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->
+        <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
+
+        <div class="flex flex-col md:flex-row gap-6 mb-6">
+            <!-- Stableford Points System -->
+            <div class="card flex-1 md:w-1/2">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Score Relative to Par</th>
+                            <th class="px-4 py-2">Points</th>
+                            <th class="px-4 py-2">Score Relative to Par</th>
+                            <th class="px-4 py-2">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
+                            <td class="border px-4 py-2">20</td>
+                            <td class="border px-4 py-2">Birdie</td>
+                            <td class="border px-4 py-2">5</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Hole-in-One</td>
+                            <td class="border px-4 py-2">15</td>
+                            <td class="border px-4 py-2">Par</td>
+                            <td class="border px-4 py-2">3</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Eagle</td>
+                            <td class="border px-4 py-2">10</td>
+                            <td class="border px-4 py-2">Bogey</td>
+                            <td class="border px-4 py-2">2</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Double</td>
+                            <td class="border px-4 py-2">1</td>
+                            <td class="border px-4 py-2">DNF/Triple +</td>
+                            <td class="px-4 py-2">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notes Table -->
+            <div class="card flex-1 md:w-1/2">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notes-table-body">
+                        <!-- Notes will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Player Selection and Tee Time Pairings -->
+        <div class="card">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
+            <div class="mb-4 player-select-section w-1/2"> <!-- Added w-1/2 for half width -->
+                <label for="player-select" class="block text-lg font-medium text-gray-700 mb-2">Select Player:</label>
+                <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            <div id="tee-time-pairings-container" class="overflow-x-auto">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Date</th>
+                            <th class="px-4 py-2">Time</th>
+                            <th class="px-4 py-2">Estimated Completion Time</th>
+                            <th class="px-4 py-2">Course</th>
+                            <th class="px-4 py-2">Caddie</th>
+                            <th class="px-4 py-2">Playing Partners (Handicap)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tee-time-pairings-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Raw CSV data for golf pairings
+        const csvData = `Date,Time,Course,Player,Player,Player,Player,Caddie?,Notes,,Start time adjusted,Complete Estimate,,Time adjustment,,Course,Estimated play time,,,,,,770,210
+2025-08-20,2:15 p.m. ,Shorty's,,,,,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
+2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
+2025-08-20,2:50 p.m. ,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,2025-08-20 14:50:00,2025-08-20 19:20:00,,890,,Pacific Dunes,4.5,,,,,,800,240
+2025-08-20,3:00 p.m.,Bandon Dunes,Bryan Wolfe,Matt Akers,Paul Parker,Andrew Akers,,,,2025-08-20 15:00:00,2025-08-20 19:30:00,,900,,Bandon Preserve,2,,,,,,810,250
+2025-08-20,3:10 p.m. ,Bandon Dunes,Kevan Oyama,Bob Owlett,Nick Zangardi,James Adolfson,,,,2025-08-20 15:10:00,2025-08-20 19:40:00,,910,,Bandon Trails,4.5,,,,,,820,260
+2025-08-20,3:20 p.m. ,Bandon Dunes,Vikas Bhasin,Daniel Passino,Charlie Hildebrand,Hisham Sayeedi,,,,2025-08-20 15:20:00,2025-08-20 19:50:00,,920,,Old Macdonald,4.5,,,,,,830,270
+2025-08-20,6:45 p.m. ,Shorty's,Brandon Itaoka,Cory Micheel,AD Hoffman,Will Quarles,,Bill to individuals,,2025-08-20 18:45:00,2025-08-20 20:45:00,,1125,,Sheep Ranch,4.5,,,,,,840,280
+,,,,,,,,,,,,,,,,,,,,,,850,290
+2025-08-21,7:30 a.m. ,Pacific Dunes,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-21 07:30:00,2025-08-21 12:00:00,,450,,,,,,,,,860,300
+2025-08-21,7:40 a.m. ,Pacific Dunes,Cory Higgins,Matt Akers,Andrew Akers,James Adolfson,,,,2025-08-21 07:40:00,2025-08-21 12:10:00,,460,,,,,,,,,870,310
+2025-08-21,7:50 a.m. ,Pacific Dunes,Bob Owlett,Kevin Newell,Mike Newell,Rob Small,,,,2025-08-21 07:50:00,2025-08-21 12:20:00,,470,,,,,,,,,880,320
+2025-08-21,8:00 a.m. ,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,,,2025-08-21 08:00:00,2025-08-21 12:30:00,,480,,,,,,,,,890,330
+2025-08-21,8:10 a.m. ,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,,,2025-08-21 08:10:00,2025-08-21 12:40:00,,490,,,,,,,,,900,340
+2025-08-21,8:20 a.m. ,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-21 08:20:00,2025-08-21 12:50:00,,500,,,,,,,,,910,350
+,,,,,,,,,,,,,,,Time until next tee time,,,,,,,920,360
+2025-08-21,1:10 p.m. ,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY,,2025-08-21 13:10:00,2025-08-21 17:40:00,,790,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,930,370
+2025-08-21,1:20 p.m. ,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,,,2025-08-21 13:20:00,2025-08-21 17:50:00,,800,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
+2025-08-21,1:30 p.m. ,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,,,2025-08-21 13:30:00,2025-08-21 18:00:00,,810,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
+2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1110.0000000034925,1080,1080,,,,960,400
+2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
+2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
+2025-08-21,6:00 p.m.,Bandon Preserve,TBD - Likely Replay from main course,,,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
+,,,,,,,,,,,,,,,,,,,,,,1000,440
+2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,,,,,,,,1010,450
+2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,,,,,,,,1020,460
+2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1030,470
+2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Jacob Emert,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1040,480
+2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1050,490
+2025-08-22,8:20 a.m. ,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,2025-08-22 08:20:00,2025-08-22 12:50:00,,500,,,,,,,,,1060,500
+, ,,,,,,,,,,,,,,,,,,,,,1070,510
+2025-08-22,1:10 p.m. ,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,2025-08-22 13:10:00,2025-08-22 17:40:00,,790,,,,,,,,,1080,520
+2025-08-22,1:20 p.m. ,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,,,2025-08-22 13:20:00,2025-08-22 17:50:00,,800,,,,,,,,,1090,530
+2025-08-22,1:30 p.m. ,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,,,2025-08-22 13:30:00,2025-08-22 18:00:00,,810,,,,,,,,,1100,540
+2025-08-22,1:40 p.m. ,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,,,,2025-08-22 13:40:00,2025-08-22 18:10:00,,820,,,,,,,,,1110,550
+2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-08-22 16:15:00,,855,,,,,,,,,1120,560
+2025-08-22,6:30 p.m. ,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals,,2025-08-22 18:30:00,2025-08-22 20:30:00,,1110,,,,,,,,,1130,570
+ , ,,,,,,,,,,,,,,,,,,,,,1140,580
+2025-08-23,7:30 a.m. ,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,2025-08-23 07:30:00,2025-08-23 12:00:00,,450,,,,,,,,,1150,590
+2025-08-23,7:40 a.m. ,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,2025-08-23 07:40:00,2025-08-23 12:10:00,,460,,,,,,,,,1160,600
+2025-08-23,7:50 a.m. ,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,,,2025-08-23 07:50:00,2025-08-23 12:20:00,,470,,,,,,,,,1170,610
+2025-08-23,8:00 a.m. ,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,2025-08-23 08:00:00,2025-08-23 12:30:00,,480,,,,,,,,,1180,620
+2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1190,630
+2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1200,640
+,,,,,,,,,,,,,,,,,,,,,,1210,650
+2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1220,660
+2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1230,670
+2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1240,680
+2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1250,690
+2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1260,700
+2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1270,710
+2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1280,720
+,,,,,,,,,,,,,,,,,,,,,,1290,730
+2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1300,740
+2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1310,750
+2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1320,760
+2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1330,770
+2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-02-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1340,780
+,,,,,,,,,,,,,,,,,,,,,,1350,790
+,,,,,,,,,,,,,,,,,,,,,,1360,800
+,,,,,,,,,,,,,,,,,,,,,,1370,810
+,,,,,,,,,,,,,,,,,,,,,,1380,820
+,,,,,,,,,,,,,,,,,,,,,,1390,830
+,,,,,,,,,,,,,,,,,,,,,,1400,840
+,,,,,,,,,,,,,,,,,,,,,,1410,850
+,,,,,,,,,,,,,,,,,,,,,,1420,860
+,,,,,,,,,,,,,,,,,,,,,,1430,870
+,,,,,,,,,,,,,,,,,,,,,,1440,880`;
+
+        // Raw CSV data for caddy workbook
+        const caddyWorkbookCsvData = `Timestamp,Email Address,Caddy / Fore caddy selection ... AM course will differ from PM course [Wednesday 8/20 (PM round only)],Caddy / Fore caddy selection ... AM course will differ from PM course [Thursday 8/21 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Thursday 8/21 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Friday 8/22 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Friday 8/22 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Saturday 8/23 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Saturday 8/23 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Sunday 8/24 (AM round only)]
+Zach Deines,zachmd@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Cory Higgins,cory.higgins@gmail.com,No Caddy,Caddy,No Caddy,No Caddy,Caddy,No Caddy,No Caddy,Caddy
+Nick Zangardi,nickzangardi@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,No Caddy
+Johnathn Resetar,johnresetar@hotmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Pranav Shah,pranav.s.shah@outlook.com,Fore Caddy,Fore Caddy,Fore Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Mike Newell,mjnewell28@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Jacob Emert,jacob.e.emert@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Ryan Hohn,rhohn67@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Bryan Wolfe,bryanwolfe1993@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Vikas Bhasin,vikasopicaso@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,Caddy,No Caddy
+Cory Micheel,cory.micheel@gmail.com,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,No Caddy
+AD Hoffman,adonis.hoffman@gmail.com,No Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy
+Bob Owlett,bobowlett@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Paul Parker,Paul.W.Parker8@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Kevan Oyama,kevan.oyama@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Hisham Sayeedi,hsayeedi@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Daniel Passino,dpassino@umich.edu,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Matt Akers,mjakers1@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+James Adolfson,jamesadolfson123@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Kevin Newell,newellkj@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Rob Small,rob@compaero.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Andrew Akers,andrewakers9@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Brandon Itaoka,urmessiah57@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+`;
+
+        // Handicap data provided by the user
+        const handicaps = {
+            "Mike Newell": 1,
+            "Andrew Akers": 2,
+            "James Adolfson": 3,
+            "Cory Higgins": 4,
+            "Kevan Oyama": 5,
+            "Bob Owlett": 5,
+            "Jacob Emert": 6,
+            "Brandon Itaoka": 6,
+            "Ryan Hohn": 7,
+            "Zach Deines": 8,
+            "Rob Small": 9,
+            "Nick Zangardi": 10,
+            "Vikas Bhasin": 11,
+            "Daniel Passino": 11,
+            "Hisham Sayeedi": 11,
+            "Cory Micheel": 11,
+            "AD Hoffman": 11,
+            "Bryan Wolfe": 12,
+            "Johnathn Resetar": 12,
+            "Kevin Newell": 13,
+            "Paul Parker": 13,
+            "Will Quarles": 15,
+            "Charlie Hildebrand": 15,
+            "Matt Akers": 15
+        };
+
+        // Meal data provided by the user
+        const mealsData = {
+            "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Ryan Hohn": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Johnathn Resetar": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Charlie Hildebrand": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Rob Small": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Mike Newell": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Cory Higgins": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Zach Deines": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Vikas Bhasin": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Jacob Emert": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Brandon Itaoka": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Nick Zangardi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Andrew Akers": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Daniel Passino": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Matt Akers": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Bryan Wolfe": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Bob Owlett": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Kevan Oyama": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Cory Micheel": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "AD Hoffman": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Paul Parker": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
+        };
+
+        // Global variable to store parsed caddy selections
+        const caddySelectionsByPlayerRound = {};
+
+        function parseCSV(csv) {
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return [];
+
+            const data = [];
+            // Define fixed indices for relevant columns based on the CSV structure
+            const dateIndex = 0;
+            const timeIndex = 1;
+            const courseIndex = 2;
+            const playerIndices = [3, 4, 5, 6]; // Indices for Player columns (C, D, E, F)
+            const completeEstimateIndex = 11; // Index for 'Complete Estimate' column (L)
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].split(',');
+
+                // Ensure the line has enough columns to avoid index out of bounds
+                if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
+
+                const row = {};
+                row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
+                row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
+                row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
+                // The Caddie? column in the main CSV is not used for specific caddy type, it's just 'YES' or empty
+                // row['Caddie'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
+                row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
+
+
+                // Assign players to unique keys based on their fixed indices
+                row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
+                row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
+                row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
+                row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
+
+                // Only add row if it has essential data and at least one player
+                if (row['Date'] && row['Time'] && row['Course'] &&
+                    (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
+                    data.push(row);
+                }
+            }
+            return data;
+        }
+
+        function parseCaddyWorkbookCSV(csv) {
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return;
+
+            const headers = lines[0].split(',').map(h => h.trim());
+            const playerColumnIndex = 0; // The first column contains the player name (e.g., "Zach Deines")
+            const caddyColumnIndices = [];
+            const caddyColumnMap = {}; // Maps header index to { date: 'YYYY-MM-DD', roundType: 'AM' | 'PM' }
+
+            // Parse caddy headers to create a map for lookup
+            headers.forEach((header, index) => {
+                if (header.includes("Caddy / Fore caddy selection")) {
+                    const match = header.match(/\[.*? (\d{1,2}\/\d{1,2})(?: - (AM|PM) Round)?(?: \((AM|PM) round only\))?\]/);
+                    if (match) {
+                        const monthDay = match[1]; // e.g., "8/20"
+                        let roundType = '';
+
+                        // Determine round type based on specific phrases or explicit "AM/PM Round"
+                        if (header.includes("(PM round only)")) {
+                            roundType = 'PM';
+                        } else if (header.includes("(AM round only)")) {
+                            roundType = 'AM';
+                        } else if (match[2]) { // If "AM Round" or "PM Round" is explicitly stated
+                            roundType = match[2];
+                        }
+
+                        // Construct YYYY-MM-DD date string (assuming 2025 as per original data)
+                        const [month, day] = monthDay.split('/');
+                        const fullDate = `2025-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+                        if (roundType) { // Only add if roundType is determined
+                            caddyColumnIndices.push(index);
+                            caddyColumnMap[index] = { date: fullDate, roundType: roundType };
+                        }
+                    }
+                }
+            });
+
+            // Populate caddySelectionsByPlayerRound
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].split(',');
+                const playerName = currentLine[playerColumnIndex] ? currentLine[playerColumnIndex].trim() : '';
+                if (!playerName) continue;
+
+                caddySelectionsByPlayerRound[playerName] = {};
+
+                caddyColumnIndices.forEach(colIndex => {
+                    const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+                    const { date, roundType } = caddyColumnMap[colIndex];
+
+                    if (!caddySelectionsByPlayerRound[playerName][date]) {
+                        caddySelectionsByPlayerRound[playerName][date] = {};
+                    }
+                    caddySelectionsByPlayerRound[playerName][date][roundType] = caddyType;
+                });
+            }
+        }
+
+
+        function populatePlayerSelect(players) {
+            const playerSelect = document.getElementById('player-select');
+            // Check if playerSelect exists before trying to manipulate it
+            if (playerSelect) {
+                playerSelect.innerHTML = ''; // Clear existing options
+
+                // Sort players alphabetically
+                const sortedPlayers = [...players].sort();
+
+                sortedPlayers.forEach(player => {
+                    const option = document.createElement('option');
+                    option.value = player;
+                    option.textContent = player;
+                    playerSelect.appendChild(option);
+                });
+            }
+        }
+
+        function populateNotes(playerName) {
+            const notesBody = document.getElementById('notes-table-body');
+            notesBody.innerHTML = ''; // Clear existing notes
+
+            // Static notes
+            const staticNotes = [
+                "Welcome dinner at Trail's End 8:30 p.m.",
+                "$50 / daily group bet pays out to winning team and $10 of daily bet is used for KP and Long-drives (in the fairway).",
+                "Last group please pick-up KP and Long-drive markers.", // Added new note here
+                "Teams will be redrawn daily based on prior day point totals and captains adjusted."
+            ];
+
+            staticNotes.forEach(note => {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.className = 'border px-4 py-2';
+                td.textContent = note;
+                tr.appendChild(td);
+                notesBody.appendChild(tr);
+            });
+
+            // Dynamic meal notes
+            const playerMeals = mealsData[playerName];
+            if (playerMeals) {
+                const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
+                const lunchStatus = playerMeals["Lunch Box"] === 1 ? "Yes" : "No";
+
+                let trBreakfast = document.createElement('tr');
+                let tdBreakfast = document.createElement('td');
+                tdBreakfast.className = 'border px-4 py-2';
+                tdBreakfast.textContent = `Breakfast: ${breakfastStatus}`;
+                trBreakfast.appendChild(tdBreakfast);
+                notesBody.appendChild(trBreakfast);
+
+                let trLunch = document.createElement('tr');
+                let tdLunch = document.createElement('td');
+                tdLunch.className = 'border px-4 py-2';
+                tdLunch.textContent = `Lunch: ${lunchStatus}`;
+                trLunch.appendChild(tdLunch);
+                notesBody.appendChild(trLunch);
+
+            } else {
+                // If meal data not found for the player
+                let trBreakfast = document.createElement('tr');
+                let tdBreakfast = document.createElement('td');
+                tdBreakfast.className = 'border px-4 py-2';
+                tdBreakfast.textContent = `Breakfast: N/A`;
+                trBreakfast.appendChild(tdBreakfast);
+                notesBody.appendChild(trBreakfast);
+
+                let trLunch = document.createElement('tr');
+                let tdLunch = document.createElement('td');
+                tdLunch.className = 'border px-4 py-2';
+                tdLunch.textContent = `Lunch: N/A`;
+                trLunch.appendChild(tdLunch);
+                notesBody.appendChild(trLunch);
+            }
+        }
+
+
+        function populateTeeTimesForPlayer(playerName) {
+            const pairingsBody = document.getElementById('tee-time-pairings-body');
+            const currentPlayerTitle = document.getElementById('current-player-tee-times-title');
+            const mainTripSummaryTitle = document.getElementById('main-trip-summary-title'); // Get main title element
+            const parsedData = parseCSV(csvData);
+
+            // Update the main title dynamically
+            mainTripSummaryTitle.textContent = `${playerName} - Bandon Dunes Golf Trip Summary`;
+            // Update the section title
+            currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
+
+            // Clear existing rows
+            pairingsBody.innerHTML = '';
+
+            // Filter data for the specific player
+            const playerTeeTimes = parsedData.filter(row => {
+                // Check all possible player columns for the playerName
+                return (row['Player1'] === playerName ||
+                        row['Player2'] === playerName ||
+                        row['Player3'] === playerName ||
+                        row['Player4'] === playerName);
+            });
+
+            // Iterate through the filtered data and create table rows
+            playerTeeTimes.forEach(row => {
+                const tr = document.createElement('tr');
+
+                const dateTd = document.createElement('td');
+                dateTd.className = 'px-4 py-2';
+                // Format the date: "Wed - 8/20"
+                const dateParts = row['Date'].split('-'); // Split YYYY-MM-DD
+                const year = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]) - 1; // Month is 0-indexed
+                const day = parseInt(dateParts[2]);
+                const dateObj = new Date(year, month, day);
+
+                const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
+                dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -'); // "Wed, 8/20" to "Wed - 8/20"
+                tr.appendChild(dateTd);
+
+                const timeTd = document.createElement('td');
+                timeTd.className = 'px-4 py-2';
+                timeTd.textContent = row['Time'];
+                tr.appendChild(timeTd);
+
+                // Add Estimated Completion Time
+                const completeTimeTd = document.createElement('td');
+                completeTimeTd.className = 'px-4 py-2';
+                const fullDateTime = row['CompleteEstimate'];
+                if (fullDateTime) {
+                    // Assuming fullDateTime is like "YYYY-MM-DD HH:MM:SS" or "HH:MM"
+                    let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
+                    let [hours, minutes] = timeString.split(':').map(Number);
+                    let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // The hour '0' should be '12'
+                    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                    completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
+                } else {
+                    completeTimeTd.textContent = 'N/A';
+                }
+                tr.appendChild(completeTimeTd);
+
+
+                const courseTd = document.createElement('td');
+                courseTd.className = 'px-4 py-2';
+                courseTd.textContent = row['Course'];
+                tr.appendChild(courseTd);
+
+                // Determine round type (AM/PM) from the tee time
+                let teeTimeHours = parseInt(row['Time'].split(':')[0]);
+                let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
+
+                // Handle 12 AM/PM
+                if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
+                    teeTimeAmPm = 'AM'; // 12 AM
+                } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
+                    teeTimeAmPm = 'PM'; // 12 PM
+                }
+
+
+                // Get caddie selection for this specific round from the new caddy data
+                const caddieTypeForRound = caddySelectionsByPlayerRound[playerName] &&
+                                           caddySelectionsByPlayerRound[playerName][row['Date']] &&
+                                           caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
+                                           ? caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
+                                           : 'N/A'; // Default if not found or no selection
+
+                const caddieTd = document.createElement('td');
+                caddieTd.className = 'px-4 py-2';
+                caddieTd.textContent = caddieTypeForRound;
+                tr.appendChild(caddieTd);
+
+                const players = [];
+                // Collect all players from the row, excluding the current playerName
+                for (let i = 1; i <= 4; i++) {
+                    const playerCol = `Player${i}`;
+                    const partnerName = row[playerCol];
+                    if (partnerName && partnerName !== playerName) {
+                        const handicap = handicaps[partnerName];
+                        if (handicap !== undefined) {
+                            players.push(`${partnerName} (${handicap})`);
+                        } else {
+                            players.push(partnerName); // Add without handicap if not found
+                        }
+                    }
+                }
+
+                const partnersTd = document.createElement('td');
+                partnersTd.className = 'px-4 py-2';
+                partnersTd.textContent = players.join(', ');
+                tr.appendChild(partnersTd);
+
+                pairingsBody.appendChild(tr);
+            });
+        }
+
+        // Initialize on page load
+        window.onload = () => {
+            parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
+
+            const allPlayers = Object.keys(handicaps);
+            populatePlayerSelect(allPlayers);
+
+            const playerSelect = document.getElementById('player-select');
+            if (playerSelect) { // Check if playerSelect exists again after populatePlayerSelect
+                playerSelect.addEventListener('change', (event) => {
+                    const selectedPlayer = event.target.value;
+                    populateTeeTimesForPlayer(selectedPlayer);
+                    populateNotes(selectedPlayer); // Populate notes for the selected player
+                });
+
+                // Set initial player (e.g., Cory Higgins)
+                const initialPlayer = "Cory Higgins";
+                if (allPlayers.includes(initialPlayer)) {
+                    playerSelect.value = initialPlayer;
+                    populateTeeTimesForPlayer(initialPlayer);
+                    populateNotes(initialPlayer); // Populate notes for the initial player
+                } else if (allPlayers.length > 0) {
+                    // If Cory Higgins not found, select the first player in the list
+                    playerSelect.value = allPlayers[0];
+                    populateTeeTimesForPlayer(allPlayers[0]);
+                    populateNotes(allPlayers[0]); // Populate notes for the first player
+                }
+            }
+        };
+    </script>
+</body>
+</html>
