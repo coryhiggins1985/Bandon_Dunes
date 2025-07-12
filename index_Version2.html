@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- [The rest of your code goes here...] --><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -76,7 +75,10 @@
                 width: 50%; /* Each takes half width on medium and larger screens */
             }
         }
-        /* Removed specific width for Estimated Completion Time column */
+        /* Style for the handicap row */
+        .player-handicap-row td {
+            background-color: #e0f2fe; /* Light blue shading */
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -84,11 +86,21 @@
         <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
+        <!-- Player Selection (Moved to top) -->
+        <div class="card mb-6">
+            <div class="mb-4 player-select-section w-full md:w-1/2"> <!-- Adjusted to w-full by default, md:w-1/2 for larger screens -->
+                <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label> <!-- Text color changed to red -->
+                <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+        </div>
+
         <div class="flex flex-col md:flex-row gap-6 mb-6">
             <!-- Stableford Points System -->
             <div class="card flex-1 md:w-1/2">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
-                <table class="table-auto">
+                <table class="table-auto" id="stableford-table">
                     <thead>
                         <tr>
                             <th class="px-4 py-2">Score Relative to Par</th>
@@ -110,7 +122,7 @@
                             <td class="border px-4 py-2">Par</td>
                             <td class="border px-4 py-2">3</td>
                         </tr>
-                        <tr>D  afdasdfsdaf
+                        <tr>
                             <td class="border px-4 py-2">Eagle</td>
                             <td class="border px-4 py-2">10</td>
                             <td class="border px-4 py-2">Bogey</td>
@@ -122,6 +134,7 @@
                             <td class="border px-4 py-2">DNF/Triple +</td>
                             <td class="px-4 py-2">0</td>
                         </tr>
+                        <!-- Player Handicap row will be added here by JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -142,15 +155,9 @@
             </div>
         </div>
 
-        <!-- Player Selection and Tee Time Pairings -->
+        <!-- Tee Time Pairings (Moved to bottom) -->
         <div class="card">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
-            <div class="mb-4 player-select-section w-1/2"> <!-- Added w-1/2 for half width -->
-                <label for="player-select" class="block text-lg font-medium text-gray-700 mb-2">Select Player:</label>
-                <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                    <!-- Options will be populated by JavaScript -->
-                </select>
-            </div>
             <div id="tee-time-pairings-container" class="overflow-x-auto">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
                 <table class="table-auto">
@@ -174,63 +181,63 @@
     <script>
         // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player,Player,Player,Player,Caddie?,Notes,,Start time adjusted,Complete Estimate,,Time adjustment,,Course,Estimated play time,,,,,,770,210
-2025-08-20,2:15 p.m. ,Shorty's,,,,,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
+2025-08-20,2:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
 2025-08-20,2:50 p.m. ,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,2025-08-20 14:50:00,2025-08-20 19:20:00,,890,,Pacific Dunes,4.5,,,,,,800,240
 2025-08-20,3:00 p.m.,Bandon Dunes,Bryan Wolfe,Matt Akers,Paul Parker,Andrew Akers,,,,2025-08-20 15:00:00,2025-08-20 19:30:00,,900,,Bandon Preserve,2,,,,,,810,250
 2025-08-20,3:10 p.m. ,Bandon Dunes,Kevan Oyama,Bob Owlett,Nick Zangardi,James Adolfson,,,,2025-08-20 15:10:00,2025-08-20 19:40:00,,910,,Bandon Trails,4.5,,,,,,820,260
 2025-08-20,3:20 p.m. ,Bandon Dunes,Vikas Bhasin,Daniel Passino,Charlie Hildebrand,Hisham Sayeedi,,,,2025-08-20 15:20:00,2025-08-20 19:50:00,,920,,Old Macdonald,4.5,,,,,,830,270
 2025-08-20,6:45 p.m. ,Shorty's,Brandon Itaoka,Cory Micheel,AD Hoffman,Will Quarles,,Bill to individuals,,2025-08-20 18:45:00,2025-08-20 20:45:00,,1125,,Sheep Ranch,4.5,,,,,,840,280
-,,,,,,,,,,,,,,,,,,,,,,850,290
-2025-08-21,7:30 a.m. ,Pacific Dunes,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-21 07:30:00,2025-08-21 12:00:00,,450,,,,,,,,,860,300
-2025-08-21,7:40 a.m. ,Pacific Dunes,Cory Higgins,Matt Akers,Andrew Akers,James Adolfson,,,,2025-08-21 07:40:00,2025-08-21 12:10:00,,460,,,,,,,,,870,310
-2025-08-21,7:50 a.m. ,Pacific Dunes,Bob Owlett,Kevin Newell,Mike Newell,Rob Small,,,,2025-08-21 07:50:00,2025-08-21 12:20:00,,470,,,,,,,,,880,320
-2025-08-21,8:00 a.m. ,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,,,2025-08-21 08:00:00,2025-08-21 12:30:00,,480,,,,,,,,,890,330
-2025-08-21,8:10 a.m. ,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,,,2025-08-21 08:10:00,2025-08-21 12:40:00,,490,,,,,,,,,900,340
-2025-08-21,8:20 a.m. ,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-21 08:20:00,2025-08-21 12:50:00,,500,,,,,,,,,910,350
-,,,,,,,,,,,,,,,Time until next tee time,,,,,,,920,360
-2025-08-21,1:10 p.m. ,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY,,2025-08-21 13:10:00,2025-08-21 17:40:00,,790,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,930,370
-2025-08-21,1:20 p.m. ,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,,,2025-08-21 13:20:00,2025-08-21 17:50:00,,800,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
-2025-08-21,1:30 p.m. ,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,,,2025-08-21 13:30:00,2025-08-21 18:00:00,,810,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
-2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1110.0000000034925,1080,1080,,,,960,400
-2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
-2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
-2025-08-21,6:00 p.m.,Bandon Preserve,TBD - Likely Replay from main course,,,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
-,,,,,,,,,,,,,,,,,,,,,,1000,440
-2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,,,,,,,,1010,450
-2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,,,,,,,,1020,460
-2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1030,470
-2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Jacob Emert,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1040,480
-2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1050,490
-2025-08-22,8:20 a.m. ,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,2025-08-22 08:20:00,2025-08-22 12:50:00,,500,,,,,,,,,1060,500
-, ,,,,,,,,,,,,,,,,,,,,,1070,510
-2025-08-22,1:10 p.m. ,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,2025-08-22 13:10:00,2025-08-22 17:40:00,,790,,,,,,,,,1080,520
-2025-08-22,1:20 p.m. ,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,,,2025-08-22 13:20:00,2025-08-22 17:50:00,,800,,,,,,,,,1090,530
-2025-08-22,1:30 p.m. ,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,,,2025-08-22 13:30:00,2025-08-22 18:00:00,,810,,,,,,,,,1100,540
-2025-08-22,1:40 p.m. ,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,,,,2025-08-22 13:40:00,2025-08-22 18:10:00,,820,,,,,,,,,1110,550
-2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-08-22 16:15:00,,855,,,,,,,,,1120,560
-2025-08-22,6:30 p.m. ,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals,,2025-08-22 18:30:00,2025-08-22 20:30:00,,1110,,,,,,,,,1130,570
- , ,,,,,,,,,,,,,,,,,,,,,1140,580
-2025-08-23,7:30 a.m. ,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,2025-08-23 07:30:00,2025-08-23 12:00:00,,450,,,,,,,,,1150,590
-2025-08-23,7:40 a.m. ,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,2025-08-23 07:40:00,2025-08-23 12:10:00,,460,,,,,,,,,1160,600
-2025-08-23,7:50 a.m. ,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,,,2025-08-23 07:50:00,2025-08-23 12:20:00,,470,,,,,,,,,1170,610
-2025-08-23,8:00 a.m. ,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,2025-08-23 08:00:00,2025-08-23 12:30:00,,480,,,,,,,,,1180,620
-2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1190,630
-2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1200,640
-,,,,,,,,,,,,,,,,,,,,,,1210,650
-2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1220,660
-2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1230,670
-2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1240,680
-2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1250,690
-2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1260,700
-2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1270,710
-2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1280,720
+2025-08-21,7:30 a.m. ,Pacific Dunes,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-21 07:30:00,2025-08-21 12:00:00,,450,,,,,,,,,850,290
+2025-08-21,7:40 a.m. ,Pacific Dunes,Cory Higgins,Matt Akers,Andrew Akers,James Adolfson,,,,2025-08-21 07:40:00,2025-08-21 12:10:00,,460,,,,,,,,,860,300
+2025-08-21,7:50 a.m. ,Pacific Dunes,Bob Owlett,Kevin Newell,Mike Newell,Rob Small,,,,2025-08-21 07:50:00,2025-08-21 12:20:00,,470,,,,,,,,,870,310
+2025-08-21,8:00 a.m. ,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,,,2025-08-21 08:00:00,2025-08-21 12:30:00,,480,,,,,,,,,880,320
+2025-08-21,8:10 a.m. ,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,,,2025-08-21 08:10:00,2025-08-21 12:40:00,,490,,,,,,,,,890,330
+2025-08-21,8:20 a.m. ,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-21 08:20:00,2025-08-21 12:50:00,,500,,,,,,,,,900,340
+2025-08-21,1:10 p.m. ,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY,,2025-08-21 13:10:00,2025-08-21 17:40:00,,790,,,,,,,,,910,350
+2025-08-21,1:20 p.m. ,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,,,2025-08-21 13:20:00,2025-08-21 17:50:00,,800,,Time until next tee time,,,,,,,920,360
+2025-08-21,1:30 p.m. ,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,,,2025-08-21 13:30:00,2025-08-21 18:00:00,,810,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,930,370
+2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
+2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
+2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
+2025-08-21,6:00 p.m.,Bandon Preserve,TBD - Likely Replay from main course,,,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
+2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
+2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
+2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1000,440
+2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Jacob Emert,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1010,450
+2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1020,460
+2025-08-22,8:20 a.m. ,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,2025-08-22 08:20:00,2025-08-22 12:50:00,,500,,,,,,,,,1030,470
+2025-08-22,1:10 p.m. ,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,2025-08-22 13:10:00,2025-08-22 17:40:00,,790,,,,,,,,,1040,480
+2025-08-22,1:20 p.m. ,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,,,2025-08-22 13:20:00,2025-08-22 17:50:00,,800,,,,,,,,,1050,490
+2025-08-22,1:30 p.m. ,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,,,2025-08-22 13:30:00,2025-08-22 18:00:00,,810,,,,,,,,,1060,500
+2025-08-22,1:40 p.m. ,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,,,,2025-08-22 13:40:00,2025-08-22 18:10:00,,820,,,,,,,,,1070,510
+2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-08-22 16:15:00,,855,,,,,,,,,1080,520
+2025-08-22,6:30 p.m. ,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals,,2025-08-22 18:30:00,2025-08-22 20:30:00,,1110,,,,,,,,,1090,530
+2025-08-23,7:30 a.m. ,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,2025-08-23 07:30:00,2025-08-23 12:00:00,,450,,,,,,,,,1100,540
+2025-08-23,7:40 a.m. ,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,2025-08-23 07:40:00,2025-08-23 12:10:00,,460,,,,,,,,,1110,550
+2025-08-23,7:50 a.m. ,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,,,2025-08-23 07:50:00,2025-08-23 12:20:00,,470,,,,,,,,,1120,560
+2025-08-23,8:00 a.m. ,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,2025-08-23 08:00:00,2025-08-23 12:30:00,,480,,,,,,,,,1130,570
+2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1140,580
+2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1150,590
+2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
+25-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
+2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
+2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
+2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
+2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
+2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
+2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
+2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
+2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
+2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
+2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-02-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710
+,,,,,,,,,,,,,,,,,,,,,,1280,720
 ,,,,,,,,,,,,,,,,,,,,,,1290,730
-2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1300,740
-2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1310,750
-2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1320,760
-2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1330,770
-2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-02-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1340,780
+,,,,,,,,,,,,,,,,,,,,,,1300,740
+,,,,,,,,,,,,,,,,,,,,,,1310,750
+,,,,,,,,,,,,,,,,,,,,,,1320,760
+,,,,,,,,,,,,,,,,,,,,,,1330,770
+,,,,,,,,,,,,,,,,,,,,,,1340,780
 ,,,,,,,,,,,,,,,,,,,,,,1350,790
 ,,,,,,,,,,,,,,,,,,,,,,1360,800
 ,,,,,,,,,,,,,,,,,,,,,,1370,810
@@ -455,8 +462,8 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             // Static notes
             const staticNotes = [
                 "Welcome dinner at Trail's End 8:30 p.m.",
-                "$50 / daily group bet pays out to winning team and $10 of daily bet is used for KP and Long-drives (in the fairway).",
-                "Last group please pick-up KP and Long-drive markers.", // Added new note here
+                "$50 / daily group bet pays out to winning Stableford team and $10 of daily bet is used for KP and Long-drives (in the fairway). Stableford teams are drawn daily for the AM round only.", // Updated note text
+                "Last group please pick-up KP and Long-drive markers.",
                 "Teams will be redrawn daily based on prior day point totals and captains adjusted."
             ];
 
@@ -512,15 +519,44 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             const pairingsBody = document.getElementById('tee-time-pairings-body');
             const currentPlayerTitle = document.getElementById('current-player-tee-times-title');
             const mainTripSummaryTitle = document.getElementById('main-trip-summary-title'); // Get main title element
+            const stablefordTableBody = document.querySelector('#stableford-table tbody'); // Get stableford table body
             const parsedData = parseCSV(csvData);
 
             // Update the main title dynamically
-            mainTripSummaryTitle.textContent = `${playerName} - Bandon Dunes Golf Trip Summary`;
+            // Extract the "Bandon Dunes Golf Trip Summary" part to keep it consistent
+            const baseTitle = "Bandon Dunes Golf Trip Summary";
+            mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`; // Player name in default color
             // Update the section title
             currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
 
             // Clear existing rows
             pairingsBody.innerHTML = '';
+
+            // Clear existing handicap row in Stableford table
+            const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
+            if (existingHandicapRow) {
+                existingHandicapRow.remove();
+            }
+
+            // Add selected player's handicap to Stableford table
+            const playerHandicap = handicaps[playerName];
+            if (playerHandicap !== undefined) {
+                const tr = document.createElement('tr');
+                tr.className = 'player-handicap-row'; // Add a class to easily find and remove later
+                const tdLabel = document.createElement('td');
+                tdLabel.className = 'border px-4 py-2 font-semibold';
+                tdLabel.textContent = `${playerName}'s Handicap`;
+                tr.appendChild(tdLabel);
+                const tdValue = document.createElement('td');
+                tdValue.className = 'border px-4 py-2';
+                tdValue.textContent = playerHandicap;
+                tr.appendChild(tdValue);
+                // Add empty cells to maintain table structure for 4 columns
+                tr.appendChild(document.createElement('td'));
+                tr.appendChild(document.createElement('td'));
+                stablefordTableBody.appendChild(tr);
+            }
+
 
             // Filter data for the specific player
             const playerTeeTimes = parsedData.filter(row => {
@@ -657,4 +693,3 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
     </script>
 </body>
 </html>
-
