@@ -115,8 +115,18 @@
         .tab-content.active {
             display: block;
         }
+        .caddy-player-highlight {
+            background-color: #d1fae5; /* Light green for caddy highlight */
+        }
+        .weather-day-card {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
     </style>
-  <script type="module" crossorigin src="/assets/index-C0_xZaEm.js"></script>
+  <script type="module" crossorigin src="/assets/index-D-tBsuAQ.js"></script>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
@@ -126,6 +136,7 @@
         <!-- Tabs Navigation -->
         <div class="flex border-b border-gray-200 mb-6">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-scores" class="tab-button">Scoring Totals</button>
         </div>
 
@@ -139,6 +150,15 @@
                         <!-- Options will be populated by JavaScript -->
                     </select>
                 </div>
+            </div>
+
+            <!-- NEW WEATHER FORECAST SECTION -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">7-Day Weather Forecast for Bandon, OR</h2>
+                <div id="weather-display" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
+                    <!-- Weather data will be populated here -->
+                </div>
+                <div id="weather-status-message" class="mt-2 text-sm text-gray-600"></div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
@@ -291,6 +311,26 @@
                             </tr>
                         </thead>
                         <tbody id="daily-pairings-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Caddy Summary -->
+        <div id="content-caddy" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
+                <div id="caddy-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr id="caddy-summary-header-row">
+                                <th class="px-4 py-2">Player</th>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-summary-body">
                             <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
