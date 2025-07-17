@@ -186,9 +186,6 @@
                         <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>
                     </tr>
                     <tr>
-                        <td class="border px-4 py-2">$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.</td>
-                    </tr>
-                    <tr>
                         <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>
                     </tr>
                     <tr>
@@ -491,6 +488,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 caddySelectionsByPlayerRound[playerName] = {};
 
                 caddyColumnIndices.forEach(colIndex => {
+                    // Corrected: use colIndex instead of colCol
                     const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
                     const { date, roundType } = caddyColumnMap[colIndex];
 
@@ -527,10 +525,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
 
             // Static notes
             const staticNotes = [
-                "Welcome dinner at Trail's End 8:30 p.m.",
-                "$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.", // Updated note text
-                "There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).",
-                "Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide."
+                "Welcome dinner at Trail's End 8:30 p.m."
             ];
 
             staticNotes.forEach(note => {
@@ -578,6 +573,55 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 trLunch.appendChild(tdLunch);
                 notesBody.appendChild(trLunch);
             }
+
+            // Caddy Selection Matrix in Notes
+            const caddyMatrixTable = document.createElement('table');
+            caddyMatrixTable.className = 'table-auto mt-4';
+            caddyMatrixTable.innerHTML = `
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Caddy Selection:</th>
+                        <th class="px-4 py-2">AM</th>
+                        <th class="px-4 py-2">PM</th>
+                    </tr>
+                </thead>
+                <tbody id="notes-caddy-matrix-body">
+                </tbody>
+            `;
+            notesBody.parentNode.appendChild(caddyMatrixTable); // Append to the same parent as notesBody
+
+            const notesCaddyMatrixBody = document.getElementById('notes-caddy-matrix-body');
+            notesCaddyMatrixBody.innerHTML = ''; // Clear existing rows
+
+            const playerCaddySelections = caddySelectionsByPlayerRound[playerName] || {};
+            const availableDates = Object.keys(playerCaddySelections).sort();
+
+            const allDatesInOrder = [
+                '2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'
+            ];
+
+            allDatesInOrder.forEach(dateKey => {
+                const tr = document.createElement('tr');
+                const tdDate = document.createElement('td');
+                tdDate.className = 'border px-4 py-2 font-semibold';
+                const dateParts = dateKey.split('-');
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                tdDate.textContent = `${month}-${day}`;
+                tr.appendChild(tdDate);
+
+                const tdAm = document.createElement('td');
+                tdAm.className = 'border px-4 py-2';
+                tdAm.textContent = playerCaddySelections[dateKey] && playerCaddySelections[dateKey]['AM'] ? playerCaddySelections[dateKey]['AM'] : '-';
+                tr.appendChild(tdAm);
+
+                const tdPm = document.createElement('td');
+                tdPm.className = 'border px-4 py-2';
+                tdPm.textContent = playerCaddySelections[dateKey] && playerCaddySelections[dateKey]['PM'] ? playerCaddySelections[dateKey]['PM'] : '-';
+                tr.appendChild(tdPm);
+
+                notesCaddyMatrixBody.appendChild(tr);
+            });
         }
 
 
@@ -897,6 +941,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 const [dateA, roundTypeA] = a.split('-');
                 const [dateB, roundTypeB] = b.split('-');
 
+                // Correctly parse date strings for comparison
                 const dateObjA = new Date(dateA);
                 const dateObjB = new Date(dateB);
 
