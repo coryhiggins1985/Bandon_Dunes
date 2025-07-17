@@ -118,13 +118,6 @@
         .caddy-player-highlight {
             background-color: #d1fae5; /* Light green for caddy highlight */
         }
-        .weather-day-card {
-            background-color: #f8fafc;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            text-align: center;
-            font-size: 0.875rem;
-        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -149,15 +142,6 @@
                         <!-- Options will be populated by JavaScript -->
                     </select>
                 </div>
-            </div>
-
-            <!-- NEW WEATHER FORECAST SECTION -->
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">7-Day Weather Forecast for Bandon, OR</h2>
-                <div id="weather-display" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
-                    <!-- Weather data will be populated here -->
-                </div>
-                <div id="weather-status-message" class="mt-2 text-sm text-gray-600"></div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
@@ -370,7 +354,7 @@
 
         // Firebase config and app ID (provided by Canvas environment)
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'bandon-dunes-golf-trip';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         let db;
@@ -422,7 +406,7 @@
 2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
 2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
 2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
-2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
+2025-08-23,2:15 p. Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
 2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
@@ -534,129 +518,111 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
         // Global variable to store parsed caddy selections
         const caddySelectionsByPlayerRound = {};
 
-        // Add error handling and logging
-        function logError(message, error) {
-            console.error(message, error);
-        }
-
         function parseCSV(csv) {
-            try {
-                const lines = csv.split('\n').filter(line => line.trim() !== '');
-                if (lines.length < 2) return [];
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return [];
 
-                const data = [];
-                // Define fixed indices for relevant columns based on the CSV structure
-                const dateIndex = 0;
-                const timeIndex = 1;
-                const courseIndex = 2;
-                const playerIndices = [3, 4, 5, 6]; // Indices for Player columns (C, D, E, F)
-                const completeEstimateIndex = 11; // Index for 'Complete Estimate' column (L)
+            const data = [];
+            // Define fixed indices for relevant columns based on the CSV structure
+            const dateIndex = 0;
+            const timeIndex = 1;
+            const courseIndex = 2;
+            const playerIndices = [3, 4, 5, 6]; // Indices for Player columns (C, D, E, F)
+            const completeEstimateIndex = 11; // Index for 'Complete Estimate' column (L)
 
-                for (let i = 1; i < lines.length; i++) {
-                    const currentLine = lines[i].split(',');
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].split(',');
 
-                    // Ensure the line has enough columns to avoid index out of bounds
-                    if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
+                // Ensure the line has enough columns to avoid index out of bounds
+                if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
 
-                    const row = {};
-                    row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
-                    row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
-                    row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
-                    // The Caddie? column in the main CSV is not used for specific caddy type, it's just 'YES' or empty
-                    // row['Caddie'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
-                    row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
+                const row = {};
+                row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
+                row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
+                row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
+                // The Caddie? column in the main CSV is not used for specific caddy type, it's just 'YES' or empty
+                // row['Caddie'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
+                row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
 
 
-                    // Assign players to unique keys based on their fixed indices
-                    row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
-                    row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
-                    row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
-                    row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
+                // Assign players to unique keys based on their fixed indices
+                row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
+                row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
+                row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
+                row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
 
-                    // Only add row if it has essential data and at least one player
-                    if (row['Date'] && row['Time'] && row['Course'] &&
-                        (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
-                        data.push(row);
-                    }
+                // Only add row if it has essential data and at least one player
+                if (row['Date'] && row['Time'] && row['Course'] &&
+                    (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
+                    data.push(row);
                 }
-                return data;
-            } catch (error) {
-                logError('Error parsing CSV:', error);
-                return [];
             }
+            return data;
         }
 
         function parseCaddyWorkbookCSV(csv) {
-            try {
-                const lines = csv.split('\n').filter(line => line.trim() !== '');
-                if (lines.length < 2) return;
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return;
 
-                const headers = lines[0].split(',').map(h => h.trim());
-                const playerColumnIndex = 0; // The first column contains the player name (e.g., "Zach Deines")
-                const caddyColumnIndices = [];
-                const caddyColumnMap = {}; // Maps header index to { date: 'YYYY-MM-DD', roundType: 'AM' | 'PM' }
+            const headers = lines[0].split(',').map(h => h.trim());
+            const playerColumnIndex = 0; // The first column contains the player name (e.g., "Zach Deines")
+            const caddyColumnIndices = [];
+            const caddyColumnMap = {}; // Maps header index to { date: 'YYYY-MM-DD', roundType: 'AM' | 'PM' }
 
-                // Parse caddy headers to create a map for lookup
-                headers.forEach((header, index) => {
-                    if (header.includes("Caddy / Fore caddy selection")) {
-                        const match = header.match(/\[.*? (\d{1,2}\/\d{1,2})(?: - (AM|PM) Round)?(?: \((AM|PM) round only\))?\]/);
-                        if (match) {
-                            const monthDay = match[1]; // e.g., "8/20"
-                            let roundType = '';
+            // Parse caddy headers to create a map for lookup
+            headers.forEach((header, index) => {
+                if (header.includes("Caddy / Fore caddy selection")) {
+                    const match = header.match(/\[.*? (\d{1,2}\/\d{1,2})(?: - (AM|PM) Round)?(?: \((AM|PM) round only\))?\]/);
+                    if (match) {
+                        const monthDay = match[1]; // e.g., "8/20"
+                        let roundType = '';
 
-                            // Determine round type based on specific phrases or explicit "AM/PM Round"
-                            if (header.includes("(PM round only)")) {
-                                roundType = 'PM';
-                            } else if (header.includes("(AM round only)")) {
-                                roundType = 'AM';
-                            } else if (match[2]) { // If "AM Round" or "PM Round" is explicitly stated
-                                roundType = match[2];
-                            }
+                        // Determine round type based on specific phrases or explicit "AM/PM Round"
+                        if (header.includes("(PM round only)")) {
+                            roundType = 'PM';
+                        } else if (header.includes("(AM round only)")) {
+                            roundType = 'AM';
+                        } else if (match[2]) { // If "AM Round" or "PM Round" is explicitly stated
+                            roundType = match[2];
+                        }
 
-                            // Construct YYYY-MM-DD date string (assuming 2025 as per original data)
-                            const [month, day] = monthDay.split('/');
-                            const fullDate = `2025-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                        // Construct YYYY-MM-DD date string (assuming 2025 as per original data)
+                        const [month, day] = monthDay.split('/');
+                        const fullDate = `2025-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
-                            if (roundType) { // Only add if roundType is determined
-                                caddyColumnIndices.push(index);
-                                caddyColumnMap[index] = { date: fullDate, roundType: roundType };
-                            }
+                        if (roundType) { // Only add if roundType is determined
+                            caddyColumnIndices.push(index);
+                            caddyColumnMap[index] = { date: fullDate, roundType: roundType };
                         }
                     }
-                });
-
-                // Populate caddySelectionsByPlayerRound
-                for (let i = 1; i < lines.length; i++) {
-                    const currentLine = lines[i].split(',');
-                    const playerName = currentLine[playerColumnIndex] ? currentLine[playerColumnIndex].trim() : '';
-                    if (!playerName) continue;
-
-                    caddySelectionsByPlayerRound[playerName] = {};
-
-                    caddyColumnIndices.forEach(colIndex => {
-                        const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
-                        const { date, roundType } = caddyColumnMap[colIndex];
-
-                        if (!caddySelectionsByPlayerRound[playerName][date]) {
-                            caddySelectionsByPlayerRound[playerName][date] = {};
-                        }
-                        caddySelectionsByPlayerRound[playerName][date][roundType] = caddyType;
-                    });
                 }
-            } catch (error) {
-                logError('Error parsing caddy CSV:', error);
+            });
+
+            // Populate caddySelectionsByPlayerRound
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].split(',');
+                const playerName = currentLine[playerColumnIndex] ? currentLine[playerColumnIndex].trim() : '';
+                if (!playerName) continue;
+
+                caddySelectionsByPlayerRound[playerName] = {};
+
+                caddyColumnIndices.forEach(colIndex => {
+                    const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+                    const { date, roundType } = caddyColumnMap[colIndex];
+
+                    if (!caddySelectionsByPlayerRound[playerName][date]) {
+                        caddySelectionsByPlayerRound[playerName][date] = {};
+                    }
+                    caddySelectionsByPlayerRound[playerName][date][roundType] = caddyType;
+                });
             }
         }
 
 
         function populatePlayerSelect(players) {
-            try {
-                const playerSelect = document.getElementById('player-select');
-                if (!playerSelect) {
-                    logError('Player select element not found');
-                    return;
-                }
-                
+            const playerSelect = document.getElementById('player-select');
+            // Check if playerSelect exists before trying to manipulate it
+            if (playerSelect) {
                 playerSelect.innerHTML = ''; // Clear existing options
 
                 // Sort players alphabetically
@@ -668,172 +634,277 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                     option.textContent = player;
                     playerSelect.appendChild(option);
                 });
-            } catch (error) {
-                logError('Error populating player select:', error);
             }
         }
 
         function populateNotes(playerName) {
-            try {
-                const notesBody = document.getElementById('notes-table-body');
-                if (!notesBody) {
-                    logError('Notes table body not found');
-                    return;
-                }
-                notesBody.innerHTML = ''; // Clear existing notes
+            const notesBody = document.getElementById('notes-table-body');
+            notesBody.innerHTML = ''; // Clear existing notes
 
-                // Static notes
-                const staticNotes = [
-                    "Welcome dinner at Trail's End 8:30 p.m.",
-                    "$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.", // Updated note text
-                    "There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).",
-                    "Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide."
-                ];
+            // Static notes
+            const staticNotes = [
+                "Welcome dinner at Trail's End 8:30 p.m.",
+                "$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.", // Updated note text
+                "There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).",
+                "Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide."
+            ];
 
-                staticNotes.forEach(note => {
-                    const tr = document.createElement('tr');
-                    const td = document.createElement('td');
-                    td.className = 'border px-4 py-2';
-                    td.textContent = note;
-                    tr.appendChild(td);
-                    notesBody.appendChild(tr);
-                });
+            staticNotes.forEach(note => {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.className = 'border px-4 py-2';
+                td.textContent = note;
+                tr.appendChild(td);
+                notesBody.appendChild(tr);
+            });
 
-                // Dynamic meal notes
-                const playerMeals = mealsData[playerName];
-                if (playerMeals) {
-                    const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
-                    const lunchStatus = playerMeals["Lunch Box"] === 1 ? "Yes" : "No";
+            // Dynamic meal notes
+            const playerMeals = mealsData[playerName];
+            if (playerMeals) {
+                const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
+                const lunchStatus = playerMeals["Lunch Box"] === 1 ? "Yes" : "No";
 
-                    let trBreakfast = document.createElement('tr');
-                    let tdBreakfast = document.createElement('td');
-                    tdBreakfast.className = 'border px-4 py-2';
-                    tdBreakfast.textContent = `Breakfast: ${breakfastStatus}`;
-                    trBreakfast.appendChild(tdBreakfast);
-                    notesBody.appendChild(trBreakfast);
+                let trBreakfast = document.createElement('tr');
+                let tdBreakfast = document.createElement('td');
+                tdBreakfast.className = 'border px-4 py-2';
+                tdBreakfast.textContent = `Breakfast: ${breakfastStatus}`;
+                trBreakfast.appendChild(tdBreakfast);
+                notesBody.appendChild(trBreakfast);
 
-                    let trLunch = document.createElement('tr');
-                    let tdLunch = document.createElement('td');
-                    tdLunch.className = 'border px-4 py-2';
-                    tdLunch.textContent = `Lunch: ${lunchStatus}`;
-                    trLunch.appendChild(tdLunch);
-                    notesBody.appendChild(trLunch);
+                let trLunch = document.createElement('tr');
+                let tdLunch = document.createElement('td');
+                tdLunch.className = 'border px-4 py-2';
+                tdLunch.textContent = `Lunch: ${lunchStatus}`;
+                trLunch.appendChild(tdLunch);
+                notesBody.appendChild(trLunch);
 
-                } else {
-                    // If meal data not found for the player
-                    let trBreakfast = document.createElement('tr');
-                    let tdBreakfast = document.createElement('td');
-                    tdBreakfast.className = 'border px-4 py-2';
-                    tdBreakfast.textContent = `Breakfast: N/A`;
-                    trBreakfast.appendChild(tdBreakfast);
-                    notesBody.appendChild(trBreakfast);
+            } else {
+                // If meal data not found for the player
+                let trBreakfast = document.createElement('tr');
+                let tdBreakfast = document.createElement('td');
+                tdBreakfast.className = 'border px-4 py-2';
+                tdBreakfast.textContent = `Breakfast: N/A`;
+                trBreakfast.appendChild(tdBreakfast);
+                notesBody.appendChild(trBreakfast);
 
-                    let trLunch = document.createElement('tr');
-                    let tdLunch = document.createElement('td');
-                    tdLunch.className = 'border px-4 py-2';
-                    tdLunch.textContent = `Lunch: N/A`;
-                    trLunch.appendChild(tdLunch);
-                    notesBody.appendChild(trLunch);
-                }
-            } catch (error) {
-                logError('Error populating notes:', error);
+                let trLunch = document.createElement('tr');
+                let tdLunch = document.createElement('td');
+                tdLunch.className = 'border px-4 py-2';
+                tdLunch.textContent = `Lunch: N/A`;
+                trLunch.appendChild(tdLunch);
+                notesBody.appendChild(trLunch);
             }
         }
 
 
         function populateTeeTimesForPlayer(playerName) {
-            try {
-                const pairingsBody = document.getElementById('tee-time-pairings-body');
-                const currentPlayerTitle = document.getElementById('current-player-tee-times-title');
-                const mainTripSummaryTitle = document.getElementById('main-trip-summary-title'); // Get main title element
-                const stablefordTableBody = document.querySelector('#stableford-table tbody'); // Get stableford table body
-                
-                if (!pairingsBody || !currentPlayerTitle || !mainTripSummaryTitle || !stablefordTableBody) {
-                    logError('Required elements not found for tee times');
-                    return;
+            const pairingsBody = document.getElementById('tee-time-pairings-body');
+            const currentPlayerTitle = document.getElementById('current-player-tee-times-title');
+            const mainTripSummaryTitle = document.getElementById('main-trip-summary-title'); // Get main title element
+            const stablefordTableBody = document.querySelector('#stableford-table tbody'); // Get stableford table body
+            const parsedData = parseCSV(csvData);
+
+            // Update the main title dynamically
+            // Extract the "Bandon Dunes Golf Trip Summary" part to keep it consistent
+            const baseTitle = "Bandon Dunes Golf Trip Summary";
+            mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`; // Player name in default color
+            // Update the section title
+            currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
+
+            // Clear existing rows
+            pairingsBody.innerHTML = '';
+
+            // Clear existing handicap row in Stableford table and spacing row
+            const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
+            if (existingHandicapRow) {
+                existingHandicapRow.remove();
+            }
+            const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
+            if (existingSpacingRow) {
+                existingSpacingRow.remove();
+            }
+
+            // Add spacing row *before* handicap row
+            const spacingTr = document.createElement('tr');
+            spacingTr.className = 'spacing-row';
+            spacingTr.innerHTML = '<td colspan="4"></td>'; // Span all columns
+            stablefordTableBody.appendChild(spacingTr);
+
+            // Add selected player's handicap to Stableford table
+            const playerHandicap = handicaps[playerName];
+            if (playerHandicap !== undefined) {
+                const tr = document.createElement('tr');
+                tr.className = 'player-handicap-row'; // Add a class to easily find and remove later
+                const tdLabel = document.createElement('td');
+                tdLabel.className = 'border px-4 py-2 font-semibold';
+                tdLabel.textContent = `${playerName}'s Handicap`;
+                tr.appendChild(tdLabel);
+                const tdValue = document.createElement('td');
+                tdValue.className = 'border px-4 py-2 bg-white'; // Set background to white
+                tdValue.textContent = playerHandicap;
+                tr.appendChild(tdValue);
+                // Merge the remaining two cells (columns 3 and 4)
+                const tdMerged = document.createElement('td');
+                tdMerged.className = 'border px-4 py-2 bg-white'; // Set background to white
+                tdMerged.colSpan = 2; // Span 2 columns
+                tr.appendChild(tdMerged);
+                stablefordTableBody.appendChild(tr);
+            }
+
+
+            // Filter data for the specific player
+            let playerTeeTimes = parsedData.filter(row => {
+                // Check all possible player columns for the playerName
+                return (row['Player1'] === playerName ||
+                        row['Player2'] === playerName ||
+                        row['Player3'] === playerName ||
+                        row['Player4'] === playerName);
+            });
+
+            // Sort tee times by date and then by time for accurate "last round" identification
+            playerTeeTimes.sort((a, b) => {
+                const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                return dateA - dateB;
+            });
+
+            // Iterate through the filtered and sorted data and create table rows
+            playerTeeTimes.forEach(row => {
+                const tr = document.createElement('tr');
+
+                const dateTd = document.createElement('td');
+                dateTd.className = 'px-4 py-2';
+                // Format the date: "Wed - 8/20"
+                const dateParts = row['Date'].split('-'); // Split YYYY-MM-DD
+                const year = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]) - 1; // Month is 0-indexed
+                const day = parseInt(dateParts[2]);
+                const dateObj = new Date(year, month, day);
+
+                const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
+                dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -'); // "Wed, 8/20" to "Wed - 8/20"
+                tr.appendChild(dateTd);
+
+                const timeTd = document.createElement('td');
+                timeTd.className = 'px-4 py-2';
+                timeTd.textContent = row['Time'];
+                tr.appendChild(timeTd);
+
+                // Add Estimated Completion Time
+                const completeTimeTd = document.createElement('td');
+                completeTimeTd.className = 'px-4 py-2';
+                const fullDateTime = row['CompleteEstimate'];
+                if (fullDateTime) {
+                    // Assuming fullDateTime is like "YYYY-MM-DD HH:MM:SS" or "HH:MM"
+                    let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
+                    let [hours, minutes] = timeString.split(':').map(Number);
+                    let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // The hour '0' should be '12'
+                    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                    completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
+                } else {
+                    completeTimeTd.textContent = 'N/A';
                 }
-                
-                const parsedData = parseCSV(csvData);
+                tr.appendChild(completeTimeTd);
 
-                // Update the main title dynamically
-                // Extract the "Bandon Dunes Golf Trip Summary" part to keep it consistent
-                const baseTitle = "Bandon Dunes Golf Trip Summary";
-                mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`; // Player name in default color
-                // Update the section title
-                currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
 
-                // Clear existing rows
-                pairingsBody.innerHTML = '';
+                const courseTd = document.createElement('td');
+                courseTd.className = 'px-4 py-2';
+                courseTd.textContent = row['Course'];
+                tr.appendChild(courseTd);
 
-                // Clear existing handicap row in Stableford table and spacing row
-                const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
-                if (existingHandicapRow) {
-                    existingHandicapRow.remove();
-                }
-                const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
-                if (existingSpacingRow) {
-                    existingSpacingRow.remove();
+                // Determine round type (AM/PM) from the tee time
+                let teeTimeHours = parseInt(row['Time'].split(':')[0]);
+                let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
+
+                // Handle 12 AM/PM
+                if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
+                    teeTimeAmPm = 'AM'; // 12 AM
+                } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
+                    teeTimeAmPm = 'PM'; // 12 PM
                 }
 
-                // Add spacing row *before* handicap row
-                const spacingTr = document.createElement('tr');
-                spacingTr.className = 'spacing-row';
-                spacingTr.innerHTML = '<td colspan="4"></td>'; // Span all columns
-                stablefordTableBody.appendChild(spacingTr);
 
-                // Add selected player's handicap to Stableford table
-                const playerHandicap = handicaps[playerName];
-                if (playerHandicap !== undefined) {
+                // Get caddie selection for this specific round from the new caddy data
+                const caddieTypeForRound = caddySelectionsByPlayerRound[playerName] &&
+                                           caddySelectionsByPlayerRound[playerName][row['Date']] &&
+                                           caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
+                                           ? caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
+                                           : 'N/A'; // Default if not found or no selection
+
+                const caddieTd = document.createElement('td');
+                caddieTd.className = 'px-4 py-2';
+                caddieTd.textContent = caddieTypeForRound;
+                tr.appendChild(caddieTd);
+
+                const players = [];
+                // Collect all players from the row, excluding the current playerName
+                for (let i = 1; i <= 4; i++) {
+                    const playerCol = `Player${i}`;
+                    const partnerName = row[playerCol];
+                    if (partnerName && partnerName !== playerName) {
+                        const handicap = handicaps[partnerName];
+                        if (handicap !== undefined) {
+                            players.push(`${partnerName} (${handicap})`);
+                        } else {
+                            players.push(partnerName); // Add without handicap if not found
+                        }
+                    }
+                }
+
+                const partnersTd = document.createElement('td');
+                partnersTd.className = 'px-4 py-2';
+                partnersTd.textContent = players.join(', ');
+                tr.appendChild(partnersTd);
+
+                pairingsBody.appendChild(tr);
+            });
+        }
+
+        // New function to populate Daily Pairings
+        function populateDailyPairings(selectedPlayerName) {
+            const dailyPairingsBody = document.getElementById('daily-pairings-body');
+            dailyPairingsBody.innerHTML = ''; // Clear existing rows
+            const parsedData = parseCSV(csvData);
+
+            // Sort all tee times by date and then by time
+            parsedData.sort((a, b) => {
+                const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                return dateA - dateB;
+            });
+
+            // Group tee times by date to identify the last one for each day
+            const teeTimesByDate = {};
+            parsedData.forEach(row => {
+                const date = row['Date'];
+                if (!teeTimesByDate[date]) {
+                    teeTimesByDate[date] = [];
+                }
+                teeTimesByDate[date].push(row);
+            });
+
+            // Iterate through sorted dates and then their tee times
+            Object.keys(teeTimesByDate).sort().forEach(date => {
+                const dailyTeeTimes = teeTimesByDate[date];
+                dailyTeeTimes.forEach((row, index) => {
                     const tr = document.createElement('tr');
-                    tr.className = 'player-handicap-row'; // Add a class to easily find and remove later
-                    const tdLabel = document.createElement('td');
-                    tdLabel.className = 'border px-4 py-2 font-semibold';
-                    tdLabel.textContent = `${playerName}'s Handicap`;
-                    tr.appendChild(tdLabel);
-                    const tdValue = document.createElement('td');
-                    tdValue.className = 'border px-4 py-2 bg-white'; // Set background to white
-                    tdValue.textContent = playerHandicap;
-                    tr.appendChild(tdValue);
-                    // Merge the remaining two cells (columns 3 and 4)
-                    const tdMerged = document.createElement('td');
-                    tdMerged.className = 'border px-4 py-2 bg-white'; // Set background to white
-                    tdMerged.colSpan = 2; // Span 2 columns
-                    tr.appendChild(tdMerged);
-                    stablefordTableBody.appendChild(tr);
-                }
 
-
-                // Filter data for the specific player
-                let playerTeeTimes = parsedData.filter(row => {
-                    // Check all possible player columns for the playerName
-                    return (row['Player1'] === playerName ||
-                            row['Player2'] === playerName ||
-                            row['Player3'] === playerName ||
-                            row['Player4'] === playerName);
-                });
-
-                // Sort tee times by date and then by time for accurate "last round" identification
-                playerTeeTimes.sort((a, b) => {
-                    const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                    const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                    return dateA - dateB;
-                });
-
-                // Iterate through the filtered and sorted data and create table rows
-                playerTeeTimes.forEach(row => {
-                    const tr = document.createElement('tr');
+                    // Add bold line to the last tee time of the day
+                    if (index === dailyTeeTimes.length - 1) {
+                        tr.classList.add('last-tee-time-of-day');
+                    }
 
                     const dateTd = document.createElement('td');
                     dateTd.className = 'px-4 py-2';
-                    // Format the date: "Wed - 8/20"
-                    const dateParts = row['Date'].split('-'); // Split YYYY-MM-DD
+                    const dateParts = row['Date'].split('-');
                     const year = parseInt(dateParts[0]);
-                    const month = parseInt(dateParts[1]) - 1; // Month is 0-indexed
+                    const month = parseInt(dateParts[1]) - 1;
                     const day = parseInt(dateParts[2]);
                     const dateObj = new Date(year, month, day);
-
                     const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -'); // "Wed, 8/20" to "Wed - 8/20"
+                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
                     tr.appendChild(dateTd);
 
                     const timeTd = document.createElement('td');
@@ -841,17 +912,15 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                     timeTd.textContent = row['Time'];
                     tr.appendChild(timeTd);
 
-                    // Add Estimated Completion Time
                     const completeTimeTd = document.createElement('td');
                     completeTimeTd.className = 'px-4 py-2';
                     const fullDateTime = row['CompleteEstimate'];
                     if (fullDateTime) {
-                        // Assuming fullDateTime is like "YYYY-MM-DD HH:MM:SS" or "HH:MM"
                         let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
                         let [hours, minutes] = timeString.split(':').map(Number);
                         let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
                         hours = hours % 12;
-                        hours = hours ? hours : 12; // The hour '0' should be '12'
+                        hours = hours ? hours : 12;
                         const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
                         completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
                     } else {
@@ -859,444 +928,236 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                     }
                     tr.appendChild(completeTimeTd);
 
-
                     const courseTd = document.createElement('td');
                     courseTd.className = 'px-4 py-2';
                     courseTd.textContent = row['Course'];
                     tr.appendChild(courseTd);
 
-                    // Determine round type (AM/PM) from the tee time
-                    let teeTimeHours = parseInt(row['Time'].split(':')[0]);
-                    let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-
-                    // Handle 12 AM/PM
-                    if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
-                        teeTimeAmPm = 'AM'; // 12 AM
-                    } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
-                        teeTimeAmPm = 'PM'; // 12 PM
-                    }
-
-
-                    // Get caddie selection for this specific round from the new caddy data
-                    const caddieTypeForRound = caddySelectionsByPlayerRound[playerName] &&
-                                               caddySelectionsByPlayerRound[playerName][row['Date']] &&
-                                               caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                               ? caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                               : 'N/A'; // Default if not found or no selection
-
-                    const caddieTd = document.createElement('td');
-                    caddieTd.className = 'px-4 py-2';
-                    caddieTd.textContent = caddieTypeForRound;
-                    tr.appendChild(caddieTd);
-
-                    const players = [];
-                    // Collect all players from the row, excluding the current playerName
+                    const allPlayersInGroup = [];
                     for (let i = 1; i <= 4; i++) {
                         const playerCol = `Player${i}`;
-                        const partnerName = row[playerCol];
-                        if (partnerName && partnerName !== playerName) {
-                            const handicap = handicaps[partnerName];
-                            if (handicap !== undefined) {
-                                players.push(`${partnerName} (${handicap})`);
-                            } else {
-                                players.push(partnerName); // Add without handicap if not found
+                        const playerName = row[playerCol];
+                        if (playerName) {
+                            const handicap = handicaps[playerName];
+                            let playerText = handicap !== undefined ? `${playerName} (${handicap})` : playerName;
+                            if (playerName === selectedPlayerName) {
+                                playerText = `<span class="highlight-player">${playerText}</span>`;
                             }
+                            allPlayersInGroup.push(playerText);
                         }
                     }
 
-                    const partnersTd = document.createElement('td');
-                    partnersTd.className = 'px-4 py-2';
-                    partnersTd.textContent = players.join(', ');
-                    tr.appendChild(partnersTd);
+                    const allPlayersTd = document.createElement('td');
+                    allPlayersTd.className = 'px-4 py-2';
+                    allPlayersTd.innerHTML = allPlayersInGroup.join(', '); // Use innerHTML to render spans
+                    tr.appendChild(allPlayersTd);
 
-                    pairingsBody.appendChild(tr);
+                    dailyPairingsBody.appendChild(tr);
                 });
-            } catch (error) {
-                logError('Error populating tee times:', error);
-            }
-        }
-
-        // New function to populate Daily Pairings
-        function populateDailyPairings(selectedPlayerName) {
-            try {
-                const dailyPairingsBody = document.getElementById('daily-pairings-body');
-                if (!dailyPairingsBody) {
-                    logError('Daily pairings body not found');
-                    return;
-                }
-                dailyPairingsBody.innerHTML = ''; // Clear existing rows
-                const parsedData = parseCSV(csvData);
-
-                // Sort all tee times by date and then by time
-                parsedData.sort((a, b) => {
-                    const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                    const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                    return dateA - dateB;
-                });
-
-                // Group tee times by date to identify the last one for each day
-                const teeTimesByDate = {};
-                parsedData.forEach(row => {
-                    const date = row['Date'];
-                    if (!teeTimesByDate[date]) {
-                        teeTimesByDate[date] = [];
-                    }
-                    teeTimesByDate[date].push(row);
-                });
-
-                // Iterate through sorted dates and then their tee times
-                Object.keys(teeTimesByDate).sort().forEach(date => {
-                    const dailyTeeTimes = teeTimesByDate[date];
-                    dailyTeeTimes.forEach((row, index) => {
-                        const tr = document.createElement('tr');
-
-                        // Add bold line to the last tee time of the day
-                        if (index === dailyTeeTimes.length - 1) {
-                            tr.classList.add('last-tee-time-of-day');
-                        }
-
-                        const dateTd = document.createElement('td');
-                        dateTd.className = 'px-4 py-2';
-                        const dateParts = row['Date'].split('-');
-                        const year = parseInt(dateParts[0]);
-                        const month = parseInt(dateParts[1]) - 1;
-                        const day = parseInt(dateParts[2]);
-                        const dateObj = new Date(year, month, day);
-                        const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                        dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
-                        tr.appendChild(dateTd);
-
-                        const timeTd = document.createElement('td');
-                        timeTd.className = 'px-4 py-2';
-                        timeTd.textContent = row['Time'];
-                        tr.appendChild(timeTd);
-
-                        const completeTimeTd = document.createElement('td');
-                        completeTimeTd.className = 'px-4 py-2';
-                        const fullDateTime = row['CompleteEstimate'];
-                        if (fullDateTime) {
-                            let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
-                            let [hours, minutes] = timeString.split(':').map(Number);
-                            let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                            hours = hours % 12;
-                            hours = hours ? hours : 12;
-                            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                            completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
-                        } else {
-                            completeTimeTd.textContent = 'N/A';
-                        }
-                        tr.appendChild(completeTimeTd);
-
-                        const courseTd = document.createElement('td');
-                        courseTd.className = 'px-4 py-2';
-                        courseTd.textContent = row['Course'];
-                        tr.appendChild(courseTd);
-
-                        const allPlayersInGroup = [];
-                        for (let i = 1; i <= 4; i++) {
-                            const playerCol = `Player${i}`;
-                            const playerName = row[playerCol];
-                            if (playerName) {
-                                const handicap = handicaps[playerName];
-                                let playerText = handicap !== undefined ? `${playerName} (${handicap})` : playerName;
-                                if (playerName === selectedPlayerName) {
-                                    playerText = `<span class="highlight-player">${playerText}</span>`;
-                                }
-                                allPlayersInGroup.push(playerText);
-                            }
-                        }
-
-                        const allPlayersTd = document.createElement('td');
-                        allPlayersTd.className = 'px-4 py-2';
-                        allPlayersTd.innerHTML = allPlayersInGroup.join(', '); // Use innerHTML to render spans
-                        tr.appendChild(allPlayersTd);
-
-                        dailyPairingsBody.appendChild(tr);
-                    });
-                });
-            } catch (error) {
-                logError('Error populating daily pairings:', error);
-            }
+            });
         }
 
         async function loadAllPlayersScores() {
+            const allPlayersScoresBody = document.getElementById('all-players-scores-body');
+            allPlayersScoresBody.innerHTML = '';
+
+            if (!db) {
+                console.warn("Firestore not initialized. Cannot load all players' scores.");
+                return;
+            }
+
+            const allPlayerScores = {};
+            const scoreFields = ['2025-08-21-AM', '2025-08-22-AM', '2025-08-23-AM', '2025-08-24-AM'];
+
             try {
-                const allPlayersScoresBody = document.getElementById('all-players-scores-body');
-                if (!allPlayersScoresBody) {
-                    logError('All players scores body not found');
-                    return;
-                }
-                allPlayersScoresBody.innerHTML = '';
+                const scoresCollectionGroupRef = collection(db, `artifacts/${appId}/users`);
+                const q = query(scoresCollectionGroupRef);
+                const querySnapshot = await getDocs(q);
 
-                if (!db) {
-                    console.warn("Firestore not initialized. Cannot load all players' scores.");
-                    return;
-                }
+                // Iterate over each user's document in the 'users' collection
+                querySnapshot.forEach(userDoc => {
+                    const userId = userDoc.id;
+                    const scoresSubcollectionRef = collection(db, `artifacts/${appId}/users/${userId}/scores`);
+                    getDocs(scoresSubcollectionRef).then(playerScoresSnapshot => {
+                        playerScoresSnapshot.forEach(playerDoc => {
+                            const playerName = playerDoc.id;
+                            const scores = playerDoc.data();
+                            let totalScore = 0;
 
-                const allPlayerScores = {};
-                const scoreFields = ['2025-08-21-AM', '2025-08-22-AM', '2025-08-23-AM', '2025-08-24-AM'];
+                            allPlayerScores[playerName] = {
+                                '8-21-AM': scores['8-21-AM'] || '-',
+                                '8-22-AM': scores['8-22-AM'] || '-',
+                                '8-23-AM': scores['8-23-AM'] || '-',
+                                '8-24-AM': scores['8-24-AM'] || '-',
+                                total: 0
+                            };
 
-                try {
-                    const scoresCollectionGroupRef = collection(db, `artifacts/${appId}/users`);
-                    const q = query(scoresCollectionGroupRef);
-                    const querySnapshot = await getDocs(q);
-
-                    // Iterate over each user's document in the 'users' collection
-                    querySnapshot.forEach(userDoc => {
-                        const userId = userDoc.id;
-                        const scoresSubcollectionRef = collection(db, `artifacts/${appId}/users/${userId}/scores`);
-                        getDocs(scoresSubcollectionRef).then(playerScoresSnapshot => {
-                            playerScoresSnapshot.forEach(playerDoc => {
-                                const playerName = playerDoc.id;
-                                const scores = playerDoc.data();
-                                let totalScore = 0;
-
-                                allPlayerScores[playerName] = {
-                                    '8-21-AM': scores['8-21-AM'] || '-',
-                                    '8-22-AM': scores['8-22-AM'] || '-',
-                                    '8-23-AM': scores['8-23-AM'] || '-',
-                                    '8-24-AM': scores['8-24-AM'] || '-',
-                                    total: 0
-                                };
-
-                                scoreFields.forEach(dateKey => {
-                                    const score = scores[dateKey.replace('2025-', '')];
-                                    if (typeof score === 'number') {
-                                        totalScore += score;
-                                    }
-                                });
-                                allPlayerScores[playerName].total = totalScore;
+                            scoreFields.forEach(dateKey => {
+                                const score = scores[dateKey.replace('2025-', '')];
+                                if (typeof score === 'number') {
+                                    totalScore += score;
+                                }
                             });
-                            renderAllPlayersScoresTable(); // Re-render after each user's scores are processed
-                        }).catch(error => {
-                            console.error(`Error fetching scores for user ${userId}:`, error);
+                            allPlayerScores[playerName].total = totalScore;
                         });
+                        renderAllPlayersScoresTable(); // Re-render after each user's scores are processed
+                    }).catch(error => {
+                        console.error(`Error fetching scores for user ${userId}:`, error);
                     });
+                });
 
-                    // Initial render, will be updated as data streams in
-                    renderAllPlayersScoresTable();
+                // Initial render, will be updated as data streams in
+                renderAllPlayersScoresTable();
 
-                } catch (error) {
-                    console.error("Error loading all players' scores:", error);
-                    const allPlayersScoresBody = document.getElementById('all-players-scores-body');
-                    if (allPlayersScoresBody) {
-                        allPlayersScoresBody.innerHTML = `<tr><td colspan="6" class="px-4 py-2 text-red-500">Error loading scores: ${error.message}. Please check Firebase rules and console.</td></tr>`;
-                    }
-                }
-
-                function renderAllPlayersScoresTable() {
-                    allPlayersScoresBody.innerHTML = ''; // Clear before re-rendering
-                    const sortedPlayers = Object.entries(allPlayerScores).map(([name, data]) => ({ name, ...data }))
-                                            .sort((a, b) => b.total - a.total);
-
-                    sortedPlayers.forEach(player => {
-                        const tr = document.createElement('tr');
-                        const tdPlayer = document.createElement('td');
-                        tdPlayer.className = 'border px-4 py-2';
-                        tdPlayer.textContent = player.name;
-                        tr.appendChild(tdPlayer);
-
-                        const td8_21 = document.createElement('td');
-                        td8_21.className = 'border px-4 py-2';
-                        td8_21.textContent = player['8-21-AM'];
-                        tr.appendChild(td8_21);
-
-                        const td8_22 = document.createElement('td');
-                        td8_22.className = 'border px-4 py-2';
-                        td8_22.textContent = player['8-22-AM'];
-                        tr.appendChild(td8_22);
-
-                        const td8_23 = document.createElement('td');
-                        td8_23.className = 'border px-4 py-2';
-                        td8_23.textContent = player['8-23-AM'];
-                        tr.appendChild(td8_23);
-
-                        const td8_24 = document.createElement('td');
-                        td8_24.className = 'border px-4 py-2';
-                        td8_24.textContent = player['8-24-AM'];
-                        tr.appendChild(td8_24);
-
-                        const tdTotal = document.createElement('td');
-                        tdTotal.className = 'border px-4 py-2 font-semibold';
-                        tdTotal.textContent = player.total;
-                        tr.appendChild(tdTotal);
-
-                        allPlayersScoresBody.appendChild(tr);
-                    });
-                }
             } catch (error) {
-                logError('Error loading all players scores:', error);
+                console.error("Error loading all players' scores:", error);
+                allPlayersScoresBody.innerHTML = `<tr><td colspan="6" class="px-4 py-2 text-red-500">Error loading scores: ${error.message}. Please check Firebase rules and console.</td></tr>`;
+            }
+
+            function renderAllPlayersScoresTable() {
+                allPlayersScoresBody.innerHTML = ''; // Clear before re-rendering
+                const sortedPlayers = Object.entries(allPlayerScores).map(([name, data]) => ({ name, ...data }))
+                                        .sort((a, b) => b.total - a.total);
+
+                sortedPlayers.forEach(player => {
+                    const tr = document.createElement('tr');
+                    const tdPlayer = document.createElement('td');
+                    tdPlayer.className = 'border px-4 py-2';
+                    tdPlayer.textContent = player.name;
+                    tr.appendChild(tdPlayer);
+
+                    const td8_21 = document.createElement('td');
+                    td8_21.className = 'border px-4 py-2';
+                    td8_21.textContent = player['8-21-AM'];
+                    tr.appendChild(td8_21);
+
+                    const td8_22 = document.createElement('td');
+                    td8_22.className = 'border px-4 py-2';
+                    td8_22.textContent = player['8-22-AM'];
+                    tr.appendChild(td8_22);
+
+                    const td8_23 = document.createElement('td');
+                    td8_23.className = 'border px-4 py-2';
+                    td8_23.textContent = player['8-23-AM'];
+                    tr.appendChild(td8_23);
+
+                    const td8_24 = document.createElement('td');
+                    td8_24.className = 'border px-4 py-2';
+                    td8_24.textContent = player['8-24-AM'];
+                    tr.appendChild(td8_24);
+
+                    const tdTotal = document.createElement('td');
+                    tdTotal.className = 'border px-4 py-2 font-semibold';
+                    tdTotal.textContent = player.total;
+                    tr.appendChild(tdTotal);
+
+                    allPlayersScoresBody.appendChild(tr);
+                });
             }
         }
 
         // Function to show/hide tabs
         function showTab(tabId) {
-            try {
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.querySelectorAll('.tab-button').forEach(button => {
-                    button.classList.remove('active');
-                });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
 
-                document.getElementById(`content-${tabId}`).classList.add('active');
-                document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`content-${tabId}`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
 
-                const selectedPlayer = document.getElementById('player-select').value;
+            const selectedPlayer = document.getElementById('player-select').value;
 
-                // Special handling for tab content population
-                if (tabId === 'caddy') {
-                    populateCaddySummary(selectedPlayer);
-                } else if (tabId === 'scores') {
-                    loadAllPlayersScores();
-                }
-                // For 'summary' tab, content is already populated by player selection change listener
-            } catch (error) {
-                logError('Error switching tabs:', error);
+            // Special handling for tab content population
+            if (tabId === 'caddy') {
+                populateCaddySummary(selectedPlayer);
+            } else if (tabId === 'scores') {
+                loadAllPlayersScores();
             }
+            // For 'summary' tab, content is already populated by player selection change listener
         }
 
         // Populate caddy summary table
         function populateCaddySummary(selectedPlayerName) {
-            try {
-                const caddySummaryBody = document.getElementById('caddy-summary-body');
-                const caddySummaryHeaderRow = document.getElementById('caddy-summary-header-row');
-                
-                if (!caddySummaryBody || !caddySummaryHeaderRow) {
-                    logError('Caddy summary elements not found');
-                    return;
+            const caddySummaryBody = document.getElementById('caddy-summary-body');
+            const caddySummaryHeaderRow = document.getElementById('caddy-summary-header-row');
+            caddySummaryBody.innerHTML = ''; // Clear existing rows
+            // Keep the "Player" header, clear dynamic headers
+            caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
+
+            const allCaddySelections = caddySelectionsByPlayerRound;
+            const uniqueDatesAndRounds = new Set();
+
+            // Collect all unique date-round combinations
+            Object.values(allCaddySelections).forEach(playerData => {
+                Object.keys(playerData).forEach(date => {
+                    Object.keys(playerData[date]).forEach(roundType => {
+                        uniqueDatesAndRounds.add(`${date}-${roundType}`);
+                    });
+                });
+            });
+
+            const sortedDateRoundKeys = Array.from(uniqueDatesAndRounds).sort((a, b) => {
+                // Sort by date first, then by AM/PM
+                const [dateA, roundTypeA] = a.split('-');
+                const [dateB, roundTypeB] = b.split('-');
+
+                const dateObjA = new Date(dateA);
+                const dateObjB = new Date(dateB);
+
+                if (dateObjA.getTime() !== dateObjB.getTime()) {
+                    return dateObjA - dateObjB;
+                }
+                return roundTypeA.localeCompare(roundTypeB);
+            });
+
+            // Add dynamic headers to the caddy summary table
+            sortedDateRoundKeys.forEach(key => {
+                const [date, roundType] = key.split('-');
+                const dateParts = date.split('-');
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                const headerText = `${month}/${day} ${roundType}`;
+                const th = document.createElement('th');
+                th.className = 'px-4 py-2';
+                th.textContent = headerText;
+                caddySummaryHeaderRow.appendChild(th);
+            });
+
+            // Populate rows for each player
+            Object.keys(handicaps).sort().forEach(playerName => { // Iterate through all players
+                const tr = document.createElement('tr');
+                if (playerName === selectedPlayerName) {
+                    tr.classList.add('caddy-player-highlight'); // Highlight selected player's row
                 }
 
-                caddySummaryBody.innerHTML = ''; // Clear existing rows
-                // Keep the "Player" header, clear dynamic headers
-                caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
+                const tdPlayer = document.createElement('td');
+                tdPlayer.className = 'border px-4 py-2 font-semibold';
+                tdPlayer.textContent = playerName;
+                tr.appendChild(tdPlayer);
 
-                const allCaddySelections = caddySelectionsByPlayerRound;
-                const uniqueDatesAndRounds = new Set();
-
-                // Collect all unique date-round combinations
-                Object.values(allCaddySelections).forEach(playerData => {
-                    Object.keys(playerData).forEach(date => {
-                        Object.keys(playerData[date]).forEach(roundType => {
-                            uniqueDatesAndRounds.add(`${date}-${roundType}`);
-                        });
-                    });
-                });
-
-                const sortedDateRoundKeys = Array.from(uniqueDatesAndRounds).sort((a, b) => {
-                    // Sort by date first, then by AM/PM
-                    const [dateA, roundTypeA] = a.split('-');
-                    const [dateB, roundTypeB] = b.split('-');
-
-                    const dateObjA = new Date(dateA);
-                    const dateObjB = new Date(dateB);
-
-                    if (dateObjA.getTime() !== dateObjB.getTime()) {
-                        return dateObjA - dateObjB;
-                    }
-                    return roundTypeA.localeCompare(roundTypeB);
-                });
-
-                // Add dynamic headers to the caddy summary table
                 sortedDateRoundKeys.forEach(key => {
                     const [date, roundType] = key.split('-');
-                    const dateParts = date.split('-');
-                    const month = parseInt(dateParts[1]);
-                    const day = parseInt(dateParts[2]);
-                    const headerText = `${month}/${day} ${roundType}`;
-                    const th = document.createElement('th');
-                    th.className = 'px-4 py-2';
-                    th.textContent = headerText;
-                    caddySummaryHeaderRow.appendChild(th);
+                    const caddySelection = allCaddySelections[playerName] &&
+                                           allCaddySelections[playerName][date] &&
+                                           allCaddySelections[playerName][date][roundType]
+                                           ? allCaddySelections[playerName][date][roundType]
+                                           : '-'; // Default if no selection
+
+                    const tdCaddy = document.createElement('td');
+                    tdCaddy.className = 'border px-4 py-2';
+                    tdCaddy.textContent = caddySelection;
+                    tr.appendChild(tdCaddy);
                 });
-
-                // Populate rows for each player
-                Object.keys(handicaps).sort().forEach(playerName => { // Iterate through all players
-                    const tr = document.createElement('tr');
-                    if (playerName === selectedPlayerName) {
-                        tr.classList.add('caddy-player-highlight'); // Highlight selected player's row
-                    }
-
-                    const tdPlayer = document.createElement('td');
-                    tdPlayer.className = 'border px-4 py-2 font-semibold';
-                    tdPlayer.textContent = playerName;
-                    tr.appendChild(tdPlayer);
-
-                    sortedDateRoundKeys.forEach(key => {
-                        const [date, roundType] = key.split('-');
-                        const caddySelection = allCaddySelections[playerName] &&
-                                               allCaddySelections[playerName][date] &&
-                                               allCaddySelections[playerName][date][roundType]
-                                               ? allCaddySelections[playerName][date][roundType]
-                                               : '-'; // Default if no selection
-
-                        const tdCaddy = document.createElement('td');
-                        tdCaddy.className = 'border px-4 py-2';
-                        tdCaddy.textContent = caddySelection;
-                        tr.appendChild(tdCaddy);
-                    });
-                    caddySummaryBody.appendChild(tr);
-                });
-            } catch (error) {
-                logError('Error populating caddy summary:', error);
-            }
+                caddySummaryBody.appendChild(tr);
+            });
         }
 
 
         // Initialize on page load
         window.onload = () => {
-            console.log('Window loaded, initializing...');
-            console.log('Firebase config:', Q);
-            
-            // Always initialize the basic functionality first
-            parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
-            const allPlayers = Object.keys(handicaps);
-            console.log('All players:', allPlayers);
-            populatePlayerSelect(allPlayers);
-            
-            // Set up player selection event listener
-            const playerSelect = document.getElementById('player-select');
-            if (playerSelect) {
-                console.log('Player select element found, setting up event listener');
-                playerSelect.addEventListener('change', (event) => {
-                    const selectedPlayer = event.target.value;
-                    console.log('Player selected:', selectedPlayer);
-                    populateTeeTimesForPlayer(selectedPlayer);
-                    populateNotes(selectedPlayer);
-                    populateDailyPairings(selectedPlayer);
-                    loadPlayerScores(selectedPlayer);
-                });
-
-                // Set initial player
-                const initialPlayer = "Cory Higgins";
-                if (allPlayers.includes(initialPlayer)) {
-                    playerSelect.value = initialPlayer;
-                    populateTeeTimesForPlayer(initialPlayer);
-                    populateNotes(initialPlayer);
-                    populateDailyPairings(initialPlayer);
-                    loadPlayerScores(initialPlayer);
-                } else if (allPlayers.length > 0) {
-                    playerSelect.value = allPlayers[0];
-                    populateTeeTimesForPlayer(allPlayers[0]);
-                    populateNotes(allPlayers[0]);
-                    populateDailyPairings(allPlayers[0]);
-                    loadPlayerScores(allPlayers[0]);
-                }
-            } else {
-                console.error('Player select element not found!');
-            }
-            
-            // Initialize Firebase if config is available
-            if (Q && Q.apiKey) {
-                console.log('Initializing Firebase...');
-            
-            // Check if required elements exist
-            const playerSelect = document.getElementById('player-select');
-            if (!playerSelect) {
-                console.error('Player select element not found!');
-                return;
-            }
-            
             // Initialize Firebase
             if (firebaseConfig.apiKey) {
                 const app = initializeApp(firebaseConfig);
@@ -1308,7 +1169,38 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                         currentUserId = user.uid;
                         // Initial data load after authentication
                         parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
-                        console.log('User authenticated:', user.uid);
+
+                        const allPlayers = Object.keys(handicaps);
+                        populatePlayerSelect(allPlayers);
+
+                        const playerSelect = document.getElementById('player-select');
+                        if (playerSelect) {
+                            playerSelect.addEventListener('change', (event) => {
+                                const selectedPlayer = event.target.value;
+                                populateTeeTimesForPlayer(selectedPlayer);
+                                populateNotes(selectedPlayer);
+                                populateDailyPairings(selectedPlayer);
+                                loadScores(selectedPlayer); // Load scores for the newly selected player
+                                // loadAllPlayersScores() will be called when the tab is clicked
+                            });
+
+                            // Set initial player (e.g., Cory Higgins)
+                            const initialPlayer = "Cory Higgins";
+                            if (allPlayers.includes(initialPlayer)) {
+                                playerSelect.value = initialPlayer;
+                                populateTeeTimesForPlayer(initialPlayer);
+                                populateNotes(initialPlayer);
+                                populateDailyPairings(initialPlayer);
+                                loadScores(initialPlayer); // Load scores for the initial player
+                            } else if (allPlayers.length > 0) {
+                                // If Cory Higgins not found, select the first player in the list
+                                playerSelect.value = allPlayers[0];
+                                populateTeeTimesForPlayer(allPlayers[0]);
+                                populateNotes(allPlayers[0]);
+                                populateDailyPairings(allPlayers[0]);
+                                loadScores(allPlayers[0]); // Load scores for the first player
+                            }
+                        }
                     } else {
                         console.warn("User not authenticated. Attempting anonymous sign-in.");
                         // Sign in anonymously if no user is authenticated
@@ -1326,21 +1218,35 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                     }
                 });
             } else {
-                console.warn('Firebase config is missing. Running in offline mode.');
-                
-                // Initialize without Firebase
-                console.log('Initializing without Firebase...');
-                parseCaddyWorkbookCSV(caddyWorkbookCsvData);
-                console.log('Firebase config not available, running in offline mode');
+                console.error("Firebase config is missing. Cannot initialize Firebase.");
+                // Proceed with static data display if Firebase is not configured
+                const allPlayers = Object.keys(handicaps);
+                populatePlayerSelect(allPlayers);
+                const playerSelect = document.getElementById('player-select');
+                if (playerSelect) {
+                    playerSelect.addEventListener('change', (event) => {
+                        const selectedPlayer = event.target.value;
+                        populateTeeTimesForPlayer(selectedPlayer);
+                        populateNotes(selectedPlayer);
+                        populateDailyPairings(selectedPlayer);
+                        // Cannot load/save scores without Firebase
+                    });
+                    const initialPlayer = "Cory Higgins";
+                    if (allPlayers.includes(initialPlayer)) {
+                        playerSelect.value = initialPlayer;
+                        populateTeeTimesForPlayer(initialPlayer);
+                        populateNotes(initialPlayer);
+                        populateDailyPairings(initialPlayer);
+                    } else if (allPlayers.length > 0) {
+                        playerSelect.value = allPlayers[0];
+                        populateTeeTimesForPlayer(allPlayers[0]);
+                        populateNotes(allPlayers[0]);
                         populateDailyPairings(allPlayers[0]);
                     }
-                } else {
-                    console.error('Player select element still not found after population!');
                 }
             }
 
             // Tab functionality
-            console.log('Setting up tab event listeners...');
             document.getElementById('tab-summary').addEventListener('click', () => showTab('summary'));
             document.getElementById('tab-caddy').addEventListener('click', () => showTab('caddy'));
             document.getElementById('tab-scores').addEventListener('click', () => showTab('scores'));
@@ -1352,11 +1258,6 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             // Save Scores Functionality
             const saveScoresBtn = document.getElementById('save-scores-btn');
             const saveStatusMessage = document.getElementById('save-status-message');
-            
-            if (!saveScoresBtn || !saveStatusMessage) {
-                console.error('Score saving elements not found');
-                return;
-            }
 
             saveScoresBtn.addEventListener('click', async () => {
                 if (!currentUserId) {
