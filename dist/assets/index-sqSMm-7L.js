@@ -42,7 +42,7 @@ import{initializeApp as ee}from"https://www.gstatic.com/firebasejs/11.6.1/fireba
 2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
 2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
 2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
-2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
+2025-08-23,2:15 p. Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
 2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
