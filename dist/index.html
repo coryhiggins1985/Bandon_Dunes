@@ -94,7 +94,30 @@
         .last-tee-time-of-day td {
             border-bottom: 2px solid #a0a0a0; /* Bold gray line */
         }
-        /* Tab styles - removed as tabs are being removed */
+        /* Tab styles */
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-button.active {
+            border-color: #10b981; /* Tailwind green-500 */
+            color: #10b981;
+        }
+        .tab-button:hover {
+            color: #059669; /* Darker green on hover */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .caddy-player-highlight {
+            background-color: #d1fae5; /* Light green for caddy highlight */
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -102,141 +125,195 @@
         <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
-        <!-- Player Selection -->
-        <div class="card mb-6">
-            <div class="mb-4 player-select-section w-full md:w-1/2">
-                <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
-                <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                    <!-- Options will be populated by JavaScript -->
-                </select>
-            </div>
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button id="tab-summary" class="tab-button active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
+            <button id="tab-scores" class="tab-button">Scoring Totals</button>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-6 mb-6">
-            <!-- Stableford Points System -->
-            <div class="card flex-1 md:w-1/2">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
-                <table class="table-auto" id="stableford-table">
+        <!-- Tab Content: Trip Summary -->
+        <div id="content-summary" class="tab-content active">
+            <!-- Player Selection -->
+            <div class="card mb-6">
+                <div class="mb-4 player-select-section w-full md:w-1/2">
+                    <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
+                    <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <!-- Stableford Points System -->
+                <div class="card flex-1 md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
+                    <table class="table-auto" id="stableford-table">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
+                                <td class="border px-4 py-2">20</td>
+                                <td class="border px-4 py-2">Par</td>
+                                <td class="border px-4 py-2">3</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Hole-in-One</td>
+                                <td class="border px-4 py-2">15</td>
+                                <td class="border px-4 py-2">Bogey</td>
+                                <td class="border px-4 py-2">2</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Eagle</td>
+                                <td class="border px-4 py-2">10</td>
+                                <td class="border px-4 py-2">Double Bogey</td>
+                                <td class="border px-4 py-2">1</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Birdie</td>
+                                <td class="border px-4 py-2">5</td>
+                                <td class="border px-4 py-2">DNF/Triple +</td>
+                                <td class="px-4 py-2">0</td>
+                            </tr>
+                            <!-- Spacing row will be added here by JavaScript -->
+                            <!-- Player Handicap row will be added here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Notes Table -->
+                <div class="card flex-1 md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notes-table-body">
+                            <!-- Notes will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Daily Group Gambling Table -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
+                <table class="table-auto">
                     <thead>
                         <tr>
-                            <th class="px-4 py-2">Score Relative to Par</th>
-                            <th class="px-4 py-2">Points</th>
-                            <th class="px-4 py-2">Score Relative to Par</th>
-                            <th class="px-4 py-2">Points</th>
+                            <th class="px-4 py-2">Item</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
-                            <td class="border px-4 py-2">20</td>
-                            <td class="border px-4 py-2">Par</td>
-                            <td class="border px-4 py-2">3</td>
+                            <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>
                         </tr>
                         <tr>
-                            <td class="border px-4 py-2">Hole-in-One</td>
-                            <td class="border px-4 py-2">15</td>
-                            <td class="border px-4 py-2">Bogey</td>
-                            <td class="border px-4 py-2">2</td>
+                            <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>
                         </tr>
                         <tr>
-                            <td class="border px-4 py-2">Eagle</td>
-                            <td class="border px-4 py-2">10</td>
-                            <td class="border px-4 py-2">Double Bogey</td>
-                            <td class="border px-4 py-2">1</td>
+                            <td class="border px-4 py-2">Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide.</td>
                         </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Birdie</td>
-                            <td class="border px-4 py-2">5</td>
-                            <td class="border px-4 py-2">DNF/Triple +</td>
-                            <td class="px-4 py-2">0</td>
-                        </tr>
-                        <!-- Spacing row will be added here by JavaScript -->
-                        <!-- Player Handicap row will be added here by JavaScript -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Notes Table -->
-            <div class="card flex-1 md:w-1/2">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Note</th>
-                        </tr>
-                    </thead>
-                    <tbody id="notes-table-body">
-                        <!-- Notes will be populated by JavaScript -->
-                    </tbody>
-                </table>
+            <!-- Daily Scores Input - Removed as part of Firebase removal -->
+
+            <!-- Tee Time Pairings -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
+                <div id="tee-time-pairings-container" class="overflow-x-auto">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">Caddie</th>
+                                <th class="px-4 py-2">Playing Partners (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tee-time-pairings-body">
+                            </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <!-- Daily Group Gambling Table -->
-        <div class="card mt-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
-            <table class="table-auto">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2">Item</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Daily Scores Input - Removed as part of Firebase removal -->
-
-        <!-- Tee Time Pairings -->
-        <div class="card">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
-            <div id="tee-time-pairings-container" class="overflow-x-auto">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Time</th>
-                            <th class="px-4 py-2">Estimated Completion Time</th>
-                            <th class="px-4 py-2">Course</th>
-                            <th class="px-4 py-2">Caddie</th>
-                            <th class="px-4 py-2">Playing Partners (Handicap)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tee-time-pairings-body">
+            <!-- Daily Pairings List -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
+                <div id="daily-pairings-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">All Players (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daily-pairings-body">
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Daily Pairings List -->
-        <div class="card mt-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
-            <div id="daily-pairings-container" class="overflow-x-auto">
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Time</th>
-                            <th class="px-4 py-2">Estimated Completion Time</th>
-                            <th class="px-4 py-2">Course</th>
-                            <th class="px-4 py-2">All Players (Handicap)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="daily-pairings-body">
-                        <!-- Data will be populated by JavaScript -->
-                    </tbody>
-                </table>
+        <!-- Tab Content: Caddy Summary -->
+        <div id="content-caddy" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
+                <div id="caddy-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr id="caddy-summary-header-row">
+                                <th class="px-4 py-2">Player</th>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-summary-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Scoring Totals -->
+        <div id="content-scores" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Players Daily Scores (AM Rounds)</h2>
+                <div id="all-players-scores-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">8/21 AM</th>
+                                <th class="px-4 py-2">8/22 AM</th>
+                                <th class="px-4 py-2">8/23 AM</th>
+                                <th class="px-4 py-2">8/24 AM</th>
+                                <th class="px-4 py-2">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-players-scores-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -282,12 +359,12 @@
 2025-08-23,8:00 a.m. ,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,2025-08-23 08:00:00,2025-08-23 12:30:00,,480,,,,,,,,,1130,570
 2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1140,580
 2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1150,590
-2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
-2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
-2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
-2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
-2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
-2025-08-23,2:15 p. Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
+2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,Zach Deines,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
+2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,Paul Parker,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
+2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
+2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
+2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
+2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
 2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
@@ -488,7 +565,6 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 caddySelectionsByPlayerRound[playerName] = {};
 
                 caddyColumnIndices.forEach(colIndex => {
-                    // Corrected: use colIndex instead of colCol
                     const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
                     const { date, roundType } = caddyColumnMap[colIndex];
 
