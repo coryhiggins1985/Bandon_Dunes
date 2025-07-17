@@ -79,6 +79,45 @@
         .player-handicap-row td {
             background-color: #e0f2fe; /* Light blue shading */
         }
+        /* Highlight selected player in daily pairings */
+        .highlight-player {
+            background-color: #fef08a; /* Tailwind yellow-200 */
+            padding: 0 0.25rem;
+            border-radius: 0.25rem;
+        }
+        /* Spacing row style */
+        .spacing-row td {
+            height: 1rem; /* Adjust height as needed for spacing */
+            border-bottom: none; /* Remove border for spacing row */
+        }
+        /* Style for the last tee time of the day */
+        .last-tee-time-of-day td {
+            border-bottom: 2px solid #a0a0a0; /* Bold gray line */
+        }
+        /* Tab styles */
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-button.active {
+            border-color: #10b981; /* Tailwind green-500 */
+            color: #10b981;
+        }
+        .tab-button:hover {
+            color: #059669; /* Darker green on hover */
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .caddy-player-highlight {
+            background-color: #d1fae5; /* Light green for caddy highlight */
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -86,99 +125,242 @@
         <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
-        <!-- Player Selection (Moved to top) -->
-        <div class="card mb-6">
-            <div class="mb-4 player-select-section w-full md:w-1/2"> <!-- Adjusted to w-full by default, md:w-1/2 for larger screens -->
-                <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label> <!-- Text color changed to red -->
-                <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                    <!-- Options will be populated by JavaScript -->
-                </select>
-            </div>
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button id="tab-summary" class="tab-button active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
+            <button id="tab-scores" class="tab-button">Scoring Totals</button>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-6 mb-6">
-            <!-- Stableford Points System -->
-            <div class="card flex-1 md:w-1/2">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
-                <table class="table-auto" id="stableford-table">
+        <!-- Tab Content: Trip Summary -->
+        <div id="content-summary" class="tab-content active">
+            <!-- Player Selection -->
+            <div class="card mb-6">
+                <div class="mb-4 player-select-section w-full md:w-1/2">
+                    <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
+                    <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <!-- Stableford Points System -->
+                <div class="card flex-1 md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
+                    <table class="table-auto" id="stableford-table">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
+                                <td class="border px-4 py-2">20</td>
+                                <td class="border px-4 py-2">Par</td>
+                                <td class="border px-4 py-2">3</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Hole-in-One</td>
+                                <td class="border px-4 py-2">15</td>
+                                <td class="border px-4 py-2">Bogey</td>
+                                <td class="border px-4 py-2">2</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Eagle</td>
+                                <td class="border px-4 py-2">10</td>
+                                <td class="border px-4 py-2">Double Bogey</td>
+                                <td class="border px-4 py-2">1</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Birdie</td>
+                                <td class="border px-4 py-2">5</td>
+                                <td class="border px-4 py-2">DNF/Triple +</td>
+                                <td class="px-4 py-2">0</td>
+                            </tr>
+                            <!-- Spacing row will be added here by JavaScript -->
+                            <!-- Player Handicap row will be added here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Notes Table -->
+                <div class="card flex-1 md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notes-table-body">
+                            <!-- Notes will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Daily Group Gambling Table -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
+                <table class="table-auto">
                     <thead>
                         <tr>
-                            <th class="px-4 py-2">Score Relative to Par</th>
-                            <th class="px-4 py-2">Points</th>
-                            <th class="px-4 py-2">Score Relative to Par</th>
-                            <th class="px-4 py-2">Points</th>
+                            <th class="px-4 py-2">Item</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
-                            <td class="border px-4 py-2">20</td>
-                            <td class="border px-4 py-2">Par</td>
-                            <td class="border px-4 py-2">3</td>
+                            <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>
                         </tr>
                         <tr>
-                            <td class="border px-4 py-2">Hole-in-One</td>
-                            <td class="border px-4 py-2">15</td>
-                            <td class="border px-4 py-2">Bogey</td>
-                            <td class="border px-4 py-2">2</td>
+                            <td class="border px-4 py-2">$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.</td>
                         </tr>
                         <tr>
-                            <td class="border px-4 py-2">Eagle</td>
-                            <td class="border px-4 py-2">10</td>
-                            <td class="border px-4 py-2">Double Bogey</td>
-                            <td class="border px-4 py-2">1</td>
+                            <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>
                         </tr>
                         <tr>
-                            <td class="border px-4 py-2">Birdie</td>
-                            <td class="border px-4 py-2">5</td>
-                            <td class="border px-4 py-2">DNF/Triple +</td>
-                            <td class="px-4 py-2">0</td>
+                            <td class="border px-4 py-2">Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide.</td>
                         </tr>
-                        <!-- Player Handicap row will be added here by JavaScript -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Notes Table -->
-            <div class="card flex-1 md:w-1/2">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Note</th>
-                        </tr>
-                    </thead>
-                    <tbody id="notes-table-body">
-                        <!-- Notes will be populated by JavaScript -->
-                    </tbody>
-                </table>
+            <!-- Daily Scores Input -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scores</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="score-2025-08-21-AM" class="block text-sm font-medium text-gray-700">8/21 - AM Score:</label>
+                        <input type="number" id="score-2025-08-21-AM" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="score-2025-08-22-AM" class="block text-sm font-medium text-gray-700">8/22 - AM Score:</label>
+                        <input type="number" id="score-2025-08-22-AM" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="score-2025-08-23-AM" class="block text-sm font-medium text-gray-700">8/23 - AM Score:</label>
+                        <input type="number" id="score-2025-08-23-AM" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="score-2025-08-24-AM" class="block text-sm font-medium text-gray-700">8/24 - AM Score:</label>
+                        <input type="number" id="score-2025-08-24-AM" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm">
+                    </div>
+                </div>
+                <button id="save-scores-btn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Save Scores
+                </button>
+                <div id="save-status-message" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+
+            <!-- Tee Time Pairings -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
+                <div id="tee-time-pairings-container" class="overflow-x-auto">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">Caddie</th>
+                                <th class="px-4 py-2">Playing Partners (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tee-time-pairings-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Daily Pairings List -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
+                <div id="daily-pairings-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">All Players (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daily-pairings-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Tee Time Pairings (Moved to bottom) -->
-        <div class="card">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
-            <div id="tee-time-pairings-container" class="overflow-x-auto">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Time</th>
-                            <th class="px-4 py-2">Estimated Completion Time</th>
-                            <th class="px-4 py-2">Course</th>
-                            <th class="px-4 py-2">Caddie</th>
-                            <th class="px-4 py-2">Playing Partners (Handicap)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tee-time-pairings-body">
+        <!-- Tab Content: Caddy Summary -->
+        <div id="content-caddy" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
+                <div id="caddy-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr id="caddy-summary-header-row">
+                                <th class="px-4 py-2">Player</th>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-summary-body">
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
-                </table>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Scoring Totals -->
+        <div id="content-scores" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Players Daily Scores (AM Rounds)</h2>
+                <div id="all-players-scores-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">8/21 AM</th>
+                                <th class="px-4 py-2">8/22 AM</th>
+                                <th class="px-4 py-2">8/23 AM</th>
+                                <th class="px-4 py-2">8/24 AM</th>
+                                <th class="px-4 py-2">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-players-scores-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase config and app ID (provided by Canvas environment)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        let auth;
+        let currentUserId = null;
+
         // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player,Player,Player,Player,Caddie?,Notes,,Start time adjusted,Complete Estimate,,Time adjustment,,Course,Estimated play time,,,,,,770,210
 2025-08-20,2:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
@@ -204,7 +386,7 @@
 2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
 2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
 2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1000,440
-2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Jacob Emert,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1010,450
+2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1010,450
 2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1020,460
 2025-08-22,8:20 a.m. ,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,2025-08-22 08:20:00,2025-08-22 12:50:00,,500,,,,,,,,,1030,470
 2025-08-22,1:10 p.m. ,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,2025-08-22 13:10:00,2025-08-22 17:40:00,,790,,,,,,,,,1040,480
@@ -220,11 +402,11 @@
 2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1140,580
 2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1150,590
 2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
-25-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
+2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
 2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
 2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
 2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Zach Deines,Paul Parker,Bryan Wolfe,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
-2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
+2025-08-23,2:15 p. Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
 2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
@@ -267,7 +449,7 @@ Bob Owlett,bobowlett@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,N
 Paul Parker,Paul.W.Parker8@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Kevan Oyama,kevan.oyama@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Hisham Sayeedi,hsayeedi@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Daniel Passino,dpassino@umich.edu,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+Daniel Passino,dpassino@umich.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
 Matt Akers,mjakers1@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 James Adolfson,jamesadolfson123@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Kevin Newell,newellkj@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
@@ -320,7 +502,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             "Brandon Itaoka": { "Breakfast Buffet": 0, "Lunch Box": 1 },
             "Nick Zangardi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
             "Andrew Akers": { "Breakfast Buffet": 0, "Lunch Box": 1 },
-            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 1 }, // Updated Hisham Sayeedi's Lunch Box to 1
             "Daniel Passino": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Matt Akers": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Bryan Wolfe": { "Breakfast Buffet": 0, "Lunch Box": 0 },
@@ -462,9 +644,9 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             // Static notes
             const staticNotes = [
                 "Welcome dinner at Trail's End 8:30 p.m.",
-                "$50 / daily group bet pays out to winning Stableford team and $10 of daily bet is used for KP and Long-drives (in the fairway). Stableford teams are drawn daily for the AM round only.", // Updated note text
-                "Last group please pick-up KP and Long-drive markers.",
-                "Teams will be redrawn daily based on prior day point totals and captains adjusted."
+                "$10 of your $50 will go towards Long-drive and Two (2) closest to the pin contests for the group. Pay out of $80 per LD / Closest to the Pin.", // Updated note text
+                "There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).",
+                "Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide."
             ];
 
             staticNotes.forEach(note => {
@@ -532,11 +714,21 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             // Clear existing rows
             pairingsBody.innerHTML = '';
 
-            // Clear existing handicap row in Stableford table
+            // Clear existing handicap row in Stableford table and spacing row
             const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
             if (existingHandicapRow) {
                 existingHandicapRow.remove();
             }
+            const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
+            if (existingSpacingRow) {
+                existingSpacingRow.remove();
+            }
+
+            // Add spacing row *before* handicap row
+            const spacingTr = document.createElement('tr');
+            spacingTr.className = 'spacing-row';
+            spacingTr.innerHTML = '<td colspan="4"></td>'; // Span all columns
+            stablefordTableBody.appendChild(spacingTr);
 
             // Add selected player's handicap to Stableford table
             const playerHandicap = handicaps[playerName];
@@ -548,12 +740,14 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 tdLabel.textContent = `${playerName}'s Handicap`;
                 tr.appendChild(tdLabel);
                 const tdValue = document.createElement('td');
-                tdValue.className = 'border px-4 py-2';
+                tdValue.className = 'border px-4 py-2 bg-white'; // Set background to white
                 tdValue.textContent = playerHandicap;
                 tr.appendChild(tdValue);
-                // Add empty cells to maintain table structure for 4 columns
-                tr.appendChild(document.createElement('td'));
-                tr.appendChild(document.createElement('td'));
+                // Merge the remaining two cells (columns 3 and 4)
+                const tdMerged = document.createElement('td');
+                tdMerged.className = 'border px-4 py-2 bg-white'; // Set background to white
+                tdMerged.colSpan = 2; // Span 2 columns
+                tr.appendChild(tdMerged);
                 stablefordTableBody.appendChild(tr);
             }
 
@@ -668,32 +862,490 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             });
         }
 
-        // Initialize on page load
-        window.onload = () => {
-            parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
+        // New function to populate Daily Pairings
+        function populateDailyPairings(selectedPlayerName) {
+            const dailyPairingsBody = document.getElementById('daily-pairings-body');
+            dailyPairingsBody.innerHTML = ''; // Clear existing rows
+            const parsedData = parseCSV(csvData);
 
-            const allPlayers = Object.keys(handicaps);
-            populatePlayerSelect(allPlayers);
+            // Sort all tee times by date and then by time
+            parsedData.sort((a, b) => {
+                const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                return dateA - dateB;
+            });
 
-            const playerSelect = document.getElementById('player-select');
-            if (playerSelect) { // Check if playerSelect exists again after populatePlayerSelect
-                playerSelect.addEventListener('change', (event) => {
-                    const selectedPlayer = event.target.value;
-                    populateTeeTimesForPlayer(selectedPlayer);
-                    populateNotes(selectedPlayer); // Populate notes for the selected player
+            // Group tee times by date to identify the last one for each day
+            const teeTimesByDate = {};
+            parsedData.forEach(row => {
+                const date = row['Date'];
+                if (!teeTimesByDate[date]) {
+                    teeTimesByDate[date] = [];
+                }
+                teeTimesByDate[date].push(row);
+            });
+
+            // Iterate through sorted dates and then their tee times
+            Object.keys(teeTimesByDate).sort().forEach(date => {
+                const dailyTeeTimes = teeTimesByDate[date];
+                dailyTeeTimes.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+
+                    // Add bold line to the last tee time of the day
+                    if (index === dailyTeeTimes.length - 1) {
+                        tr.classList.add('last-tee-time-of-day');
+                    }
+
+                    const dateTd = document.createElement('td');
+                    dateTd.className = 'px-4 py-2';
+                    const dateParts = row['Date'].split('-');
+                    const year = parseInt(dateParts[0]);
+                    const month = parseInt(dateParts[1]) - 1;
+                    const day = parseInt(dateParts[2]);
+                    const dateObj = new Date(year, month, day);
+                    const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
+                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
+                    tr.appendChild(dateTd);
+
+                    const timeTd = document.createElement('td');
+                    timeTd.className = 'px-4 py-2';
+                    timeTd.textContent = row['Time'];
+                    tr.appendChild(timeTd);
+
+                    const completeTimeTd = document.createElement('td');
+                    completeTimeTd.className = 'px-4 py-2';
+                    const fullDateTime = row['CompleteEstimate'];
+                    if (fullDateTime) {
+                        let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
+                        let [hours, minutes] = timeString.split(':').map(Number);
+                        let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12;
+                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                        completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
+                    } else {
+                        completeTimeTd.textContent = 'N/A';
+                    }
+                    tr.appendChild(completeTimeTd);
+
+                    const courseTd = document.createElement('td');
+                    courseTd.className = 'px-4 py-2';
+                    courseTd.textContent = row['Course'];
+                    tr.appendChild(courseTd);
+
+                    const allPlayersInGroup = [];
+                    for (let i = 1; i <= 4; i++) {
+                        const playerCol = `Player${i}`;
+                        const playerName = row[playerCol];
+                        if (playerName) {
+                            const handicap = handicaps[playerName];
+                            let playerText = handicap !== undefined ? `${playerName} (${handicap})` : playerName;
+                            if (playerName === selectedPlayerName) {
+                                playerText = `<span class="highlight-player">${playerText}</span>`;
+                            }
+                            allPlayersInGroup.push(playerText);
+                        }
+                    }
+
+                    const allPlayersTd = document.createElement('td');
+                    allPlayersTd.className = 'px-4 py-2';
+                    allPlayersTd.innerHTML = allPlayersInGroup.join(', '); // Use innerHTML to render spans
+                    tr.appendChild(allPlayersTd);
+
+                    dailyPairingsBody.appendChild(tr);
+                });
+            });
+        }
+
+        async function loadAllPlayersScores() {
+            const allPlayersScoresBody = document.getElementById('all-players-scores-body');
+            allPlayersScoresBody.innerHTML = '';
+
+            if (!db) {
+                console.warn("Firestore not initialized. Cannot load all players' scores.");
+                return;
+            }
+
+            const allPlayerScores = {};
+            const scoreFields = ['2025-08-21-AM', '2025-08-22-AM', '2025-08-23-AM', '2025-08-24-AM'];
+
+            try {
+                const scoresCollectionGroupRef = collection(db, `artifacts/${appId}/users`);
+                const q = query(scoresCollectionGroupRef);
+                const querySnapshot = await getDocs(q);
+
+                // Iterate over each user's document in the 'users' collection
+                querySnapshot.forEach(userDoc => {
+                    const userId = userDoc.id;
+                    const scoresSubcollectionRef = collection(db, `artifacts/${appId}/users/${userId}/scores`);
+                    getDocs(scoresSubcollectionRef).then(playerScoresSnapshot => {
+                        playerScoresSnapshot.forEach(playerDoc => {
+                            const playerName = playerDoc.id;
+                            const scores = playerDoc.data();
+                            let totalScore = 0;
+
+                            allPlayerScores[playerName] = {
+                                '8-21-AM': scores['8-21-AM'] || '-',
+                                '8-22-AM': scores['8-22-AM'] || '-',
+                                '8-23-AM': scores['8-23-AM'] || '-',
+                                '8-24-AM': scores['8-24-AM'] || '-',
+                                total: 0
+                            };
+
+                            scoreFields.forEach(dateKey => {
+                                const score = scores[dateKey.replace('2025-', '')];
+                                if (typeof score === 'number') {
+                                    totalScore += score;
+                                }
+                            });
+                            allPlayerScores[playerName].total = totalScore;
+                        });
+                        renderAllPlayersScoresTable(); // Re-render after each user's scores are processed
+                    }).catch(error => {
+                        console.error(`Error fetching scores for user ${userId}:`, error);
+                    });
                 });
 
-                // Set initial player (e.g., Cory Higgins)
-                const initialPlayer = "Cory Higgins";
-                if (allPlayers.includes(initialPlayer)) {
-                    playerSelect.value = initialPlayer;
-                    populateTeeTimesForPlayer(initialPlayer);
-                    populateNotes(initialPlayer); // Populate notes for the initial player
-                } else if (allPlayers.length > 0) {
-                    // If Cory Higgins not found, select the first player in the list
-                    playerSelect.value = allPlayers[0];
-                    populateTeeTimesForPlayer(allPlayers[0]);
-                    populateNotes(allPlayers[0]); // Populate notes for the first player
+                // Initial render, will be updated as data streams in
+                renderAllPlayersScoresTable();
+
+            } catch (error) {
+                console.error("Error loading all players' scores:", error);
+                allPlayersScoresBody.innerHTML = `<tr><td colspan="6" class="px-4 py-2 text-red-500">Error loading scores: ${error.message}. Please check Firebase rules and console.</td></tr>`;
+            }
+
+            function renderAllPlayersScoresTable() {
+                allPlayersScoresBody.innerHTML = ''; // Clear before re-rendering
+                const sortedPlayers = Object.entries(allPlayerScores).map(([name, data]) => ({ name, ...data }))
+                                        .sort((a, b) => b.total - a.total);
+
+                sortedPlayers.forEach(player => {
+                    const tr = document.createElement('tr');
+                    const tdPlayer = document.createElement('td');
+                    tdPlayer.className = 'border px-4 py-2';
+                    tdPlayer.textContent = player.name;
+                    tr.appendChild(tdPlayer);
+
+                    const td8_21 = document.createElement('td');
+                    td8_21.className = 'border px-4 py-2';
+                    td8_21.textContent = player['8-21-AM'];
+                    tr.appendChild(td8_21);
+
+                    const td8_22 = document.createElement('td');
+                    td8_22.className = 'border px-4 py-2';
+                    td8_22.textContent = player['8-22-AM'];
+                    tr.appendChild(td8_22);
+
+                    const td8_23 = document.createElement('td');
+                    td8_23.className = 'border px-4 py-2';
+                    td8_23.textContent = player['8-23-AM'];
+                    tr.appendChild(td8_23);
+
+                    const td8_24 = document.createElement('td');
+                    td8_24.className = 'border px-4 py-2';
+                    td8_24.textContent = player['8-24-AM'];
+                    tr.appendChild(td8_24);
+
+                    const tdTotal = document.createElement('td');
+                    tdTotal.className = 'border px-4 py-2 font-semibold';
+                    tdTotal.textContent = player.total;
+                    tr.appendChild(tdTotal);
+
+                    allPlayersScoresBody.appendChild(tr);
+                });
+            }
+        }
+
+        // Function to show/hide tabs
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(`content-${tabId}`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            const selectedPlayer = document.getElementById('player-select').value;
+
+            // Special handling for tab content population
+            if (tabId === 'caddy') {
+                populateCaddySummary(selectedPlayer);
+            } else if (tabId === 'scores') {
+                loadAllPlayersScores();
+            }
+            // For 'summary' tab, content is already populated by player selection change listener
+        }
+
+        // Populate caddy summary table
+        function populateCaddySummary(selectedPlayerName) {
+            const caddySummaryBody = document.getElementById('caddy-summary-body');
+            const caddySummaryHeaderRow = document.getElementById('caddy-summary-header-row');
+            caddySummaryBody.innerHTML = ''; // Clear existing rows
+            // Keep the "Player" header, clear dynamic headers
+            caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
+
+            const allCaddySelections = caddySelectionsByPlayerRound;
+            const uniqueDatesAndRounds = new Set();
+
+            // Collect all unique date-round combinations
+            Object.values(allCaddySelections).forEach(playerData => {
+                Object.keys(playerData).forEach(date => {
+                    Object.keys(playerData[date]).forEach(roundType => {
+                        uniqueDatesAndRounds.add(`${date}-${roundType}`);
+                    });
+                });
+            });
+
+            const sortedDateRoundKeys = Array.from(uniqueDatesAndRounds).sort((a, b) => {
+                // Sort by date first, then by AM/PM
+                const [dateA, roundTypeA] = a.split('-');
+                const [dateB, roundTypeB] = b.split('-');
+
+                const dateObjA = new Date(dateA);
+                const dateObjB = new Date(dateB);
+
+                if (dateObjA.getTime() !== dateObjB.getTime()) {
+                    return dateObjA - dateObjB;
+                }
+                return roundTypeA.localeCompare(roundTypeB);
+            });
+
+            // Add dynamic headers to the caddy summary table
+            sortedDateRoundKeys.forEach(key => {
+                const [date, roundType] = key.split('-');
+                const dateParts = date.split('-');
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                const headerText = `${month}/${day} ${roundType}`;
+                const th = document.createElement('th');
+                th.className = 'px-4 py-2';
+                th.textContent = headerText;
+                caddySummaryHeaderRow.appendChild(th);
+            });
+
+            // Populate rows for each player
+            Object.keys(handicaps).sort().forEach(playerName => { // Iterate through all players
+                const tr = document.createElement('tr');
+                if (playerName === selectedPlayerName) {
+                    tr.classList.add('caddy-player-highlight'); // Highlight selected player's row
+                }
+
+                const tdPlayer = document.createElement('td');
+                tdPlayer.className = 'border px-4 py-2 font-semibold';
+                tdPlayer.textContent = playerName;
+                tr.appendChild(tdPlayer);
+
+                sortedDateRoundKeys.forEach(key => {
+                    const [date, roundType] = key.split('-');
+                    const caddySelection = allCaddySelections[playerName] &&
+                                           allCaddySelections[playerName][date] &&
+                                           allCaddySelections[playerName][date][roundType]
+                                           ? allCaddySelections[playerName][date][roundType]
+                                           : '-'; // Default if no selection
+
+                    const tdCaddy = document.createElement('td');
+                    tdCaddy.className = 'border px-4 py-2';
+                    tdCaddy.textContent = caddySelection;
+                    tr.appendChild(tdCaddy);
+                });
+                caddySummaryBody.appendChild(tr);
+            });
+        }
+
+
+        // Initialize on page load
+        window.onload = () => {
+            // Initialize Firebase
+            if (firebaseConfig.apiKey) {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        // Initial data load after authentication
+                        parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
+
+                        const allPlayers = Object.keys(handicaps);
+                        populatePlayerSelect(allPlayers);
+
+                        const playerSelect = document.getElementById('player-select');
+                        if (playerSelect) {
+                            playerSelect.addEventListener('change', (event) => {
+                                const selectedPlayer = event.target.value;
+                                populateTeeTimesForPlayer(selectedPlayer);
+                                populateNotes(selectedPlayer);
+                                populateDailyPairings(selectedPlayer);
+                                loadScores(selectedPlayer); // Load scores for the newly selected player
+                                // loadAllPlayersScores() will be called when the tab is clicked
+                            });
+
+                            // Set initial player (e.g., Cory Higgins)
+                            const initialPlayer = "Cory Higgins";
+                            if (allPlayers.includes(initialPlayer)) {
+                                playerSelect.value = initialPlayer;
+                                populateTeeTimesForPlayer(initialPlayer);
+                                populateNotes(initialPlayer);
+                                populateDailyPairings(initialPlayer);
+                                loadScores(initialPlayer); // Load scores for the initial player
+                            } else if (allPlayers.length > 0) {
+                                // If Cory Higgins not found, select the first player in the list
+                                playerSelect.value = allPlayers[0];
+                                populateTeeTimesForPlayer(allPlayers[0]);
+                                populateNotes(allPlayers[0]);
+                                populateDailyPairings(allPlayers[0]);
+                                loadScores(allPlayers[0]); // Load scores for the first player
+                            }
+                        }
+                    } else {
+                        console.warn("User not authenticated. Attempting anonymous sign-in.");
+                        // Sign in anonymously if no user is authenticated
+                        if (initialAuthToken) {
+                            try {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } catch (error) {
+                                console.error("Error signing in with custom token:", error);
+                                // Fallback to anonymous if custom token fails
+                                await signInAnonymously(auth);
+                            }
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    }
+                });
+            } else {
+                console.error("Firebase config is missing. Cannot initialize Firebase.");
+                // Proceed with static data display if Firebase is not configured
+                const allPlayers = Object.keys(handicaps);
+                populatePlayerSelect(allPlayers);
+                const playerSelect = document.getElementById('player-select');
+                if (playerSelect) {
+                    playerSelect.addEventListener('change', (event) => {
+                        const selectedPlayer = event.target.value;
+                        populateTeeTimesForPlayer(selectedPlayer);
+                        populateNotes(selectedPlayer);
+                        populateDailyPairings(selectedPlayer);
+                        // Cannot load/save scores without Firebase
+                    });
+                    const initialPlayer = "Cory Higgins";
+                    if (allPlayers.includes(initialPlayer)) {
+                        playerSelect.value = initialPlayer;
+                        populateTeeTimesForPlayer(initialPlayer);
+                        populateNotes(initialPlayer);
+                        populateDailyPairings(initialPlayer);
+                    } else if (allPlayers.length > 0) {
+                        playerSelect.value = allPlayers[0];
+                        populateTeeTimesForPlayer(allPlayers[0]);
+                        populateNotes(allPlayers[0]);
+                        populateDailyPairings(allPlayers[0]);
+                    }
+                }
+            }
+
+            // Tab functionality
+            document.getElementById('tab-summary').addEventListener('click', () => showTab('summary'));
+            document.getElementById('tab-caddy').addEventListener('click', () => showTab('caddy'));
+            document.getElementById('tab-scores').addEventListener('click', () => showTab('scores'));
+
+            // Set initial tab
+            showTab('summary');
+
+
+            // Save Scores Functionality
+            const saveScoresBtn = document.getElementById('save-scores-btn');
+            const saveStatusMessage = document.getElementById('save-status-message');
+
+            saveScoresBtn.addEventListener('click', async () => {
+                if (!currentUserId) {
+                    saveStatusMessage.textContent = "Please wait for authentication to complete.";
+                    return;
+                }
+
+                const selectedPlayer = document.getElementById('player-select').value;
+                if (!selectedPlayer) {
+                    saveStatusMessage.textContent = "Please select a player first.";
+                    return;
+                }
+
+                const scoresToSave = {};
+                const scoreFields = [
+                    'score-2025-08-21-AM',
+                    'score-2025-08-22-AM',
+                    'score-2025-08-23-AM',
+                    'score-2025-08-24-AM'
+                ];
+
+                scoreFields.forEach(fieldId => {
+                    const inputElement = document.getElementById(fieldId);
+                    if (inputElement && inputElement.value !== '') {
+                        scoresToSave[fieldId.replace('score-', '')] = parseInt(inputElement.value);
+                    }
+                });
+
+                if (Object.keys(scoresToSave).length === 0) {
+                    saveStatusMessage.textContent = "No scores to save.";
+                    return;
+                }
+
+                saveStatusMessage.textContent = "Saving scores...";
+                try {
+                    // Path: /artifacts/{appId}/users/{userId}/scores/{playerName}
+                    const userScoresDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}/scores`, selectedPlayer);
+                    await setDoc(userScoresDocRef, scoresToSave, { merge: true });
+                    saveStatusMessage.textContent = "Scores saved successfully!";
+                    loadAllPlayersScores(); // Refresh all players' scores after saving
+                } catch (error) {
+                    console.error("Error saving scores:", error);
+                    saveStatusMessage.textContent = `Error saving scores: ${error.message}`;
+                }
+            });
+
+            // Load Scores Functionality (for individual player input fields)
+            async function loadScores(playerName) {
+                if (!currentUserId) {
+                    // Scores will be loaded once authentication is ready
+                    return;
+                }
+
+                const scoreFields = [
+                    'score-2025-08-21-AM',
+                    'score-2025-08-22-AM',
+                    'score-2025-08-23-AM',
+                    'score-2025-08-24-AM'
+                ];
+
+                // Clear all score fields before loading new ones
+                scoreFields.forEach(fieldId => {
+                    const inputElement = document.getElementById(fieldId);
+                    if (inputElement) {
+                        inputElement.value = '';
+                    }
+                });
+
+                try {
+                    const userScoresDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}/scores`, playerName);
+                    const docSnap = await getDoc(userScoresDocRef);
+
+                    if (docSnap.exists()) {
+                        const scores = docSnap.data();
+                        scoreFields.forEach(fieldId => {
+                            const scoreKey = fieldId.replace('score-', '');
+                            const inputElement = document.getElementById(fieldId);
+                            if (inputElement && scores[scoreKey] !== undefined) {
+                                inputElement.value = scores[scoreKey];
+                            }
+                        });
+                        saveStatusMessage.textContent = `Scores loaded for ${playerName}.`;
+                    } else {
+                        saveStatusMessage.textContent = `No saved scores found for ${playerName}.`;
+                    }
+                } catch (error) {
+                    console.error("Error loading scores:", error);
+                    saveStatusMessage.textContent = `Error loading scores: ${error.message}`;
                 }
             }
         };
