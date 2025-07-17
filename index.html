@@ -1245,7 +1245,50 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
 
         // Initialize on page load
         window.onload = () => {
-            console.log('Page loaded, initializing...');
+            console.log('Window loaded, initializing...');
+            console.log('Firebase config:', Q);
+            
+            // Always initialize the basic functionality first
+            parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
+            const allPlayers = Object.keys(handicaps);
+            console.log('All players:', allPlayers);
+            populatePlayerSelect(allPlayers);
+            
+            // Set up player selection event listener
+            const playerSelect = document.getElementById('player-select');
+            if (playerSelect) {
+                console.log('Player select element found, setting up event listener');
+                playerSelect.addEventListener('change', (event) => {
+                    const selectedPlayer = event.target.value;
+                    console.log('Player selected:', selectedPlayer);
+                    populateTeeTimesForPlayer(selectedPlayer);
+                    populateNotes(selectedPlayer);
+                    populateDailyPairings(selectedPlayer);
+                    loadPlayerScores(selectedPlayer);
+                });
+
+                // Set initial player
+                const initialPlayer = "Cory Higgins";
+                if (allPlayers.includes(initialPlayer)) {
+                    playerSelect.value = initialPlayer;
+                    populateTeeTimesForPlayer(initialPlayer);
+                    populateNotes(initialPlayer);
+                    populateDailyPairings(initialPlayer);
+                    loadPlayerScores(initialPlayer);
+                } else if (allPlayers.length > 0) {
+                    playerSelect.value = allPlayers[0];
+                    populateTeeTimesForPlayer(allPlayers[0]);
+                    populateNotes(allPlayers[0]);
+                    populateDailyPairings(allPlayers[0]);
+                    loadPlayerScores(allPlayers[0]);
+                }
+            } else {
+                console.error('Player select element not found!');
+            }
+            
+            // Initialize Firebase if config is available
+            if (Q && Q.apiKey) {
+                console.log('Initializing Firebase...');
             
             // Check if required elements exist
             const playerSelect = document.getElementById('player-select');
@@ -1265,38 +1308,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                         currentUserId = user.uid;
                         // Initial data load after authentication
                         parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
-
-                        const allPlayers = Object.keys(handicaps);
-                        populatePlayerSelect(allPlayers);
-
-                        const playerSelect = document.getElementById('player-select');
-                        if (playerSelect) {
-                            playerSelect.addEventListener('change', (event) => {
-                                const selectedPlayer = event.target.value;
-                                populateTeeTimesForPlayer(selectedPlayer);
-                                populateNotes(selectedPlayer);
-                                populateDailyPairings(selectedPlayer);
-                                loadScores(selectedPlayer); // Load scores for the newly selected player
-                                // loadAllPlayersScores() will be called when the tab is clicked
-                            });
-
-                            // Set initial player (e.g., Cory Higgins)
-                            const initialPlayer = "Cory Higgins";
-                            if (allPlayers.includes(initialPlayer)) {
-                                playerSelect.value = initialPlayer;
-                                populateTeeTimesForPlayer(initialPlayer);
-                                populateNotes(initialPlayer);
-                                populateDailyPairings(initialPlayer);
-                                loadScores(initialPlayer); // Load scores for the initial player
-                            } else if (allPlayers.length > 0) {
-                                // If Cory Higgins not found, select the first player in the list
-                                playerSelect.value = allPlayers[0];
-                                populateTeeTimesForPlayer(allPlayers[0]);
-                                populateNotes(allPlayers[0]);
-                                populateDailyPairings(allPlayers[0]);
-                                loadScores(allPlayers[0]); // Load scores for the first player
-                            }
-                        }
+                        console.log('User authenticated:', user.uid);
                     } else {
                         console.warn("User not authenticated. Attempting anonymous sign-in.");
                         // Sign in anonymously if no user is authenticated
@@ -1319,35 +1331,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 // Initialize without Firebase
                 console.log('Initializing without Firebase...');
                 parseCaddyWorkbookCSV(caddyWorkbookCsvData);
-                const allPlayers = Object.keys(handicaps);
-                console.log('All players:', allPlayers);
-                populatePlayerSelect(allPlayers);
-
-                if (playerSelect) {
-                    console.log('Setting up player select event listener...');
-                    playerSelect.addEventListener('change', (event) => {
-                        const selectedPlayer = event.target.value;
-                        console.log('Player selected:', selectedPlayer);
-                        populateTeeTimesForPlayer(selectedPlayer);
-                        populateNotes(selectedPlayer);
-                        populateDailyPairings(selectedPlayer);
-                        // Cannot load/save scores without Firebase
-                    });
-
-                    // Set initial player (e.g., Cory Higgins)
-                    const initialPlayer = "Cory Higgins";
-                    if (allPlayers.includes(initialPlayer)) {
-                        console.log('Setting initial player:', initialPlayer);
-                        playerSelect.value = initialPlayer;
-                        populateTeeTimesForPlayer(initialPlayer);
-                        populateNotes(initialPlayer);
-                        populateDailyPairings(initialPlayer);
-                    } else if (allPlayers.length > 0) {
-                        // If Cory Higgins not found, select the first player in the list
-                        console.log('Setting first player:', allPlayers[0]);
-                        playerSelect.value = allPlayers[0];
-                        populateTeeTimesForPlayer(allPlayers[0]);
-                        populateNotes(allPlayers[0]);
+                console.log('Firebase config not available, running in offline mode');
                         populateDailyPairings(allPlayers[0]);
                     }
                 } else {
