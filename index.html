@@ -320,7 +320,7 @@
 
     <script>
         // Raw CSV data for golf pairings
-        const csvData = `Date,Time,Course,Player,Player,Player,Player,Caddie?,Notes,,Start time adjusted,Complete Estimate,,Time adjustment,,Course,Estimated play time,,,,,,770,210
+        const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
 2025-08-20,2:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
 2025-08-20,2:50 p.m. ,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,2025-08-20 14:50:00,2025-08-20 19:20:00,,890,,Pacific Dunes,4.5,,,,,,800,240
@@ -394,17 +394,17 @@
 Zach Deines,zachmd@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Cory Higgins,cory.higgins@gmail.com,No Caddy,Caddy,No Caddy,No Caddy,Caddy,No Caddy,No Caddy,Caddy
 Nick Zangardi,nickzangardi@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,No Caddy
-Johnathn Resetar,johnresetar@hotmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Johnathn Resetar,johnresetar@hotmail.com,Carry Caddy ($100 / pp),Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy
 Pranav Shah,pranav.s.shah@outlook.com,Fore Caddy,Fore Caddy,Fore Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Mike Newell,mjnewell28@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
 Jacob Emert,jacob.e.emert@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
 Ryan Hohn,rhohn67@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Bryan Wolfe,bryanwolfe1993@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Bryan Wolfe,bryanwolfe1993@gmail.com,No Caddy,Forecaddy,No Caddy,Forecaddy,No Caddy,Forecaddy,No Caddy,Not Playing/Short Course
 Vikas Bhasin,vikasopicaso@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,Caddy,No Caddy
-Cory Micheel,cory.micheel@gmail.com,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,No Caddy
+Cory Micheel,cory.micheel@gmail.com,Not Playing/Short Course,Forecaddy,No Caddy,Forecaddy,Carry Caddy ($100 / pp),Forecaddy,No Caddy,No Caddy
 AD Hoffman,adonis.hoffman@gmail.com,No Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy
-Bob Owlett,bobowlett@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Paul Parker,Paul.W.Parker8@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
+Bob Owlett,bobowlett@gmail.com,No Caddy,Carry Caddy ($100 / pp),No Caddy,Forecaddy,No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy
+Paul Parker,Paul.W.Parker8@gmail.com,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,No Caddy,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing)
 Kevan Oyama,kevan.oyama@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
 Hisham Sayeedi,hsayeedi@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
 Daniel Passino,dpassino@umich.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
@@ -430,7 +430,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             "Ryan Hohn": 7,
             "Zach Deines": 8,
             "Rob Small": 9,
-            "Nick Zangardi": 8,
+            "Nick Zangardi": 8, // Updated Nick Zangardi's handicap to 8
             "Vikas Bhasin": 11,
             "Daniel Passino": 11,
             "Hisham Sayeedi": 11,
@@ -565,7 +565,17 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 caddySelectionsByPlayerRound[playerName] = {};
 
                 caddyColumnIndices.forEach(colIndex => {
-                    const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+                    let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+
+                    // Apply transformations
+                    if (caddyType.includes("Non-carry Strategy Caddy")) {
+                        caddyType = "Non-Carry Caddy";
+                    } else if (caddyType.includes("Forecaddy")) {
+                        caddyType = "Non-Carry Caddy";
+                    } else if (caddyType.includes("Carry Caddy")) {
+                        caddyType = "Carry Caddy";
+                    }
+
                     const { date, roundType } = caddyColumnMap[colIndex];
 
                     if (!caddySelectionsByPlayerRound[playerName][date]) {
