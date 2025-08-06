@@ -924,7 +924,7 @@
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${partnerHandicap !== undefined ? playerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${playerHandicap !== undefined ? playerHandicap : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
@@ -1145,12 +1145,12 @@
             scoringBody.innerHTML = '';
 
             teamsForDay.forEach((team, teamIndex) => {
-                let teamTotalScore = 0;
-                let firstPlayer = true;
+                // First, calculate the team's total score
+                const teamTotalScore = team.reduce((sum, player) => sum + scoresForDay[player.name], 0);
 
+                let firstPlayer = true;
                 team.forEach(player => {
                     const playerScore = scoresForDay[player.name];
-                    teamTotalScore += playerScore;
 
                     const tr = document.createElement('tr');
 
@@ -1177,8 +1177,6 @@
                     scoreTd.textContent = playerScore;
                     tr.appendChild(scoreTd);
 
-                    scoringBody.appendChild(tr);
-
                     if (firstPlayer) {
                         const teamTotalCell = document.createElement('td');
                         teamTotalCell.rowSpan = team.length;
@@ -1186,6 +1184,8 @@
                         teamTotalCell.textContent = teamTotalScore;
                         tr.appendChild(teamTotalCell);
                     }
+                    
+                    scoringBody.appendChild(tr);
                     firstPlayer = false;
                 });
             });
@@ -1213,7 +1213,7 @@
 
             scoringDates.forEach(date => {
                 const dateKey = date; // e.g., '2025-08-20'
-                const playersList = allPlayers.sort(); // Consistent player list for scoring
+                const playersList = Object.keys(handicaps); // Use the keys from handicaps to get all players
 
                 let currentDayScores = {};
                 // Use actual scores for 8/20, generate mock scores for other days
