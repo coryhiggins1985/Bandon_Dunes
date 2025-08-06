@@ -320,7 +320,7 @@
 
     <script>
         // Raw CSV data for golf pairings
-        const csvData = `Date,Time,Course,Player,Player,Player,Player,Caddie?,Notes,,Start time adjusted,Complete Estimate,,Time adjustment,,Course,Estimated play time,,,,,,770,210
+        const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
 2025-08-20,2:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
 2025-08-20,2:50 p.m. ,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,2025-08-20 14:50:00,2025-08-20 19:20:00,,890,,Pacific Dunes,4.5,,,,,,800,240
@@ -390,39 +390,23 @@
 ,,,,,,,,,,,,,,,,,,,,,,1440,880`;
 
         // Raw CSV data for caddy workbook
-        const caddyWorkbookCsvData = `Timestamp,Email Address,Caddy / Fore caddy selection ... AM course will differ from PM course [Wednesday 8/20 (PM round only)],Caddy / Fore caddy selection ... AM course will differ from PM course [Thursday 8/21 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Thursday 8/21 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Friday 8/22 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Friday 8/22 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Saturday 8/23 - AM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Saturday 8/23 - PM Round],Caddy / Fore caddy selection ... AM course will differ from PM course [Sunday 8/24 (AM round only)]
-Zach Deines,zachmd@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Cory Higgins,cory.higgins@gmail.com,No Caddy,Caddy,No Caddy,No Caddy,Caddy,No Caddy,No Caddy,Caddy
-Nick Zangardi,nickzangardi@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,No Caddy
-Johnathn Resetar,johnresetar@hotmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Pranav Shah,pranav.s.shah@outlook.com,Fore Caddy,Fore Caddy,Fore Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Mike Newell,mjnewell28@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Jacob Emert,jacob.e.emert@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Ryan Hohn,rhohn67@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Bryan Wolfe,bryanwolfe1993@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Vikas Bhasin,vikasopicaso@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,Caddy,No Caddy
-Cory Micheel,cory.micheel@gmail.com,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,Fore Caddy,No Caddy,No Caddy
-AD Hoffman,adonis.hoffman@gmail.com,No Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy,Fore Caddy,Caddy
-Bob Owlett,bobowlett@gmail.com,No Caddy,Caddy,Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Paul Parker,Paul.W.Parker8@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Kevan Oyama,kevan.oyama@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Hisham Sayeedi,hsayeedi@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Daniel Passino,dpassino@umich.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Matt Akers,mjakers1@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-James Adolfson,jamesadolfson123@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Kevin Newell,newellkj@gmail.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Rob Small,rob@compaero.com,Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
-Andrew Akers,andrewakers9@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Brandon Itaoka,urmessiah57@gmail.com,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Caddy
+        const caddyWorkbookCsvData = `Timestamp,Email Address,Column 12,Caddy options - Please pick one option for each date [Wednesday 8/20 (PM round only)],Caddy options - Please pick one option for each date [Thursday 8/21 - AM Round],Caddy options - Please pick one option for each date [Thursday 8/21 - PM Round],Caddy options - Please pick one option for each date [Friday 8/22 - AM Round],Caddy options - Please pick one option for each date [Friday 8/22 - PM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - AM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - PM Round],Caddy options - Please pick one option for each date [Sunday 8/24 (AM round only)],Fancy Steak Dinner Saturday night?
+7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,No Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,
+7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,No Caddy,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),Yes
+7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Not Playing/Short Course,No
+7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy ($100 / pp),Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No Caddy,No Caddy,Yes
+7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy ($100 / pp),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No
+7/17/2025 15:00:23,nickzangardi@gmail.com,Nick Zangardi,No Caddy,Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No
+7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Forecaddy,No Caddy,Forecaddy,Carry Caddy ($100 / pp),Forecaddy,No Caddy,No Caddy,No
+7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No
 `;
 
         // Handicap data provided by the user
         const handicaps = {
-            "Mike Newell": 1,
+            "Mike Newell": 0, // Updated to 0
             "Andrew Akers": 2,
             "James Adolfson": 3,
-            "Cory Higgins": 4,
+            "Cory Higgins": 3, // Updated to 3
             "Kevan Oyama": 5,
             "Bob Owlett": 5,
             "Jacob Emert": 6,
@@ -430,7 +414,7 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             "Ryan Hohn": 7,
             "Zach Deines": 8,
             "Rob Small": 9,
-            "Nick Zangardi": 10,
+            "Nick Zangardi": 8, // Updated Nick Zangardi's handicap to 8
             "Vikas Bhasin": 11,
             "Daniel Passino": 11,
             "Hisham Sayeedi": 11,
@@ -523,13 +507,13 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
             if (lines.length < 2) return;
 
             const headers = lines[0].split(',').map(h => h.trim());
-            const playerColumnIndex = 0; // The first column contains the player name (e.g., "Zach Deines")
+            const playerColumnIndex = 2; // "Column 12" is the player name now
             const caddyColumnIndices = [];
             const caddyColumnMap = {}; // Maps header index to { date: 'YYYY-MM-DD', roundType: 'AM' | 'PM' }
 
             // Parse caddy headers to create a map for lookup
             headers.forEach((header, index) => {
-                if (header.includes("Caddy / Fore caddy selection")) {
+                if (header.includes("Caddy options - Please pick one option for each date")) {
                     const match = header.match(/\[.*? (\d{1,2}\/\d{1,2})(?: - (AM|PM) Round)?(?: \((AM|PM) round only\))?\]/);
                     if (match) {
                         const monthDay = match[1]; // e.g., "8/20"
@@ -565,7 +549,17 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 caddySelectionsByPlayerRound[playerName] = {};
 
                 caddyColumnIndices.forEach(colIndex => {
-                    const caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+                    let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
+
+                    // Apply transformations
+                    if (caddyType.includes("Non-carry Strategy Caddy")) {
+                        caddyType = "Non-Carry Caddy";
+                    } else if (caddyType.includes("Forecaddy")) {
+                        caddyType = "Non-Carry Caddy";
+                    } else if (caddyType.includes("Carry Caddy")) {
+                        caddyType = "Carry Caddy";
+                    }
+
                     const { date, roundType } = caddyColumnMap[colIndex];
 
                     if (!caddySelectionsByPlayerRound[playerName][date]) {
@@ -649,55 +643,6 @@ Charlie Hildebrand,cdhildy@gmail.com,No Caddy,Caddy,No Caddy,Caddy,No Caddy,Cadd
                 trLunch.appendChild(tdLunch);
                 notesBody.appendChild(trLunch);
             }
-
-            // Caddy Selection Matrix in Notes
-            const caddyMatrixTable = document.createElement('table');
-            caddyMatrixTable.className = 'table-auto mt-4';
-            caddyMatrixTable.innerHTML = `
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2">Caddy Selection:</th>
-                        <th class="px-4 py-2">AM</th>
-                        <th class="px-4 py-2">PM</th>
-                    </tr>
-                </thead>
-                <tbody id="notes-caddy-matrix-body">
-                </tbody>
-            `;
-            notesBody.parentNode.appendChild(caddyMatrixTable); // Append to the same parent as notesBody
-
-            const notesCaddyMatrixBody = document.getElementById('notes-caddy-matrix-body');
-            notesCaddyMatrixBody.innerHTML = ''; // Clear existing rows
-
-            const playerCaddySelections = caddySelectionsByPlayerRound[playerName] || {};
-            const availableDates = Object.keys(playerCaddySelections).sort();
-
-            const allDatesInOrder = [
-                '2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'
-            ];
-
-            allDatesInOrder.forEach(dateKey => {
-                const tr = document.createElement('tr');
-                const tdDate = document.createElement('td');
-                tdDate.className = 'border px-4 py-2 font-semibold';
-                const dateParts = dateKey.split('-');
-                const month = parseInt(dateParts[1]);
-                const day = parseInt(dateParts[2]);
-                tdDate.textContent = `${month}-${day}`;
-                tr.appendChild(tdDate);
-
-                const tdAm = document.createElement('td');
-                tdAm.className = 'border px-4 py-2';
-                tdAm.textContent = playerCaddySelections[dateKey] && playerCaddySelections[dateKey]['AM'] ? playerCaddySelections[dateKey]['AM'] : '-';
-                tr.appendChild(tdAm);
-
-                const tdPm = document.createElement('td');
-                tdPm.className = 'border px-4 py-2';
-                tdPm.textContent = playerCaddySelections[dateKey] && playerCaddySelections[dateKey]['PM'] ? playerCaddySelections[dateKey]['PM'] : '-';
-                tr.appendChild(tdPm);
-
-                notesCaddyMatrixBody.appendChild(tr);
-            });
         }
 
 
