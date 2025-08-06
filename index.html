@@ -118,6 +118,11 @@
         .caddy-player-highlight {
             background-color: #d1fae5; /* Light green for caddy highlight */
         }
+        .team-header {
+            background-color: #6ee7b7; /* Tailwind green-300 */
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -129,7 +134,11 @@
         <div class="flex border-b border-gray-200 mb-6">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
-            <button id="tab-scoring" class="tab-button">Scoring</button>
+            <button id="tab-scoring-8-20" class="tab-button">Scoring - 8/20</button>
+            <button id="tab-scoring-8-21" class="tab-button">Scoring - 8/21</button>
+            <button id="tab-scoring-8-22" class="tab-button">Scoring - 8/22</button>
+            <button id="tab-scoring-8-23" class="tab-button">Scoring - 8/23</button>
+            <button id="tab-scoring-8-24" class="tab-button">Scoring - 8/24</button>
         </div>
 
         <!-- Tab Content: Trip Summary -->
@@ -292,21 +301,109 @@
         </div>
 
         <!-- Tab Content: Scoring Totals -->
-        <div id="content-scoring" class="tab-content">
-            <!-- Daily Scoring (8/20) Table -->
+        <div id="content-scoring-8-20" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
-                <div id="scoring-8-20-container" class="overflow-x-auto">
+                <div id="scoring-container-8-20" class="overflow-x-auto">
                     <table class="table-auto">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2">Ranking</th>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
                                 <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">8/20</th>
+                                <th class="px-4 py-2">8/20 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
                             </tr>
                         </thead>
-                        <tbody id="scoring-8-20-body">
+                        <tbody id="scoring-body-8-20">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-21" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/21)</h2>
+                <div id="scoring-container-8-21" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/21 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-21">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-22" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/22)</h2>
+                <div id="scoring-container-8-22" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/22 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-22">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-23" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/23)</h2>
+                <div id="scoring-container-8-23" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/23 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-23">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-24" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/24)</h2>
+                <div id="scoring-container-8-24" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/24 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-24">
                             <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
@@ -457,6 +554,11 @@
         // Global variable to store parsed caddy selections
         const caddySelectionsByPlayerRound = {};
         const parsedTeeTimes = [];
+        let dailyTeams = {}; // Global variable to store teams for each day
+        let dailyScores = {}; // Global variable to store mock scores for each day
+
+        // Dates for the trip
+        const scoringDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
 
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
@@ -793,7 +895,7 @@
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${partnerHandicap !== undefined ? partnerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${partnerHandicap !== undefined ? playerHandicap : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
@@ -943,47 +1045,118 @@
         }
 
 
-        function populateScoringTable(date) {
-            const scoringBody = document.getElementById(`scoring-${date.replace(/-/g, '-')}-body`);
+        // Function to create teams (once)
+        function createDailyTeams(players, previousDayScores = null) {
+            let playersWithRank = [];
+            const numTeams = 4;
+            const teams = Array.from({ length: numTeams }, () => []);
+
+            // If it's the first day, rank by handicap
+            if (!previousDayScores) {
+                playersWithRank = players.map(name => ({
+                    name,
+                    handicap: handicaps[name],
+                    score: null // No score for the first day yet
+                }));
+                playersWithRank.sort((a, b) => a.handicap - b.handicap);
+            } else {
+                // For subsequent days, rank by previous day's score
+                playersWithRank = players.map(name => ({
+                    name,
+                    handicap: handicaps[name],
+                    score: previousDayScores[name]
+                }));
+                // Sort players by previous day's score (higher score is better)
+                playersWithRank.sort((a, b) => b.score - a.score);
+            }
+
+            // Snake draft logic
+            for (let i = 0; i < playersWithRank.length; i++) {
+                const player = playersWithRank[i];
+                if (Math.floor(i / numTeams) % 2 === 0) {
+                    teams[i % numTeams].push(player);
+                } else {
+                    teams[numTeams - 1 - (i % numTeams)].push(player);
+                }
+            }
+            return teams;
+        }
+
+        function generateMockScores(players, previousDayScores) {
+            const scores = {};
+            players.forEach(player => {
+                // Generate a score based on previous day's score or handicap
+                let baseScore = 25; // Base score for a decent day
+                if (previousDayScores && previousDayScores[player] !== undefined) {
+                    // Use previous day's performance to influence today's score
+                    // Example: A better score yesterday (higher number) might lead to a slightly higher score today
+                    baseScore = previousDayScores[player];
+                } else {
+                    // For the first day, use handicap as a base
+                    baseScore = 25 - handicaps[player];
+                }
+                
+                // Add some random variation
+                const score = Math.max(0, Math.floor(baseScore + (Math.random() * 10 - 5)));
+                scores[player] = score;
+            });
+            return scores;
+        }
+
+
+        // Function to populate a single scoring table for a given date
+        function populateScoringTable(date, teamsForDay, scoresForDay) {
+            const scoringBody = document.getElementById(`scoring-body-${date.split('-').slice(1).join('-')}`);
             if (!scoringBody) return;
             scoringBody.innerHTML = '';
 
-            // This is a placeholder for actual scoring.
-            // In a real application, this would fetch or calculate scores.
-            // For now, we'll generate mock data based on handicap.
-            const mockScores = Object.keys(handicaps).map(player => ({
-                name: player,
-                handicap: handicaps[player],
-                // Generate a mock score based on handicap, lower handicap = better score
-                score: Math.max(0, 40 - handicaps[player] - Math.floor(Math.random() * 5))
-            }));
+            teamsForDay.forEach((team, teamIndex) => {
+                let teamTotalScore = 0;
+                let firstPlayer = true;
 
-            // Sort by score (descending)
-            mockScores.sort((a, b) => b.score - a.score);
+                team.forEach(player => {
+                    // Use the pre-generated scores
+                    const playerScore = scoresForDay[player.name];
+                    teamTotalScore += playerScore;
 
-            mockScores.forEach((player, index) => {
-                const tr = document.createElement('tr');
-                const rankingTd = document.createElement('td');
-                rankingTd.className = 'px-4 py-2';
-                rankingTd.textContent = index + 1;
-                tr.appendChild(rankingTd);
+                    const tr = document.createElement('tr');
 
-                const handicapTd = document.createElement('td');
-                handicapTd.className = 'px-4 py-2';
-                handicapTd.textContent = player.handicap;
-                tr.appendChild(handicapTd);
+                    // Add team name and total score only for the first player of each team
+                    if (firstPlayer) {
+                        const teamTd = document.createElement('td');
+                        teamTd.rowSpan = team.length; // Span rows for all players in the team
+                        teamTd.className = 'px-4 py-2 team-header';
+                        teamTd.textContent = `Team ${teamIndex + 1}`;
+                        tr.appendChild(teamTd);
+                    }
 
-                const nameTd = document.createElement('td');
-                nameTd.className = 'px-4 py-2';
-                nameTd.textContent = player.name;
-                tr.appendChild(nameTd);
+                    // Player details
+                    const playerTd = document.createElement('td');
+                    playerTd.className = 'px-4 py-2';
+                    playerTd.textContent = player.name;
+                    tr.appendChild(playerTd);
 
-                const scoreTd = document.createElement('td');
-                scoreTd.className = 'px-4 py-2';
-                scoreTd.textContent = player.score;
-                tr.appendChild(scoreTd);
+                    const handicapTd = document.createElement('td');
+                    handicapTd.className = 'px-4 py-2';
+                    handicapTd.textContent = player.handicap;
+                    tr.appendChild(handicapTd);
 
-                scoringBody.appendChild(tr);
+                    const scoreTd = document.createElement('td');
+                    scoreTd.className = 'px-4 py-2';
+                    scoreTd.textContent = playerScore;
+                    tr.appendChild(scoreTd);
+
+                    scoringBody.appendChild(tr);
+
+                    if (firstPlayer) {
+                        const teamTotalCell = document.createElement('td');
+                        teamTotalCell.rowSpan = team.length;
+                        teamTotalCell.className = 'px-4 py-2 font-bold';
+                        teamTotalCell.textContent = teamTotalScore;
+                        tr.appendChild(teamTotalCell);
+                    }
+                    firstPlayer = false;
+                });
             });
         }
 
@@ -1003,7 +1176,28 @@
             populateNotes(initialPlayer);
             populateDailyPairings();
             populateCaddySummary();
-            populateScoringTable('8-20');
+
+            // Create and populate all scoring tables with dynamic teams
+            let previousDayScores = null;
+
+            scoringDates.forEach(date => {
+                const dateKey = date; // e.g., '2025-08-20'
+                const playersList = allPlayers.sort(); // Consistent player list for scoring
+
+                // Create teams for the current day based on previous day's scores or handicaps
+                dailyTeams[dateKey] = createDailyTeams(playersList, previousDayScores);
+
+                // Generate new mock scores for the current day
+                const currentDayScores = generateMockScores(playersList, previousDayScores);
+                dailyScores[dateKey] = currentDayScores;
+
+                // Populate the table for the current day
+                populateScoringTable(dateKey, dailyTeams[dateKey], dailyScores[dateKey]);
+
+                // Set the current day's scores as the previous day's scores for the next iteration
+                previousDayScores = currentDayScores;
+            });
+
 
             // Add event listeners
             document.getElementById('player-select').addEventListener('change', (event) => {
