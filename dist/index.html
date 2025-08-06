@@ -485,7 +485,7 @@
 
         // Raw CSV data for caddy workbook
         const caddyWorkbookCsvData = `Timestamp,Email Address,Column 12,Caddy options - Please pick one option for each date [Wednesday 8/20 (PM round only)],Caddy options - Please pick one option for each date [Thursday 8/21 - AM Round],Caddy options - Please pick one option for each date [Thursday 8/21 - PM Round],Caddy options - Please pick one option for each date [Friday 8/22 - AM Round],Caddy options - Please pick one option for each date [Friday 8/22 - PM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - AM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - PM Round],Caddy options - Please pick one option for each date [Sunday 8/24 (AM round only)],Fancy Steak Dinner Saturday night?
-7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,No Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,
+7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,Yes
 7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Non-Carry Caddy,Yes
 7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Not Playing/Short Course,No
 7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Yes
@@ -686,11 +686,11 @@
                     let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
 
                     // Apply transformations
-                    if (caddyType.includes("Non-carry Strategy Caddy")) {
+                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40")) {
                         caddyType = "Non-Carry Caddy";
                     } else if (caddyType.includes("Forecaddy")) {
                         caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Carry Caddy")) {
+                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100")) {
                         caddyType = "Carry Caddy";
                     }
 
@@ -928,7 +928,7 @@
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${partnerHandicap !== undefined ? partnerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${partnerHandicap !== undefined ? playerHandicap : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
