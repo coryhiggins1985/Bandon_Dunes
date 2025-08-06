@@ -290,13 +290,13 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Tab Content: Scoring Totals -->
         <div id="content-scoring" class="tab-content">
-            <!-- All Players Daily Scores Table (New) -->
+            <!-- Daily Scoring (8/20) Table -->
             <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Players Daily Scores (AM Rounds)</h2>
-                <div id="all-players-scores-container" class="overflow-x-auto">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
+                <div id="scoring-8-20-container" class="overflow-x-auto">
                     <table class="table-auto">
                         <thead>
                             <tr>
@@ -304,14 +304,9 @@
                                 <th class="px-4 py-2">Handicap</th>
                                 <th class="px-4 py-2">Name</th>
                                 <th class="px-4 py-2">8/20</th>
-                                <th class="px-4 py-2">8/21</th>
-                                <th class="px-4 py-2">8/22</th>
-                                <th class="px-4 py-2">8/23</th>
-                                <th class="px-4 py-2">8/24</th>
-                                <th class="px-4 py-2">Total</th>
                             </tr>
                         </thead>
-                        <tbody id="all-players-scores-body">
+                        <tbody id="scoring-8-20-body">
                             <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
@@ -319,7 +314,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
@@ -373,7 +367,7 @@
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
 2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
-2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-02-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710
+2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710
 ,,,,,,,,,,,,,,,,,,,,,,1280,720
 ,,,,,,,,,,,,,,,,,,,,,,1290,730
 ,,,,,,,,,,,,,,,,,,,,,,1300,740
@@ -395,10 +389,10 @@
         // Raw CSV data for caddy workbook
         const caddyWorkbookCsvData = `Timestamp,Email Address,Column 12,Caddy options - Please pick one option for each date [Wednesday 8/20 (PM round only)],Caddy options - Please pick one option for each date [Thursday 8/21 - AM Round],Caddy options - Please pick one option for each date [Thursday 8/21 - PM Round],Caddy options - Please pick one option for each date [Friday 8/22 - AM Round],Caddy options - Please pick one option for each date [Friday 8/22 - PM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - AM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - PM Round],Caddy options - Please pick one option for each date [Sunday 8/24 (AM round only)],Fancy Steak Dinner Saturday night?
 7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,No Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,
-7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Non-carry Caddy,Yes
-7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Not Playing/Short Course,No
+7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Non-Carry Caddy,Yes
+7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Not Playing/Short Course,No
 7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Yes
-7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
+7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
 7/17/2025 15:00:23,nickzangardi@gmail.com,Nick Zangardi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
 7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,No Caddy,No Caddy,No
 7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No
@@ -462,6 +456,7 @@
 
         // Global variable to store parsed caddy selections
         const caddySelectionsByPlayerRound = {};
+        const parsedTeeTimes = [];
 
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
@@ -473,6 +468,8 @@
             const timeIndex = 1;
             const courseIndex = 2;
             const playerIndices = [3, 4, 5, 6]; // Indices for Player columns (C, D, E, F)
+            const caddieIndex = 7; // Index for 'Caddie?' column
+            const notesIndex = 8; // Index for 'Notes' column
             const completeEstimateIndex = 11; // Index for 'Complete Estimate' column (L)
 
             for (let i = 1; i < lines.length; i++) {
@@ -485,8 +482,8 @@
                 row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
                 row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
                 row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
-                // The Caddie? column in the main CSV is not used for specific caddy type, it's just 'YES' or empty
-                // row['Caddie'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
+                row['Caddie?'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
+                row['Notes'] = currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
                 row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
 
 
@@ -657,9 +654,8 @@
             const parsedData = parseCSV(csvData);
 
             // Update the main title dynamically
-            // Extract the "Bandon Dunes Golf Trip Summary" part to keep it consistent
             const baseTitle = "Bandon Dunes Golf Trip Summary";
-            mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`; // Player name in default color
+            mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`;
             // Update the section title
             currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
 
@@ -702,7 +698,6 @@
                 tr.appendChild(tdMerged);
                 stablefordTableBody.appendChild(tr);
             }
-
 
             // Filter data for the specific player
             let playerTeeTimes = parsedData.filter(row => {
@@ -790,78 +785,60 @@
                 caddieTd.textContent = caddieTypeForRound;
                 tr.appendChild(caddieTd);
 
-                const players = [];
-                // Collect all players from the row, excluding the current playerName
-                for (let i = 1; i <= 4; i++) {
-                    const playerCol = `Player${i}`;
-                    const partnerName = row[playerCol];
-                    if (partnerName && partnerName !== playerName) {
-                        const handicap = handicaps[partnerName];
-                        if (handicap !== undefined) {
-                            players.push(`${partnerName} (${handicap})`);
-                        } else {
-                            players.push(partnerName); // Add without handicap if not found
-                        }
-                    }
-                }
-
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
-                partnersTd.textContent = players.join(', ');
+                const partners = [];
+                // Check all player columns, excluding the current player
+                for (let i = 1; i <= 4; i++) {
+                    const player = row[`Player${i}`];
+                    if (player && player !== playerName && player !== 'TBD') {
+                        const partnerHandicap = handicaps[player];
+                        partners.push(`${player} (${partnerHandicap !== undefined ? partnerHandicap : 'N/A'})`);
+                    }
+                }
+                partnersTd.textContent = partners.join(', ');
                 tr.appendChild(partnersTd);
 
                 pairingsBody.appendChild(tr);
             });
         }
 
-        // New function to populate Daily Pairings
-        function populateDailyPairings(selectedPlayerName) {
+
+        function populateDailyPairings() {
             const dailyPairingsBody = document.getElementById('daily-pairings-body');
-            dailyPairingsBody.innerHTML = ''; // Clear existing rows
+            dailyPairingsBody.innerHTML = '';
             const parsedData = parseCSV(csvData);
 
-            // Sort all tee times by date and then by time
-            parsedData.sort((a, b) => {
-                const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                return dateA - dateB;
-            });
-
-            // Group tee times by date to identify the last one for each day
-            const teeTimesByDate = {};
+            // Group pairings by date
+            const pairingsByDate = {};
             parsedData.forEach(row => {
-                const date = row['Date'];
-                if (!teeTimesByDate[date]) {
-                    teeTimesByDate[date] = [];
+                if (!pairingsByDate[row.Date]) {
+                    pairingsByDate[row.Date] = [];
                 }
-                teeTimesByDate[date].push(row);
+                pairingsByDate[row.Date].push(row);
             });
 
-            // Iterate through sorted dates and then their tee times
-            Object.keys(teeTimesByDate).sort().forEach(date => {
-                const dailyTeeTimes = teeTimesByDate[date];
-                dailyTeeTimes.forEach((row, index) => {
+            // Iterate over each date
+            Object.keys(pairingsByDate).sort().forEach(date => {
+                const dailyPairings = pairingsByDate[date];
+                dailyPairings.forEach((row, index) => {
                     const tr = document.createElement('tr');
-
-                    // Add bold line to the last tee time of the day
-                    if (index === dailyTeeTimes.length - 1) {
-                        tr.classList.add('last-tee-time-of-day');
+                    // Add class for a bold line if it's the last tee time of the day
+                    if (index === dailyPairings.length - 1) {
+                        tr.className = 'last-tee-time-of-day';
                     }
 
                     const dateTd = document.createElement('td');
                     dateTd.className = 'px-4 py-2';
-                    const dateParts = row['Date'].split('-');
-                    const year = parseInt(dateParts[0]);
-                    const month = parseInt(dateParts[1]) - 1;
-                    const day = parseInt(dateParts[2]);
-                    const dateObj = new Date(year, month, day);
+                    const dateParts = row.Date.split('-');
+                    const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
                     const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
                     dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
                     tr.appendChild(dateTd);
 
                     const timeTd = document.createElement('td');
                     timeTd.className = 'px-4 py-2';
-                    timeTd.textContent = row['Time'];
+                    timeTd.textContent = row.Time;
                     tr.appendChild(timeTd);
 
                     const completeTimeTd = document.createElement('td');
@@ -882,26 +859,20 @@
 
                     const courseTd = document.createElement('td');
                     courseTd.className = 'px-4 py-2';
-                    courseTd.textContent = row['Course'];
+                    courseTd.textContent = row.Course;
                     tr.appendChild(courseTd);
-
-                    const allPlayersInGroup = [];
-                    for (let i = 1; i <= 4; i++) {
-                        const playerCol = `Player${i}`;
-                        const playerName = row[playerCol];
-                        if (playerName) {
-                            const handicap = handicaps[playerName];
-                            let playerText = handicap !== undefined ? `${playerName} (${handicap})` : playerName;
-                            if (playerName === selectedPlayerName) {
-                                playerText = `<span class="highlight-player">${playerText}</span>`;
-                            }
-                            allPlayersInGroup.push(playerText);
-                        }
-                    }
 
                     const allPlayersTd = document.createElement('td');
                     allPlayersTd.className = 'px-4 py-2';
-                    allPlayersTd.innerHTML = allPlayersInGroup.join(', '); // Use innerHTML to render spans
+                    const players = [];
+                    for (let i = 1; i <= 4; i++) {
+                        const player = row[`Player${i}`];
+                        if (player && player !== 'TBD') {
+                            const playerHandicap = handicaps[player];
+                            players.push(`${player} (${playerHandicap !== undefined ? playerHandicap : 'N/A'})`);
+                        }
+                    }
+                    allPlayersTd.innerHTML = players.join('<br>');
                     tr.appendChild(allPlayersTd);
 
                     dailyPairingsBody.appendChild(tr);
@@ -909,161 +880,148 @@
             });
         }
 
-        async function loadAllPlayersScores() {
-            const allPlayersScoresBody = document.getElementById('all-players-scores-body');
-            allPlayersScoresBody.innerHTML = '';
 
-            // Removed Firebase related score loading logic
-            allPlayersScoresBody.innerHTML = `<tr><td colspan="6" class="px-4 py-2 text-gray-500">Score loading is disabled in this version.</td></tr>`;
-        }
-
-        // Function to show/hide tabs
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            document.getElementById(`content-${tabId}`).classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-
-            const selectedPlayer = document.getElementById('player-select').value;
-
-            // Special handling for tab content population
-            if (tabId === 'caddy') {
-                populateCaddySummary(selectedPlayer);
-            } else if (tabId === 'scores') {
-                loadAllPlayersScores();
-            }
-            // For 'summary' tab, content is already populated by player selection change listener
-        }
-
-        // Populate caddy summary table
-        function populateCaddySummary(selectedPlayerName) {
+        function populateCaddySummary() {
             const caddySummaryBody = document.getElementById('caddy-summary-body');
             const caddySummaryHeaderRow = document.getElementById('caddy-summary-header-row');
-            caddySummaryBody.innerHTML = ''; // Clear existing rows
-            // Keep the "Player" header, clear dynamic headers
-            caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
+            caddySummaryBody.innerHTML = '';
+            // Clear existing headers
+            const existingHeaders = caddySummaryHeaderRow.querySelectorAll('th:not(:first-child)');
+            existingHeaders.forEach(th => th.remove());
 
-            const allCaddySelections = caddySelectionsByPlayerRound;
-            const uniqueDatesAndRounds = new Set();
-
-            // Collect all unique date-round combinations
-            Object.values(allCaddySelections).forEach(playerData => {
+            const players = Object.keys(handicaps).sort();
+            const datesWithRounds = new Set();
+            
+            // Collect all unique dates with rounds
+            Object.values(caddySelectionsByPlayerRound).forEach(playerData => {
                 Object.keys(playerData).forEach(date => {
                     Object.keys(playerData[date]).forEach(roundType => {
-                        uniqueDatesAndRounds.add(`${date}-${roundType}`);
+                        datesWithRounds.add(`${date}-${roundType}`);
                     });
                 });
             });
 
-            const sortedDateRoundKeys = Array.from(uniqueDatesAndRounds).sort((a, b) => {
-                // Sort by date first, then by AM/PM
-                const [dateA, roundTypeA] = a.split('-');
-                const [dateB, roundTypeB] = b.split('-');
+            const sortedDates = [...datesWithRounds].sort();
 
-                // Correctly parse date strings for comparison
-                const dateObjA = new Date(dateA);
-                const dateObjB = new Date(dateB);
-
-                if (dateObjA.getTime() !== dateObjB.getTime()) {
-                    return dateObjA - dateObjB;
-                }
-                return roundTypeA.localeCompare(roundTypeB);
-            });
-
-            // Add dynamic headers to the caddy summary table
-            sortedDateRoundKeys.forEach(key => {
-                const [date, roundType] = key.split('-');
-                const dateParts = date.split('-');
-                const month = parseInt(dateParts[1]);
-                const day = parseInt(dateParts[2]);
-                const headerText = `${month}/${day} ${roundType}`;
+            // Add dynamic headers
+            sortedDates.forEach(dateRound => {
+                const [date, roundType] = dateRound.split('-');
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
-                th.textContent = headerText;
+                const dateParts = date.split('-');
+                const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
+                th.textContent = `${dateObj.toLocaleDateString('en-US', options).replace(',', '')} (${roundType})`;
                 caddySummaryHeaderRow.appendChild(th);
             });
 
-            // Populate rows for each player
-            Object.keys(handicaps).sort().forEach(playerName => { // Iterate through all players
+
+            players.forEach(player => {
                 const tr = document.createElement('tr');
-                if (playerName === selectedPlayerName) {
-                    tr.classList.add('caddy-player-highlight'); // Highlight selected player's row
-                }
+                const playerTd = document.createElement('td');
+                playerTd.className = 'px-4 py-2 font-semibold';
+                playerTd.textContent = player;
+                tr.appendChild(playerTd);
 
-                const tdPlayer = document.createElement('td');
-                tdPlayer.className = 'border px-4 py-2 font-semibold';
-                tdPlayer.textContent = playerName;
-                tr.appendChild(tdPlayer);
-
-                sortedDateRoundKeys.forEach(key => {
-                    const [date, roundType] = key.split('-');
-                    const caddySelection = allCaddySelections[playerName] &&
-                                           allCaddySelections[playerName][date] &&
-                                           allCaddySelections[playerName][date][roundType]
-                                           ? allCaddySelections[playerName][date][roundType]
-                                           : '-'; // Default if no selection
-
-                    const tdCaddy = document.createElement('td');
-                    tdCaddy.className = 'border px-4 py-2';
-                    tdCaddy.textContent = caddySelection;
-                    tr.appendChild(tdCaddy);
+                sortedDates.forEach(dateRound => {
+                    const [date, roundType] = dateRound.split('-');
+                    const caddyTd = document.createElement('td');
+                    caddyTd.className = 'px-4 py-2';
+                    const caddyType = caddySelectionsByPlayerRound[player]?.[date]?.[roundType] || 'N/A';
+                    caddyTd.textContent = caddyType;
+                    tr.appendChild(caddyTd);
                 });
+
                 caddySummaryBody.appendChild(tr);
             });
         }
 
 
-        // Initialize on page load
-        window.onload = () => {
-            // Firebase initialization removed as per revert request
-            // db, auth, currentUserId will remain null
+        function populateScoringTable(date) {
+            const scoringBody = document.getElementById(`scoring-${date.replace(/-/g, '-')}-body`);
+            if (!scoringBody) return;
+            scoringBody.innerHTML = '';
 
-            parseCaddyWorkbookCSV(caddyWorkbookCsvData); // Parse caddy data first
+            // This is a placeholder for actual scoring.
+            // In a real application, this would fetch or calculate scores.
+            // For now, we'll generate mock data based on handicap.
+            const mockScores = Object.keys(handicaps).map(player => ({
+                name: player,
+                handicap: handicaps[player],
+                // Generate a mock score based on handicap, lower handicap = better score
+                score: Math.max(0, 40 - handicaps[player] - Math.floor(Math.random() * 5))
+            }));
 
+            // Sort by score (descending)
+            mockScores.sort((a, b) => b.score - a.score);
+
+            mockScores.forEach((player, index) => {
+                const tr = document.createElement('tr');
+                const rankingTd = document.createElement('td');
+                rankingTd.className = 'px-4 py-2';
+                rankingTd.textContent = index + 1;
+                tr.appendChild(rankingTd);
+
+                const handicapTd = document.createElement('td');
+                handicapTd.className = 'px-4 py-2';
+                handicapTd.textContent = player.handicap;
+                tr.appendChild(handicapTd);
+
+                const nameTd = document.createElement('td');
+                nameTd.className = 'px-4 py-2';
+                nameTd.textContent = player.name;
+                tr.appendChild(nameTd);
+
+                const scoreTd = document.createElement('td');
+                scoreTd.className = 'px-4 py-2';
+                scoreTd.textContent = player.score;
+                tr.appendChild(scoreTd);
+
+                scoringBody.appendChild(tr);
+            });
+        }
+
+
+        function initialize() {
+            // First, parse all the data once
             const allPlayers = Object.keys(handicaps);
+            const parsedMainData = parseCSV(csvData);
+            parseCaddyWorkbookCSV(caddyWorkbookCsvData);
+
+            // Populate the player dropdown with all player names
             populatePlayerSelect(allPlayers);
 
-            const playerSelect = document.getElementById('player-select');
-            if (playerSelect) {
-                playerSelect.addEventListener('change', (event) => {
-                    const selectedPlayer = event.target.value;
-                    populateTeeTimesForPlayer(selectedPlayer);
-                    populateNotes(selectedPlayer);
-                    populateDailyPairings(selectedPlayer);
-                    // loadScores(selectedPlayer); // Removed Firebase call
-                });
+            // Initial population of the tables
+            const initialPlayer = allPlayers[0];
+            populateTeeTimesForPlayer(initialPlayer);
+            populateNotes(initialPlayer);
+            populateDailyPairings();
+            populateCaddySummary();
+            populateScoringTable('8-20');
 
-                // Set initial player (e.g., Cory Higgins)
-                const initialPlayer = "Cory Higgins";
-                if (allPlayers.includes(initialPlayer)) {
-                    playerSelect.value = initialPlayer;
-                    populateTeeTimesForPlayer(initialPlayer);
-                    populateNotes(initialPlayer);
-                    populateDailyPairings(initialPlayer);
-                    // loadScores(initialPlayer); // Removed Firebase call
-                } else if (allPlayers.length > 0) {
-                    // If Cory Higgins not found, select the first player in the list
-                    playerSelect.value = allPlayers[0];
-                    populateTeeTimesForPlayer(allPlayers[0]);
-                    populateNotes(allPlayers[0]);
-                    populateDailyPairings(allPlayers[0]);
-                    // loadScores(allPlayers[0]); // Removed Firebase call
-                }
-            }
+            // Add event listeners
+            document.getElementById('player-select').addEventListener('change', (event) => {
+                const selectedPlayer = event.target.value;
+                populateTeeTimesForPlayer(selectedPlayer);
+                populateNotes(selectedPlayer);
+            });
 
             // Tab functionality
-            document.getElementById('tab-summary').addEventListener('click', () => showTab('summary'));
-            document.getElementById('tab-caddy').addEventListener('click', () => showTab('caddy'));
-            // document.getElementById('tab-scores').addEventListener('click', () => showTab('scores')); // Removed event listener
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and content
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-            // Set initial tab
-            showTab('summary');
-        };
+                    // Add active class to the clicked button and its corresponding content
+                    button.classList.add('active');
+                    const targetId = button.id.replace('tab-', 'content-');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        }
+
+        window.onload = initialize;
     </script>
 </body>
 </html>
