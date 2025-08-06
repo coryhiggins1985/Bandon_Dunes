@@ -433,7 +433,7 @@
 2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
 2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
 2025-08-21,1:50 p.m. ,Shorty's,TBD,TBD,,,,,,2025-08-21 13:50:00,2025-08-21 15:50:00,,830,,Shorty's,2,,,,,,955,395
-2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
+2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-02-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
 2025-08-21,6:00 p.m.,Bandon Preserve,TBD,TBD,TBD,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
 2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
 2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
@@ -494,6 +494,9 @@
 7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,No Caddy,No Caddy,No
 7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No
 7/25/2025 09:00:00,mike.newell@gmail.com,Mike Newell,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,No
+7/25/2025 09:00:00,kevin.newell@gmail.com,Kevin Newell,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,rob.small@gmail.com,Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -905,26 +908,27 @@
 
 
                 // Get caddie selection for this specific round from the new caddy data
-                const caddieTypeForRound = caddySelectionsByPlayerRound[playerName] &&
-                                           caddySelectionsByPlayerRound[playerName][row['Date']] &&
-                                           caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                           ? caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                           : 'N/A'; // Default if not found or no selection
+                let caddyTypeForRound = 'N/A';
+                if (caddySelectionsByPlayerRound[playerName] &&
+                    caddySelectionsByPlayerRound[playerName][row['Date']] &&
+                    caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]) {
+                        caddyTypeForRound = caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm];
+                }
 
                 const caddieTd = document.createElement('td');
                 caddieTd.className = 'px-4 py-2';
-                caddieTd.textContent = caddieTypeForRound;
+                caddieTd.textContent = caddyTypeForRound;
                 tr.appendChild(caddieTd);
 
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
                 const partners = [];
-                // Check all player columns, excluding the current player
+                // Check all possible player columns, excluding the current player
                 for (let i = 1; i <= 4; i++) {
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${playerHandicap !== undefined ? playerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${partnerHandicap !== undefined ? partnerHandicap : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
@@ -1146,11 +1150,11 @@
 
             teamsForDay.forEach((team, teamIndex) => {
                 // First, calculate the team's total score
-                const teamTotalScore = team.reduce((sum, player) => sum + scoresForDay[player.name], 0);
+                const teamTotalScore = team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0);
 
                 let firstPlayer = true;
                 team.forEach(player => {
-                    const playerScore = scoresForDay[player.name];
+                    const playerScore = scoresForDay[player.name] || 'N/A'; // Use 'N/A' for players without a score
 
                     const tr = document.createElement('tr');
 
