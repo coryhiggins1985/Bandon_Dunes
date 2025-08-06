@@ -400,30 +400,30 @@
 
         // Handicap data provided by the user
         const handicaps = {
-            "Mike Newell": 0, // Updated to 0
+            "Mike Newell": 0.0,
             "Andrew Akers": 2,
             "James Adolfson": 3,
-            "Cory Higgins": 3, // Updated to 3
+            "Cory Higgins": 3.3,
             "Kevan Oyama": 5,
             "Bob Owlett": 5,
             "Jacob Emert": 6,
-            "Brandon Itaoka": 6,
+            "Brandon Itaoka": 6.8,
             "Ryan Hohn": 7,
-            "Zach Deines": 8,
+            "Zach Deines": 7.9,
             "Rob Small": 9,
-            "Nick Zangardi": 8, // Updated Nick Zangardi's handicap to 8
+            "Nick Zangardi": 8,
             "Vikas Bhasin": 11,
             "Daniel Passino": 11,
             "Hisham Sayeedi": 11,
             "Cory Micheel": 11,
             "AD Hoffman": 11,
             "Bryan Wolfe": 12,
-            "Johnathn Resetar": 12,
-            "Kevin Newell": 13,
+            "Johnathn Resetar": 12.7,
+            "Kevin Newell": 11.7,
             "Paul Parker": 13,
             "Will Quarles": 15,
             "Charlie Hildebrand": 15,
-            "Matt Akers": 15
+            "Matt Akers": 16.2
         };
 
         // Meal data provided by the user
@@ -892,7 +892,7 @@
             const players = Object.keys(handicaps).sort();
             const datesWithRounds = new Set();
             
-            // Collect all unique dates with rounds
+            // Collect all unique dates with rounds from the parsed caddy data
             Object.values(caddySelectionsByPlayerRound).forEach(playerData => {
                 Object.keys(playerData).forEach(date => {
                     Object.keys(playerData[date]).forEach(roundType => {
@@ -905,7 +905,10 @@
 
             // Add dynamic headers
             sortedDates.forEach(dateRound => {
-                const [date, roundType] = dateRound.split('-');
+                const parts = dateRound.split('-');
+                const roundType = parts.pop();
+                const date = parts.join('-');
+                
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
                 const dateParts = date.split('-');
@@ -924,7 +927,10 @@
                 tr.appendChild(playerTd);
 
                 sortedDates.forEach(dateRound => {
-                    const [date, roundType] = dateRound.split('-');
+                    const parts = dateRound.split('-');
+                    const roundType = parts.pop();
+                    const date = parts.join('-');
+                    
                     const caddyTd = document.createElement('td');
                     caddyTd.className = 'px-4 py-2';
                     const caddyType = caddySelectionsByPlayerRound[player]?.[date]?.[roundType] || 'N/A';
