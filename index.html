@@ -908,11 +908,12 @@
 
 
                 // Get caddie selection for this specific round from the new caddy data
-                const caddieTypeForRound = caddySelectionsByPlayerRound[playerName] &&
-                                           caddySelectionsByPlayerRound[playerName][row['Date']] &&
-                                           caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                           ? caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]
-                                           : 'N/A'; // Default if not found or no selection
+                let caddyTypeForRound = 'N/A';
+                if (caddySelectionsByPlayerRound[playerName] &&
+                    caddySelectionsByPlayerRound[playerName][row['Date']] &&
+                    caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]) {
+                        caddyTypeForRound = caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm];
+                }
 
                 const caddieTd = document.createElement('td');
                 caddieTd.className = 'px-4 py-2';
@@ -922,12 +923,12 @@
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
                 const partners = [];
-                // Check all player columns, excluding the current player
+                // Check all possible player columns, excluding the current player
                 for (let i = 1; i <= 4; i++) {
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${partnerHandicap !== undefined ? playerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${partnerHandicap !== undefined ? partnerHandicap : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
