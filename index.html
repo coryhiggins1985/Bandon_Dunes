@@ -129,7 +129,7 @@
         <div class="flex border-b border-gray-200 mb-6">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
-            <button id="tab-scores" class="tab-button">Scoring Totals</button>
+            <button id="tab-scoring" class="tab-button">Scoring</button>
         </div>
 
         <!-- Tab Content: Trip Summary -->
@@ -227,8 +227,6 @@
                 </table>
             </div>
 
-            <!-- Daily Scores Input - Removed as part of Firebase removal -->
-
             <!-- Tee Time Pairings -->
             <div class="card">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
@@ -292,20 +290,24 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Tab Content: Scoring Totals -->
-        <div id="content-scores" class="tab-content">
+        <div id="content-scoring" class="tab-content">
+            <!-- All Players Daily Scores Table (New) -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">All Players Daily Scores (AM Rounds)</h2>
                 <div id="all-players-scores-container" class="overflow-x-auto">
                     <table class="table-auto">
                         <thead>
                             <tr>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">8/21 AM</th>
-                                <th class="px-4 py-2">8/22 AM</th>
-                                <th class="px-4 py-2">8/23 AM</th>
-                                <th class="px-4 py-2">8/24 AM</th>
+                                <th class="px-4 py-2">Ranking</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">Name</th>
+                                <th class="px-4 py-2">8/20</th>
+                                <th class="px-4 py-2">8/21</th>
+                                <th class="px-4 py-2">8/22</th>
+                                <th class="px-4 py-2">8/23</th>
+                                <th class="px-4 py-2">8/24</th>
                                 <th class="px-4 py-2">Total</th>
                             </tr>
                         </thead>
@@ -321,7 +323,7 @@
     <script>
         // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
-2025-08-20,2:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 14:15:00,2025-08-20 16:15:00,,855,,Shorty's,2,,,,,,780,220
+2025-08-20,3:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 15:15:00,2025-08-20 17:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
 2025-08-20,2:50 p.m. ,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,2025-08-20 14:50:00,2025-08-20 19:20:00,,890,,Pacific Dunes,4.5,,,,,,800,240
 2025-08-20,3:00 p.m.,Bandon Dunes,Bryan Wolfe,Matt Akers,Paul Parker,Andrew Akers,,,,2025-08-20 15:00:00,2025-08-20 19:30:00,,900,,Bandon Preserve,2,,,,,,810,250
@@ -341,7 +343,7 @@
 2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
 2025-08-21,1:50 p.m. ,Shorty's,TBD,TBD,,,,,,2025-08-21 13:50:00,2025-08-21 15:50:00,,830,,Shorty's,2,,,,,,955,395
 2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
-2025-08-21,6:00 p.m.,Bandon Preserve,TBD - Likely Replay from main course,,,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
+2025-08-21,6:00 p.m.,Bandon Preserve,TBD,TBD,TBD,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
 2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
 2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
 2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1000,440
@@ -393,13 +395,13 @@
         // Raw CSV data for caddy workbook
         const caddyWorkbookCsvData = `Timestamp,Email Address,Column 12,Caddy options - Please pick one option for each date [Wednesday 8/20 (PM round only)],Caddy options - Please pick one option for each date [Thursday 8/21 - AM Round],Caddy options - Please pick one option for each date [Thursday 8/21 - PM Round],Caddy options - Please pick one option for each date [Friday 8/22 - AM Round],Caddy options - Please pick one option for each date [Friday 8/22 - PM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - AM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - PM Round],Caddy options - Please pick one option for each date [Sunday 8/24 (AM round only)],Fancy Steak Dinner Saturday night?
 7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,No Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,
-7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,No Caddy,No Caddy,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),Yes
-7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Not Playing/Short Course,No
-7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy ($100 / pp),Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No Caddy,No Caddy,Yes
-7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy ($100 / pp),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No
-7/17/2025 15:00:23,nickzangardi@gmail.com,Nick Zangardi,No Caddy,Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,Carry Caddy ($100 / pp),No Caddy,No Caddy,No
-7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Forecaddy,No Caddy,Forecaddy,Carry Caddy ($100 / pp),Forecaddy,No Caddy,No Caddy,No
-7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No Caddy,Non-carry Strategy Caddy ($40/pp, yeah that's a thing),No
+7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Non-carry Caddy,Yes
+7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Not Playing/Short Course,No
+7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Yes
+7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy,No Caddy,Non-carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
+7/17/2025 15:00:23,nickzangardi@gmail.com,Nick Zangardi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
+7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,No Caddy,No Caddy,No
+7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -1057,23 +1059,10 @@
             // Tab functionality
             document.getElementById('tab-summary').addEventListener('click', () => showTab('summary'));
             document.getElementById('tab-caddy').addEventListener('click', () => showTab('caddy'));
-            document.getElementById('tab-scores').addEventListener('click', () => showTab('scores'));
+            // document.getElementById('tab-scores').addEventListener('click', () => showTab('scores')); // Removed event listener
 
             // Set initial tab
             showTab('summary');
-
-
-            // Save Scores Functionality - Removed Firebase calls
-            const saveScoresBtn = document.getElementById('save-scores-btn');
-            const saveStatusMessage = document.getElementById('save-status-message');
-            if (saveScoresBtn) { // Ensure button exists before adding listener
-                saveScoresBtn.addEventListener('click', () => {
-                    saveStatusMessage.textContent = "Score saving is disabled in this version.";
-                });
-            }
-
-            // Load Scores Functionality (for individual player input fields) - Removed Firebase calls
-            // async function loadScores(playerName) { ... } // Function removed
         };
     </script>
 </body>
