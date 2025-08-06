@@ -892,7 +892,7 @@
             const players = Object.keys(handicaps).sort();
             const datesWithRounds = new Set();
             
-            // Collect all unique dates with rounds
+            // Collect all unique dates with rounds from the parsed caddy data
             Object.values(caddySelectionsByPlayerRound).forEach(playerData => {
                 Object.keys(playerData).forEach(date => {
                     Object.keys(playerData[date]).forEach(roundType => {
@@ -905,7 +905,10 @@
 
             // Add dynamic headers
             sortedDates.forEach(dateRound => {
-                const [date, roundType] = dateRound.split('-');
+                const parts = dateRound.split('-');
+                const roundType = parts.pop();
+                const date = parts.join('-');
+                
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
                 const dateParts = date.split('-');
@@ -924,7 +927,10 @@
                 tr.appendChild(playerTd);
 
                 sortedDates.forEach(dateRound => {
-                    const [date, roundType] = dateRound.split('-');
+                    const parts = dateRound.split('-');
+                    const roundType = parts.pop();
+                    const date = parts.join('-');
+                    
                     const caddyTd = document.createElement('td');
                     caddyTd.className = 'px-4 py-2';
                     const caddyType = caddySelectionsByPlayerRound[player]?.[date]?.[roundType] || 'N/A';
