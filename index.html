@@ -134,6 +134,7 @@
         <div class="flex border-b border-gray-200 mb-6">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
+            <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
             <button id="tab-scoring-8-20" class="tab-button">Scoring - 8/20</button>
             <button id="tab-scoring-8-21" class="tab-button">Scoring - 8/21</button>
             <button id="tab-scoring-8-22" class="tab-button">Scoring - 8/22</button>
@@ -299,6 +300,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Tab Content: Caddy Summary by Tee Time -->
+        <div id="content-caddy-by-tee-time" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
+                <div id="caddy-tee-time-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">Players & Caddies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-tee-time-summary-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Tab Content: Scoring Totals -->
         <div id="content-scoring-8-20" class="tab-content">
@@ -529,30 +553,30 @@
         
         // Actual scores for 8/20
         const actualScores_8_20 = {
-            "Mike Newell": 50,
-            "Jacob Emert": 49,
-            "Brandon Itaoka": 48,
-            "Kevin Newell": 47,
-            "Cory Micheel": 46,
-            "Matt Akers": 45,
-            "Andrew Akers": 44,
-            "Bob Owlett": 43,
-            "Zach Deines": 42,
-            "Daniel Passino": 41,
-            "AD Hoffman": 40,
-            "Will Quarles": 39,
-            "James Adolfson": 38,
-            "Kevan Oyama": 37,
-            "Rob Small": 36,
-            "Hisham Sayeedi": 35,
-            "Bryan Wolfe": 34,
-            "Charlie Hildebrand": 33,
-            "Cory Higgins": 32,
-            "Ryan Hohn": 31,
-            "Nick Zangardi": 30,
-            "Vikas Bhasin": 29,
-            "Johnathn Resetar": 28,
-            "Paul Parker": 27
+            "Mike Newell": 25,
+            "Jacob Emert": 50,
+            "Brandon Itaoka": 49,
+            "Kevin Newell": 48,
+            "Cory Micheel": 47,
+            "Matt Akers": 46,
+            "Andrew Akers": 45,
+            "Bob Owlett": 44,
+            "Zach Deines": 43,
+            "Daniel Passino": 42,
+            "AD Hoffman": 41,
+            "Will Quarles": 40,
+            "James Adolfson": 39,
+            "Kevan Oyama": 38,
+            "Rob Small": 37,
+            "Hisham Sayeedi": 36,
+            "Bryan Wolfe": 35,
+            "Charlie Hildebrand": 34,
+            "Cory Higgins": 33,
+            "Ryan Hohn": 32,
+            "Nick Zangardi": 31,
+            "Vikas Bhasin": 30,
+            "Johnathn Resetar": 29,
+            "Paul Parker": 28
         };
 
         // Meal data provided by the user
@@ -1077,6 +1101,70 @@
             });
         }
 
+        // New function to populate the caddy summary by tee time table
+        function populateCaddySummaryByTeeTime() {
+            const teeTimeSummaryBody = document.getElementById('caddy-tee-time-summary-body');
+            if (!teeTimeSummaryBody) return;
+            teeTimeSummaryBody.innerHTML = '';
+            
+            const parsedData = parseCSV(csvData);
+
+            // Group tee times by date
+            const teeTimesByDate = {};
+            parsedData.forEach(row => {
+                if (!teeTimesByDate[row.Date]) {
+                    teeTimesByDate[row.Date] = [];
+                }
+                teeTimesByDate[row.Date].push(row);
+            });
+
+            Object.keys(teeTimesByDate).sort().forEach(date => {
+                const dailyTeeTimes = teeTimesByDate[date];
+                dailyTeeTimes.forEach(row => {
+                    const tr = document.createElement('tr');
+
+                    const dateTd = document.createElement('td');
+                    const dateParts = row.Date.split('-');
+                    const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                    const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
+                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
+                    dateTd.className = 'px-4 py-2';
+                    tr.appendChild(dateTd);
+
+                    const timeTd = document.createElement('td');
+                    timeTd.textContent = row.Time;
+                    timeTd.className = 'px-4 py-2';
+                    tr.appendChild(timeTd);
+
+                    const courseTd = document.createElement('td');
+                    courseTd.textContent = row.Course;
+                    courseTd.className = 'px-4 py-2';
+                    tr.appendChild(courseTd);
+
+                    const playersAndCaddiesTd = document.createElement('td');
+                    playersAndCaddiesTd.className = 'px-4 py-2';
+
+                    let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
+                    if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
+                        teeTimeAmPm = 'AM';
+                    } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
+                        teeTimeAmPm = 'PM';
+                    }
+
+                    const players = [row.Player1, row.Player2, row.Player3, row.Player4];
+                    const playersWithCaddies = players.filter(player => player && player !== 'TBD').map(player => {
+                        const caddyChoice = caddySelectionsByPlayerRound[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                        return `${player} - ${caddyChoice}`;
+                    });
+
+                    playersAndCaddiesTd.innerHTML = playersWithCaddies.join('<br>');
+                    tr.appendChild(playersAndCaddiesTd);
+
+                    teeTimeSummaryBody.appendChild(tr);
+                });
+            });
+        }
+
 
         // Function to create teams for a given day
         function createDailyTeams(players, previousDayScores) {
@@ -1212,6 +1300,7 @@
             populateNotes(initialPlayer);
             populateDailyPairings();
             populateCaddySummary();
+            populateCaddySummaryByTeeTime();
 
             // Create and populate all scoring tables with dynamic teams
             let previousDayScores = null;
