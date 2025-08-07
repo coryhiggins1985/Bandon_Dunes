@@ -529,30 +529,30 @@
         
         // Actual scores for 8/20
         const actualScores_8_20 = {
-            "Mike Newell": 20,
-            "Jacob Emert": 51,
-            "Brandon Itaoka": 45,
-            "Kevin Newell": 45,
-            "Cory Micheel": 61,
-            "Matt Akers": 51,
-            "Andrew Akers": 50,
-            "Bob Owlett": 49,
-            "Zach Deines": 48,
-            "Daniel Passino": 47,
-            "AD Hoffman": 46,
-            "Will Quarles": 45,
-            "James Adolfson": 44,
-            "Kevan Oyama": 43,
-            "Rob Small": 42,
-            "Hisham Sayeedi": 41,
-            "Bryan Wolfe": 40,
-            "Charlie Hildebrand": 39,
-            "Cory Higgins": 38,
-            "Ryan Hohn": 37,
-            "Nick Zangardi": 36,
-            "Vikas Bhasin": 35,
-            "Johnathn Resetar": 34,
-            "Paul Parker": 33
+            "Mike Newell": 15,
+            "Jacob Emert": 49,
+            "Brandon Itaoka": 48,
+            "Kevin Newell": 47,
+            "Cory Micheel": 46,
+            "Matt Akers": 45,
+            "Andrew Akers": 44,
+            "Bob Owlett": 43,
+            "Zach Deines": 42,
+            "Daniel Passino": 41,
+            "AD Hoffman": 40,
+            "Will Quarles": 39,
+            "James Adolfson": 38,
+            "Kevan Oyama": 37,
+            "Rob Small": 36,
+            "Hisham Sayeedi": 35,
+            "Bryan Wolfe": 34,
+            "Charlie Hildebrand": 33,
+            "Cory Higgins": 32,
+            "Ryan Hohn": 31,
+            "Nick Zangardi": 30,
+            "Vikas Bhasin": 29,
+            "Johnathn Resetar": 28,
+            "Paul Parker": 27
         };
 
         // Meal data provided by the user
@@ -928,7 +928,7 @@
                     const player = row[`Player${i}`];
                     if (player && player !== playerName && player !== 'TBD') {
                         const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${partnerHandicap !== undefined ? playerHandicap : 'N/A'})`);
+                        partners.push(`${player} (${handicaps[player] !== undefined ? handicaps[player] : 'N/A'})`);
                     }
                 }
                 partnersTd.textContent = partners.join(', ');
@@ -1151,47 +1151,50 @@
             teamsForDay.forEach((team, teamIndex) => {
                 // First, calculate the team's total score
                 const teamTotalScore = team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0);
-
+                
+                const teamRows = [];
                 let firstPlayer = true;
                 team.forEach(player => {
-                    const playerScore = scoresForDay[player.name] || 'N/A'; // Use 'N/A' for players without a score
-
+                    const playerScore = scoresForDay[player.name] || 'N/A';
+                    
                     const tr = document.createElement('tr');
-
-                    if (firstPlayer) {
-                        const teamTd = document.createElement('td');
-                        teamTd.rowSpan = team.length;
-                        teamTd.className = 'px-4 py-2 team-header';
-                        teamTd.textContent = `Team ${teamIndex + 1}`;
-                        tr.appendChild(teamTd);
-                    }
-
+                    
                     const playerTd = document.createElement('td');
                     playerTd.className = 'px-4 py-2';
                     playerTd.textContent = player.name;
                     tr.appendChild(playerTd);
-
+                    
                     const handicapTd = document.createElement('td');
                     handicapTd.className = 'px-4 py-2';
                     handicapTd.textContent = player.handicap;
                     tr.appendChild(handicapTd);
-
+                    
                     const scoreTd = document.createElement('td');
                     scoreTd.className = 'px-4 py-2';
                     scoreTd.textContent = playerScore;
                     tr.appendChild(scoreTd);
-
-                    if (firstPlayer) {
-                        const teamTotalCell = document.createElement('td');
-                        teamTotalCell.rowSpan = team.length;
-                        teamTotalCell.className = 'px-4 py-2 font-bold';
-                        teamTotalCell.textContent = teamTotalScore;
-                        tr.appendChild(teamTotalCell);
-                    }
                     
-                    scoringBody.appendChild(tr);
-                    firstPlayer = false;
+                    teamRows.push(tr);
                 });
+
+                // Now, add the team name and total score cells with rowSpan to the first row of the team
+                if (teamRows.length > 0) {
+                    const firstRow = teamRows[0];
+                    const teamTd = document.createElement('td');
+                    teamTd.rowSpan = team.length;
+                    teamTd.className = 'px-4 py-2 team-header';
+                    teamTd.textContent = `Team ${teamIndex + 1}`;
+                    firstRow.prepend(teamTd);
+                    
+                    const teamTotalCell = document.createElement('td');
+                    teamTotalCell.rowSpan = team.length;
+                    teamTotalCell.className = 'px-4 py-2 font-bold';
+                    teamTotalCell.textContent = teamTotalScore;
+                    firstRow.appendChild(teamTotalCell);
+                }
+
+                // Append all rows for the team to the table body
+                teamRows.forEach(row => scoringBody.appendChild(row));
             });
         }
 
