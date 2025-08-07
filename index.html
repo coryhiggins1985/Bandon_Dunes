@@ -489,8 +489,8 @@
 2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,Zach Deines,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
 2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,Paul Parker,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
 2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
-2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,,,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
-2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
+2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
+2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,REPLAY,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
 2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
 2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
@@ -1391,7 +1391,8 @@
             teamsForDay.forEach((team, teamIndex) => {
                 const teamTotalScore = teamTotals[teamIndex];
                 
-                const teamRows = [];
+                let firstPlayer = true;
+                let rowsForTeam = [];
                 team.forEach(player => {
                     const playerScore = scoresForDay[player.name] || 'N/A';
                     
@@ -1412,11 +1413,12 @@
                     scoreTd.textContent = playerScore;
                     tr.appendChild(scoreTd);
                     
-                    teamRows.push(tr);
+                    rowsForTeam.push(tr);
                 });
 
-                if (teamRows.length > 0) {
-                    const firstRow = teamRows[0];
+                if (rowsForTeam.length > 0) {
+                    const firstRow = rowsForTeam[0];
+                    
                     const teamTd = document.createElement('td');
                     teamTd.rowSpan = team.length;
                     teamTd.className = 'px-4 py-2 team-header';
@@ -1430,12 +1432,13 @@
                     firstRow.appendChild(teamTotalCell);
                 }
 
-                // Apply highlight to the winning team rows
-                if (teamTotalScore === winningTeamScore) {
-                    teamRows.forEach(row => row.classList.add('winning-team-highlight'));
-                }
-                
-                teamRows.forEach(row => scoringBody.appendChild(row));
+                // Append rows to the table body
+                rowsForTeam.forEach(row => {
+                    if (teamTotalScore === winningTeamScore) {
+                        row.classList.add('winning-team-highlight');
+                    }
+                    scoringBody.appendChild(row);
+                });
             });
         }
 
