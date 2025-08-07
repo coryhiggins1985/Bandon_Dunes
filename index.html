@@ -115,6 +115,14 @@
         .tab-content.active {
             display: block;
         }
+        .caddy-player-highlight {
+            background-color: #d1fae5; /* Light green for caddy highlight */
+        }
+        .team-header {
+            background-color: #6ee7b7; /* Tailwind green-300 */
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
         .caddy-summary-separator {
             border-bottom: 2px solid #a0a0a0;
         }
@@ -517,7 +525,7 @@
 7/25/2025 09:00:00,rob.small@gmail.com,Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,charlie.hildebrand@gmail.com,Charlie Hildebrand,No Caddy,Non-Carry Caddy,Non-Carry Caddy,Non-Carry Caddy,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -1163,12 +1171,12 @@
 
                     teeTimeSummaryBody.appendChild(tr);
 
-                    // Add a bold line separator for Thursdays only after the AM round
-                    if (date === '2025-08-21' && teeTimeAmPm === 'AM') {
-                         const separatorTr = document.createElement('tr');
-                         separatorTr.className = 'caddy-summary-separator';
-                         separatorTr.innerHTML = '<td colspan="4"></td>';
-                         teeTimeSummaryBody.appendChild(separatorTr);
+                    // Add a bold line separator after all tee times for a date
+                    if (dailyTeeTimes.indexOf(row) === dailyTeeTimes.length - 1) {
+                        const separatorTr = document.createElement('tr');
+                        separatorTr.className = 'caddy-summary-separator';
+                        separatorTr.innerHTML = '<td colspan="4"></td>';
+                        teeTimeSummaryBody.appendChild(separatorTr);
                     }
                 });
             });
