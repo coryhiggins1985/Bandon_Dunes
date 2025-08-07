@@ -828,9 +828,7 @@
                     let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
 
                     // Apply transformations
-                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40")) {
-                        caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Forecaddy")) {
+                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40") || caddyType.toLowerCase() === "fore caddy") {
                         caddyType = "Non-Carry Caddy";
                     } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100") || caddyType === "Caddy") {
                         caddyType = "Carry Caddy";
