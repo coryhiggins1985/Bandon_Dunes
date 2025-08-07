@@ -143,11 +143,6 @@
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
-            <button id="tab-scoring-8-20" class="tab-button">Scoring - 8/20</button>
-            <button id="tab-scoring-8-21" class="tab-button">Scoring - 8/21</button>
-            <button id="tab-scoring-8-22" class="tab-button">Scoring - 8/22</button>
-            <button id="tab-scoring-8-23" class="tab-button">Scoring - 8/23</button>
-            <button id="tab-scoring-8-24" class="tab-button">Scoring - 8/24</button>
         </div>
 
         <!-- Tab Content: Trip Summary -->
@@ -333,7 +328,7 @@
         </div>
 
 
-        <!-- Tab Content: Scoring Totals -->
+        <!-- Tabs for Scoring (Empty to start fresh) -->
         <div id="content-scoring-8-20" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
@@ -349,7 +344,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-20">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -371,7 +366,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-21">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -393,7 +388,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-22">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -415,7 +410,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-23">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -437,7 +432,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-24">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -532,6 +527,7 @@
 7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,charlie.hildebrand@gmail.com,Charlie Hildebrand,No Caddy,Non-Carry Caddy,Non-Carry Caddy,Non-Carry Caddy,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,hisham.sayeedi@gmail.com,Hisham Sayeedi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -542,7 +538,7 @@
             "Cory Higgins": 3.3,
             "Kevan Oyama": 5,
             "Bob Owlett": 5,
-            "Jacob Emert": 6,
+            "Jacob Emert": 5.5,
             "Brandon Itaoka": 6.8,
             "Ryan Hohn": 7,
             "Zach Deines": 7.9,
@@ -827,15 +823,11 @@
                     let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
 
                     // Apply transformations
-                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40")) {
+                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40") || caddyType.toLowerCase() === "fore caddy") {
                         caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Forecaddy")) {
-                        caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100")) {
+                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100") || caddyType === "Caddy") {
                         caddyType = "Carry Caddy";
-                    } else if (caddyType.includes("Caddy")) {
-                        caddyType = "Carry Caddy";
-                    } else if (caddyType.includes("Not Playing")) {
+                    } else if (caddyType.includes("Not Playing") || caddyType === "Not Playing/Short Course") {
                         caddyType = "Not Playing";
                     }
 
@@ -1121,22 +1113,6 @@
                     timeTd.textContent = row.Time;
                     tr.appendChild(timeTd);
 
-                    const completeTimeTd = document.createElement('td');
-                    completeTimeTd.className = 'px-4 py-2';
-                    const fullDateTime = row['CompleteEstimate'];
-                    if (fullDateTime) {
-                        let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
-                        let [hours, minutes] = timeString.split(':').map(Number);
-                        let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                        hours = hours % 12;
-                        hours = hours ? hours : 12;
-                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                        completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
-                    } else {
-                        completeTimeTd.textContent = 'N/A';
-                    }
-                    tr.appendChild(completeTimeTd);
-
                     const courseTd = document.createElement('td');
                     courseTd.className = 'px-4 py-2';
                     courseTd.textContent = row.Course;
@@ -1241,7 +1217,6 @@
 
             Object.keys(teeTimesByDate).sort().forEach(date => {
                 const dailyTeeTimes = teeTimesByDate[date];
-                let isFirstRoundOfDay = true;
                 dailyTeeTimes.forEach(row => {
                     const tr = document.createElement('tr');
 
@@ -1391,7 +1366,6 @@
             teamsForDay.forEach((team, teamIndex) => {
                 const teamTotalScore = teamTotals[teamIndex];
                 
-                let firstPlayer = true;
                 let rowsForTeam = [];
                 team.forEach(player => {
                     const playerScore = scoresForDay[player.name] || 'N/A';
@@ -1416,8 +1390,8 @@
                     rowsForTeam.push(tr);
                 });
 
-                if (teamRows.length > 0) {
-                    const firstRow = teamRows[0];
+                if (rowsForTeam.length > 0) {
+                    const firstRow = rowsForTeam[0];
                     
                     const teamTd = document.createElement('td');
                     teamTd.rowSpan = team.length;
