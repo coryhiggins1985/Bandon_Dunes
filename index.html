@@ -123,6 +123,9 @@
             font-size: 1.125rem;
             font-weight: 700;
         }
+        .caddy-summary-separator {
+            border-bottom: 2px solid #a0a0a0;
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -522,7 +525,7 @@
 7/25/2025 09:00:00,rob.small@gmail.com,Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,charlie.hildebrand@gmail.com,Charlie Hildebrand,No Caddy,Non-Carry Caddy,Non-Carry Caddy,Non-Carry Caddy,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -555,30 +558,30 @@
         
         // Actual scores for 8/20
         const actualScores_8_20 = {
-            "Mike Newell": 50,
-            "Jacob Emert": 49,
-            "Brandon Itaoka": 48,
-            "Kevin Newell": 47,
-            "Cory Micheel": 46,
-            "Matt Akers": 45,
-            "Andrew Akers": 44,
-            "Bob Owlett": 43,
-            "Zach Deines": 42,
-            "Daniel Passino": 41,
-            "AD Hoffman": 40,
-            "Will Quarles": 39,
-            "James Adolfson": 38,
-            "Kevan Oyama": 37,
-            "Rob Small": 36,
-            "Hisham Sayeedi": 35,
-            "Bryan Wolfe": 34,
-            "Charlie Hildebrand": 33,
-            "Cory Higgins": 32,
-            "Ryan Hohn": 31,
-            "Nick Zangardi": 30,
-            "Vikas Bhasin": 29,
-            "Johnathn Resetar": 28,
-            "Paul Parker": 27
+            "Mike Newell": 25,
+            "Jacob Emert": 50,
+            "Brandon Itaoka": 49,
+            "Kevin Newell": 48,
+            "Cory Micheel": 47,
+            "Matt Akers": 46,
+            "Andrew Akers": 45,
+            "Bob Owlett": 44,
+            "Zach Deines": 43,
+            "Daniel Passino": 42,
+            "AD Hoffman": 41,
+            "Will Quarles": 40,
+            "James Adolfson": 39,
+            "Kevan Oyama": 38,
+            "Rob Small": 37,
+            "Hisham Sayeedi": 36,
+            "Bryan Wolfe": 35,
+            "Charlie Hildebrand": 34,
+            "Cory Higgins": 33,
+            "Ryan Hohn": 32,
+            "Nick Zangardi": 31,
+            "Vikas Bhasin": 30,
+            "Johnathn Resetar": 29,
+            "Paul Parker": 28
         };
 
         // Meal data provided by the user
@@ -1167,6 +1170,14 @@
                     tr.appendChild(playersAndCaddiesTd);
 
                     teeTimeSummaryBody.appendChild(tr);
+
+                    // Add a bold line separator if it's a PM round (to visually separate AM and PM tee times)
+                    if (teeTimeAmPm === 'AM') {
+                         const separatorTr = document.createElement('tr');
+                         separatorTr.className = 'caddy-summary-separator';
+                         separatorTr.innerHTML = '<td colspan="4"></td>';
+                         teeTimeSummaryBody.appendChild(separatorTr);
+                    }
                 });
             });
         }
