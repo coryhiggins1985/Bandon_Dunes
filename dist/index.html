@@ -115,14 +115,6 @@
         .tab-content.active {
             display: block;
         }
-        .caddy-player-highlight {
-            background-color: #d1fae5; /* Light green for caddy highlight */
-        }
-        .team-header {
-            background-color: #6ee7b7; /* Tailwind green-300 */
-            font-size: 1.125rem;
-            font-weight: 700;
-        }
         .caddy-summary-separator {
             border-bottom: 2px solid #a0a0a0;
         }
@@ -1171,8 +1163,8 @@
 
                     teeTimeSummaryBody.appendChild(tr);
 
-                    // Add a bold line separator if it's a PM round (to visually separate AM and PM tee times)
-                    if (teeTimeAmPm === 'AM') {
+                    // Add a bold line separator for Thursdays only after the AM round
+                    if (date === '2025-08-21' && teeTimeAmPm === 'AM') {
                          const separatorTr = document.createElement('tr');
                          separatorTr.className = 'caddy-summary-separator';
                          separatorTr.innerHTML = '<td colspan="4"></td>';
