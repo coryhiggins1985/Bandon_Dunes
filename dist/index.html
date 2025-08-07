@@ -115,6 +115,14 @@
         .tab-content.active {
             display: block;
         }
+        .caddy-player-highlight {
+            background-color: #d1fae5; /* Light green for caddy highlight */
+        }
+        .team-header {
+            background-color: #6ee7b7; /* Tailwind green-300 */
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
         .caddy-summary-separator {
             border-bottom: 2px solid #a0a0a0;
         }
@@ -308,6 +316,7 @@
                                 <th class="px-4 py-2">Time</th>
                                 <th class="px-4 py-2">Course</th>
                                 <th class="px-4 py-2">Players & Caddies</th>
+                                <th class="px-4 py-2">Caddy Summary</th>
                             </tr>
                         </thead>
                         <tbody id="caddy-tee-time-summary-body">
@@ -517,7 +526,7 @@
 7/25/2025 09:00:00,rob.small@gmail.com,Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 7/25/2025 09:00:00,charlie.hildebrand@gmail.com,Charlie Hildebrand,No Caddy,Non-Carry Caddy,Non-Carry Caddy,Non-Carry Caddy,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No
+7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
 `;
 
         // Handicap data provided by the user
@@ -1161,13 +1170,29 @@
                     playersAndCaddiesTd.innerHTML = playersWithCaddies.join('<br>');
                     tr.appendChild(playersAndCaddiesTd);
 
-                    teeTimeSummaryBody.appendChild(tr);
+                    const caddySummaryTd = document.createElement('td');
+                    caddySummaryTd.className = 'px-4 py-2';
+                    const caddyCounts = players.reduce((counts, player) => {
+                        if (player && player !== 'TBD') {
+                            const caddyChoice = caddySelectionsByPlayerRound[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            if (caddyChoice !== 'No Caddy') {
+                                counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
+                            }
+                        }
+                        return counts;
+                    }, {});
 
-                    // Add a bold line separator for Thursdays only after the AM round
-                    if (date === '2025-08-21' && teeTimeAmPm === 'AM') {
+                    const summaryString = Object.keys(caddyCounts).map(type => `${type}: ${caddyCounts[type]}`).join(', ');
+                    caddySummaryTd.textContent = summaryString || 'No Caddies';
+                    tr.appendChild(caddySummaryTd);
+
+                    teeTimeSummaryBody.appendChild(tr);
+                    
+                    // Add a bold line separator after all tee times for a date
+                    if (dailyTeeTimes.indexOf(row) === dailyTeeTimes.length - 1) {
                          const separatorTr = document.createElement('tr');
                          separatorTr.className = 'caddy-summary-separator';
-                         separatorTr.innerHTML = '<td colspan="4"></td>';
+                         separatorTr.innerHTML = '<td colspan="5"></td>';
                          teeTimeSummaryBody.appendChild(separatorTr);
                     }
                 });
@@ -1321,7 +1346,7 @@
                 let currentDayScores = {};
                 // Use actual scores for 8/20, generate mock scores for other days
                 if (dateKey === '2025-08-20') {
-                     // Create a list of players sorted by handicap for the initial scoring data
+                    // Create a list of players sorted by handicap for the initial scoring data
                     const sortedPlayersForMock = playersList.sort((a,b) => handicaps[a] - handicaps[b]);
                     
                     let baseScore = 50;
