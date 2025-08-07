@@ -344,7 +344,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-20">
-                            <!-- Empty to start fresh -->
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -366,7 +366,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-21">
-                            <!-- Empty to start fresh -->
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -388,7 +388,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-22">
-                            <!-- Empty to start fresh -->
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -410,7 +410,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-23">
-                            <!-- Empty to start fresh -->
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -432,7 +432,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-24">
-                            <!-- Empty to start fresh -->
+                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -1112,6 +1112,22 @@
                     timeTd.className = 'px-4 py-2';
                     timeTd.textContent = row.Time;
                     tr.appendChild(timeTd);
+
+                    const completeTimeTd = document.createElement('td');
+                    completeTimeTd.className = 'px-4 py-2';
+                    const fullDateTime = row['CompleteEstimate'];
+                    if (fullDateTime) {
+                        let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
+                        let [hours, minutes] = timeString.split(':').map(Number);
+                        let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12;
+                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                        completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
+                    } else {
+                        completeTimeTd.textContent = 'N/A';
+                    }
+                    tr.appendChild(completeTimeTd);
 
                     const courseTd = document.createElement('td');
                     courseTd.className = 'px-4 py-2';
