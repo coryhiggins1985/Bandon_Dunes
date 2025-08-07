@@ -529,7 +529,7 @@
         
         // Actual scores for 8/20
         const actualScores_8_20 = {
-            "Mike Newell": 15,
+            "Mike Newell": 50,
             "Jacob Emert": 49,
             "Brandon Itaoka": 48,
             "Kevin Newell": 47,
@@ -1152,12 +1152,20 @@
                 // First, calculate the team's total score
                 const teamTotalScore = team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0);
                 
-                const teamRows = [];
                 let firstPlayer = true;
                 team.forEach(player => {
                     const playerScore = scoresForDay[player.name] || 'N/A';
                     
                     const tr = document.createElement('tr');
+                    
+                    // Add the team name and total score cells with rowspan to the first row of each team
+                    if (firstPlayer) {
+                        const teamTd = document.createElement('td');
+                        teamTd.rowSpan = team.length;
+                        teamTd.className = 'px-4 py-2 team-header';
+                        teamTd.textContent = `Team ${teamIndex + 1}`;
+                        tr.appendChild(teamTd);
+                    }
                     
                     const playerTd = document.createElement('td');
                     playerTd.className = 'px-4 py-2';
@@ -1174,27 +1182,17 @@
                     scoreTd.textContent = playerScore;
                     tr.appendChild(scoreTd);
                     
-                    teamRows.push(tr);
-                });
-
-                // Now, add the team name and total score cells with rowSpan to the first row of the team
-                if (teamRows.length > 0) {
-                    const firstRow = teamRows[0];
-                    const teamTd = document.createElement('td');
-                    teamTd.rowSpan = team.length;
-                    teamTd.className = 'px-4 py-2 team-header';
-                    teamTd.textContent = `Team ${teamIndex + 1}`;
-                    firstRow.prepend(teamTd);
+                    if (firstPlayer) {
+                        const teamTotalCell = document.createElement('td');
+                        teamTotalCell.rowSpan = team.length;
+                        teamTotalCell.className = 'px-4 py-2 font-bold';
+                        teamTotalCell.textContent = teamTotalScore;
+                        tr.appendChild(teamTotalCell);
+                    }
                     
-                    const teamTotalCell = document.createElement('td');
-                    teamTotalCell.rowSpan = team.length;
-                    teamTotalCell.className = 'px-4 py-2 font-bold';
-                    teamTotalCell.textContent = teamTotalScore;
-                    firstRow.appendChild(teamTotalCell);
-                }
-
-                // Append all rows for the team to the table body
-                teamRows.forEach(row => scoringBody.appendChild(row));
+                    scoringBody.appendChild(tr);
+                    firstPlayer = false;
+                });
             });
         }
 
@@ -1225,7 +1223,15 @@
                 let currentDayScores = {};
                 // Use actual scores for 8/20, generate mock scores for other days
                 if (dateKey === '2025-08-20') {
-                    currentDayScores = actualScores_8_20;
+                     // Create a list of players sorted by handicap for the initial scoring data
+                    const sortedPlayersForMock = playersList.sort((a,b) => handicaps[a] - handicaps[b]);
+                    
+                    let baseScore = 50;
+                    sortedPlayersForMock.forEach(player => {
+                        currentDayScores[player] = baseScore;
+                        baseScore--;
+                    });
+                    
                 } else {
                     currentDayScores = generateMockScores(playersList, previousDayScores);
                 }
