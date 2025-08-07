@@ -143,11 +143,6 @@
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
-            <button id="tab-scoring-8-20" class="tab-button">Scoring - 8/20</button>
-            <button id="tab-scoring-8-21" class="tab-button">Scoring - 8/21</button>
-            <button id="tab-scoring-8-22" class="tab-button">Scoring - 8/22</button>
-            <button id="tab-scoring-8-23" class="tab-button">Scoring - 8/23</button>
-            <button id="tab-scoring-8-24" class="tab-button">Scoring - 8/24</button>
         </div>
 
         <!-- Tab Content: Trip Summary -->
@@ -333,7 +328,7 @@
         </div>
 
 
-        <!-- Tab Content: Scoring Totals -->
+        <!-- Tabs for Scoring (Empty to start fresh) -->
         <div id="content-scoring-8-20" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
@@ -349,7 +344,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-20">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -371,7 +366,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-21">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -393,7 +388,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-22">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -415,7 +410,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-23">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -437,7 +432,7 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-24">
-                            <!-- Data will be populated by JavaScript -->
+                            <!-- Empty to start fresh -->
                         </tbody>
                     </table>
                 </div>
@@ -832,7 +827,7 @@
                         caddyType = "Non-Carry Caddy";
                     } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100") || caddyType === "Caddy") {
                         caddyType = "Carry Caddy";
-                    } else if (caddyType.includes("Not Playing")) {
+                    } else if (caddyType.includes("Not Playing") || caddyType === "Not Playing/Short Course") {
                         caddyType = "Not Playing";
                     }
 
@@ -1117,22 +1112,6 @@
                     timeTd.className = 'px-4 py-2';
                     timeTd.textContent = row.Time;
                     tr.appendChild(timeTd);
-
-                    const completeTimeTd = document.createElement('td');
-                    completeTimeTd.className = 'px-4 py-2';
-                    const fullDateTime = row['CompleteEstimate'];
-                    if (fullDateTime) {
-                        let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
-                        let [hours, minutes] = timeString.split(':').map(Number);
-                        let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                        hours = hours % 12;
-                        hours = hours ? hours : 12;
-                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                        completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
-                    } else {
-                        completeTimeTd.textContent = 'N/A';
-                    }
-                    tr.appendChild(completeTimeTd);
 
                     const courseTd = document.createElement('td');
                     courseTd.className = 'px-4 py-2';
