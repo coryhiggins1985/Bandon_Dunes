@@ -126,6 +126,11 @@
         .caddy-summary-separator {
             border-bottom: 2px solid #a0a0a0;
         }
+        /* New class for the winning team highlight */
+        .winning-team-highlight {
+            background-color: #86efac; /* Tailwind green-300 */
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
@@ -557,32 +562,138 @@
             "Matt Akers": 16.2
         };
         
-        // Actual scores for 8/20
-        const actualScores_8_20 = {
-            "Mike Newell": 25,
-            "Jacob Emert": 50,
-            "Brandon Itaoka": 49,
-            "Kevin Newell": 48,
-            "Cory Micheel": 47,
-            "Matt Akers": 46,
-            "Andrew Akers": 45,
-            "Bob Owlett": 44,
-            "Zach Deines": 43,
-            "Daniel Passino": 42,
-            "AD Hoffman": 41,
-            "Will Quarles": 40,
-            "James Adolfson": 39,
-            "Kevan Oyama": 38,
-            "Rob Small": 37,
-            "Hisham Sayeedi": 36,
-            "Bryan Wolfe": 35,
-            "Charlie Hildebrand": 34,
-            "Cory Higgins": 33,
-            "Ryan Hohn": 32,
-            "Nick Zangardi": 31,
-            "Vikas Bhasin": 30,
-            "Johnathn Resetar": 29,
-            "Paul Parker": 28
+        // Actual scores for all days provided by the user
+        const allScoresData = {
+            "2025-08-20": {
+                "Mike Newell": 25,
+                "Jacob Emert": 50,
+                "Brandon Itaoka": 49,
+                "Kevin Newell": 48,
+                "Cory Micheel": 47,
+                "Matt Akers": 46,
+                "Andrew Akers": 45,
+                "Bob Owlett": 44,
+                "Zach Deines": 43,
+                "Daniel Passino": 42,
+                "AD Hoffman": 41,
+                "Will Quarles": 40,
+                "James Adolfson": 39,
+                "Kevan Oyama": 38,
+                "Rob Small": 37,
+                "Hisham Sayeedi": 36,
+                "Bryan Wolfe": 35,
+                "Charlie Hildebrand": 34,
+                "Cory Higgins": 33,
+                "Ryan Hohn": 32,
+                "Nick Zangardi": 31,
+                "Vikas Bhasin": 30,
+                "Johnathn Resetar": 29,
+                "Paul Parker": 28
+            },
+            "2025-08-21": {
+                "Mike Newell": 31,
+                "Andrew Akers": 52,
+                "James Adolfson": 34,
+                "Cory Higgins": 35,
+                "Kevan Oyama": 29,
+                "Bob Owlett": 30,
+                "Brandon Itaoka": 55,
+                "Jacob Emert": 36,
+                "Ryan Hohn": 32,
+                "Zach Deines": 44,
+                "Rob Small": 26,
+                "Nick Zangardi": 47,
+                "Vikas Bhasin": 31,
+                "Hisham Sayeedi": 36,
+                "Daniel Passino": 25,
+                "Kevin Newell": 38,
+                "Cory Micheel": 52,
+                "AD Hoffman": 42,
+                "Johnathn Resetar": 42,
+                "Bryan Wolfe": 36,
+                "Paul Parker": 48,
+                "Charlie Hildebrand": 42,
+                "Will Quarles": 46,
+                "Matt Akers": 51
+            },
+            "2025-08-22": {
+                "Mike Newell": 34,
+                "Andrew Akers": 34,
+                "James Adolfson": 40,
+                "Cory Higgins": 25,
+                "Kevan Oyama": 46,
+                "Bob Owlett": 41,
+                "Brandon Itaoka": 27,
+                "Jacob Emert": 43,
+                "Ryan Hohn": 52,
+                "Zach Deines": 37,
+                "Rob Small": 33,
+                "Nick Zangardi": 36,
+                "Vikas Bhasin": 44,
+                "Hisham Sayeedi": 31,
+                "Daniel Passino": 46,
+                "Kevin Newell": 37,
+                "Cory Micheel": 36,
+                "AD Hoffman": 27,
+                "Johnathn Resetar": 39,
+                "Bryan Wolfe": 55,
+                "Paul Parker": 53,
+                "Charlie Hildebrand": 49,
+                "Will Quarles": 32,
+                "Matt Akers": 43
+            },
+            "2025-08-23": {
+                "Mike Newell": 39,
+                "Andrew Akers": 47,
+                "James Adolfson": 36,
+                "Cory Higgins": 46,
+                "Kevan Oyama": 53,
+                "Bob Owlett": 30,
+                "Brandon Itaoka": 38,
+                "Jacob Emert": 40,
+                "Ryan Hohn": 34,
+                "Zach Deines": 49,
+                "Rob Small": 47,
+                "Nick Zangardi": 25,
+                "Vikas Bhasin": 38,
+                "Hisham Sayeedi": 51,
+                "Daniel Passino": 31,
+                "Kevin Newell": 47,
+                "Cory Micheel": 29,
+                "AD Hoffman": 50,
+                "Johnathn Resetar": 55,
+                "Bryan Wolfe": 32,
+                "Paul Parker": 33,
+                "Charlie Hildebrand": 35,
+                "Will Quarles": 29,
+                "Matt Akers": 42
+            },
+            "2025-08-24": {
+                "Mike Newell": 45,
+                "Andrew Akers": 55,
+                "James Adolfson": 55,
+                "Cory Higgins": 44,
+                "Kevan Oyama": 38,
+                "Bob Owlett": 51,
+                "Brandon Itaoka": 50,
+                "Jacob Emert": 26,
+                "Ryan Hohn": 49,
+                "Zach Deines": 47,
+                "Rob Small": 36,
+                "Nick Zangardi": 55,
+                "Vikas Bhasin": 31,
+                "Hisham Sayeedi": 26,
+                "Daniel Passino": 52,
+                "Kevin Newell": 36,
+                "Cory Micheel": 38,
+                "AD Hoffman": 39,
+                "Johnathn Resetar": 45,
+                "Bryan Wolfe": 29,
+                "Paul Parker": 54,
+                "Charlie Hildebrand": 43,
+                "Will Quarles": 44,
+                "Matt Akers": 30
+            }
         };
 
         // Meal data provided by the user
@@ -1270,25 +1381,21 @@
             const scoringBody = document.getElementById(`scoring-body-${date.split('-').slice(1).join('-')}`);
             if (!scoringBody) return;
             scoringBody.innerHTML = '';
-
+            
+            // Calculate team total scores and find the winning team
+            const teamTotals = teamsForDay.map(team => 
+                team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0)
+            );
+            const winningTeamScore = Math.max(...teamTotals);
+            
             teamsForDay.forEach((team, teamIndex) => {
-                // First, calculate the team's total score
-                const teamTotalScore = team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0);
+                const teamTotalScore = teamTotals[teamIndex];
                 
-                let firstPlayer = true;
+                const teamRows = [];
                 team.forEach(player => {
                     const playerScore = scoresForDay[player.name] || 'N/A';
                     
                     const tr = document.createElement('tr');
-                    
-                    // Add the team name and total score cells with rowspan to the first row of each team
-                    if (firstPlayer) {
-                        const teamTd = document.createElement('td');
-                        teamTd.rowSpan = team.length;
-                        teamTd.className = 'px-4 py-2 team-header';
-                        teamTd.textContent = `Team ${teamIndex + 1}`;
-                        tr.appendChild(teamTd);
-                    }
                     
                     const playerTd = document.createElement('td');
                     playerTd.className = 'px-4 py-2';
@@ -1305,17 +1412,30 @@
                     scoreTd.textContent = playerScore;
                     tr.appendChild(scoreTd);
                     
-                    if (firstPlayer) {
-                        const teamTotalCell = document.createElement('td');
-                        teamTotalCell.rowSpan = team.length;
-                        teamTotalCell.className = 'px-4 py-2 font-bold';
-                        teamTotalCell.textContent = teamTotalScore;
-                        tr.appendChild(teamTotalCell);
-                    }
-                    
-                    scoringBody.appendChild(tr);
-                    firstPlayer = false;
+                    teamRows.push(tr);
                 });
+
+                if (teamRows.length > 0) {
+                    const firstRow = teamRows[0];
+                    const teamTd = document.createElement('td');
+                    teamTd.rowSpan = team.length;
+                    teamTd.className = 'px-4 py-2 team-header';
+                    teamTd.textContent = `Team ${teamIndex + 1}`;
+                    firstRow.prepend(teamTd);
+                    
+                    const teamTotalCell = document.createElement('td');
+                    teamTotalCell.rowSpan = team.length;
+                    teamTotalCell.className = 'px-4 py-2 font-bold';
+                    teamTotalCell.textContent = teamTotalScore;
+                    firstRow.appendChild(teamTotalCell);
+                }
+
+                // Apply highlight to the winning team rows
+                if (teamTotalScore === winningTeamScore) {
+                    teamRows.forEach(row => row.classList.add('winning-team-highlight'));
+                }
+                
+                teamRows.forEach(row => scoringBody.appendChild(row));
             });
         }
 
@@ -1346,16 +1466,8 @@
 
                 let currentDayScores = {};
                 // Use actual scores for 8/20, generate mock scores for other days
-                if (dateKey === '2025-08-20') {
-                    // Create a list of players sorted by handicap for the initial scoring data
-                    const sortedPlayersForMock = playersList.sort((a,b) => handicaps[a] - handicaps[b]);
-                    
-                    let baseScore = 50;
-                    sortedPlayersForMock.forEach(player => {
-                        currentDayScores[player] = baseScore;
-                        baseScore--;
-                    });
-                    
+                if (allScoresData[dateKey]) {
+                    currentDayScores = allScoresData[dateKey];
                 } else {
                     currentDayScores = generateMockScores(playersList, previousDayScores);
                 }
