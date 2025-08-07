@@ -473,7 +473,7 @@
 2025-08-22,1:20 p.m. ,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,,,2025-08-22 13:20:00,2025-08-22 17:50:00,,800,,,,,,,,,1050,490
 2025-08-22,1:30 p.m. ,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,,,2025-08-22 13:30:00,2025-08-22 18:00:00,,810,,,,,,,,,1060,500
 2025-08-22,1:40 p.m. ,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,,,,2025-08-22 13:40:00,2025-08-22 18:10:00,,820,,,,,,,,,1070,510
-2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-08-22 16:15:00,,855,,,,,,,,,1080,520
+2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-02-22 16:15:00,,855,,,,,,,,,1080,520
 2025-08-22,6:30 p.m. ,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals,,2025-08-22 18:30:00,2025-08-22 20:30:00,,1110,,,,,,,,,1090,530
 2025-08-23,7:30 a.m. ,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,2025-08-23 07:30:00,2025-08-23 12:00:00,,450,,,,,,,,,1100,540
 2025-08-23,7:40 a.m. ,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,2025-08-23 07:40:00,2025-08-23 12:10:00,,460,,,,,,,,,1110,550
@@ -1188,8 +1188,8 @@
 
                     teeTimeSummaryBody.appendChild(tr);
                     
-                    // Add a bold line separator after all tee times for a date
-                    if (dailyTeeTimes.indexOf(row) === dailyTeeTimes.length - 1) {
+                    // Add a bold line separator for Thursdays only after the AM round
+                    if (date === '2025-08-21' && teeTimeAmPm === 'AM') {
                          const separatorTr = document.createElement('tr');
                          separatorTr.className = 'caddy-summary-separator';
                          separatorTr.innerHTML = '<td colspan="5"></td>';
