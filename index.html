@@ -832,9 +832,7 @@
                         caddyType = "Non-Carry Caddy";
                     } else if (caddyType.includes("Forecaddy")) {
                         caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100")) {
-                        caddyType = "Carry Caddy";
-                    } else if (caddyType.includes("Caddy")) {
+                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100") || caddyType === "Caddy") {
                         caddyType = "Carry Caddy";
                     } else if (caddyType.includes("Not Playing")) {
                         caddyType = "Not Playing";
@@ -1507,7 +1505,7 @@
                 });
             });
         }
- 
+
         window.onload = initialize;
     </script>
 </body>
