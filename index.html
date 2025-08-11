@@ -1,21 +1,453 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Bandon Dunes Golf Trip Summary</title>    <script src="https://cdn.tailwindcss.com"></script>    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">    <style>        body {            font-family: 'Inter', sans-serif;            background-color: #f0f4f8;            color: #333;        }        .container {            max-width: 1200px;            margin: 0 auto;            padding: 1rem;            background-color: #fff;            border-radius: 0.75rem;            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);        }        .card {            background-color: #fff;            border-radius: 0.75rem; /* rounded-xl */            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);            padding: 1.5rem;            margin-bottom: 1.5rem;        }        .table-auto {            width: 100%;            border-collapse: collapse;            font-size: 0.875rem; /* Standard font size for table content */        }        .table-auto th, .table-auto td {            padding: 0.75rem;            border-bottom: 1px solid #e2e8f0;            text-align: left;        }        .table-auto th {            background-color: #f8fafc;            font-weight: 600;            color: #4a5568;            text-transform: uppercase;            font-size: 0.875rem; /* Standard font size for all headers */        }        /* Removed specific smaller font size for tee-time-pairings-container th */        .table-auto tr:last-child td {            border-bottom: none;        }        .table-auto tbody tr:hover {            background-color: #f0f4f8;        }        h1 {            font-size: 2.25rem; /* text-4xl */            margin-bottom: 1.5rem;        }        h2 {            font-size: 1.5rem; /* text-2xl */            margin-bottom: 1rem;        }        h3 {            font-size: 1.25rem; /* text-xl */            margin-bottom: 1rem;        }        /* Ensure tables stack vertically on small screens and side-by-side on md and larger */        .flex-col.md\:flex-row {            flex-direction: column; /* Default to column for small screens */        }        @media (min-width: 768px) { /* md breakpoint */            .flex-col.md\:flex-row {                flex-direction: row; /* Change to row for medium and larger screens */            }            .flex-1.md\:w-1\/2 {                width: 50%; /* Each takes half width on medium and larger screens */            }        }        /* Style for the handicap row */        .player-handicap-row td {            background-color: #e0f2fe; /* Light blue shading */        }        /* Highlight selected player in daily pairings */        .highlight-player {            background-color: #fef08a; /* Tailwind yellow-200 */            padding: 0 0.25rem;            border-radius: 0.25rem;        }        /* Spacing row style */        .spacing-row td {            height: 1rem; /* Adjust height as needed for spacing */            border-bottom: none; /* Remove border for spacing row */        }        /* Style for the last tee time of the day */        .last-tee-time-of-day td {            border-bottom: 2px solid #a0a0a0; /* Bold gray line */        }        /* Tab styles */        .tab-button {            padding: 0.75rem 1.5rem;            border-bottom: 2px solid transparent;            font-weight: 600;            cursor: pointer;            transition: all 0.2s ease-in-out;        }        .tab-button.active {            border-color: #10b981; /* Tailwind green-500 */            color: #10b981;        }        .tab-button:hover {            color: #059669; /* Darker green on hover */        }        .tab-content {            display: none;        }        .tab-content.active {            display: block;        }        .caddy-player-highlight {            background-color: #d1fae5; /* Light green for caddy highlight */        }        .team-header {            background-color: #6ee7b7; /* Tailwind green-300 */            font-size: 1.125rem;            font-weight: 700;        }        .caddy-summary-separator {            border-bottom: 2px solid #a0a0a0;        }        /* New class for the winning team highlight */        .winning-team-highlight {            background-color: #86efac; /* Tailwind green-300 */            font-weight: bold;        }        .daily-flow-table td {            padding: 0.25rem 0.5rem; /* Smaller padding for daily flow table */        }    </style></head><body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">        <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->        <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
-        <!-- Tabs Navigation -->        <div class="flex border-b border-gray-200 mb-6">            <button id="tab-summary" class="tab-button active">Trip Summary</button>            <button id="tab-caddy" class="tab-button">Caddy Summary</button>            <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>            <button id="tab-daily-flow" class="tab-button">Daily Flowwww</button>        </div>
-        <!-- Tab Content: Trip Summary -->        <div id="content-summary" class="tab-content active">            <!-- Player Selection -->            <div class="card mb-6">                <div class="mb-4 player-select-section w-full md:w-1/2">                    <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>                    <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">                        <!-- Options will be populated by JavaScript -->                    </select>                </div>            </div>
-            <div class="flex flex-col md:flex-row gap-6 mb-6">                <!-- Stableford Points System -->                <div class="card flex-1 md:w-1\/2">                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>                    <table class="table-auto" id="stableford-table">                        <thead>                            <tr>                                <th class="px-4 py-2">Score Relative to Par</th>                                <th class="px-4 py-2">Points</th>                                <th class="px-4 py-2">Score Relative to Par</th>                                <th class="px-4 py-2">Points</th>                            </tr>                        </thead>                        <tbody>                            <tr>                                <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>                                <td class="border px-4 py-2">20</td>                                <td class="border px-4 py-2">Par</td>                                <td class="border px-4 py-2">3</td>                            </tr>                            <tr>                                <td class="border px-4 py-2">Hole-in-One</td>                                <td class="border px-4 py-2">15</td>                                <td class="border px-4 py-2">Bogey</td>                                <td class="border px-4 py-2">2</td>                            </tr>                            <tr>                                <td class="border px-4 py-2">Eagle</td>                                <td class="border px-4 py-2">10</td>                                <td class="border px-4 py-2">Double Bogey</td>                                <td class="border px-4 py-2">1</td>                            </tr>                            <tr>                                <td class="border px-4 py-2">Birdie</td>                                <td class="border px-4 py-2">5</td>                                <td class="border px-4 py-2">DNF/Triple +</td>                                <td class="px-4 py-2">0</td>                            </tr>                            <!-- Spacing row will be added here by JavaScript -->                            <!-- Player Handicap row will be added here by JavaScript -->                        </tbody>                    </table>                </div>
-                <!-- Notes Table -->                <div class="card flex-1 md:w-1/2">                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Note</th>                            </tr>                        </thead>                        <tbody id="notes-table-body">                            <!-- Notes will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>
-            <!-- Daily Group Gambling Table -->            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>                <table class="table-auto">                    <thead>                        <tr>                            <th class="px-4 py-2">Item</th>                        </tr>                    </thead>                    <tbody>                        <tr>                            <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>                        </tr>                        <tr>                            <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>                        </tr>                        <tr>                            <td class="border px-4 py-2">Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide.</td>                        </tr>                    </tbody>                </table>            </div>
-            <!-- Tee Time Pairings -->            <div class="card">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>                <div id="tee-time-pairings-container" class="overflow-x-auto">                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Date</th>                                <th class="px-4 py-2">Time</th>                                <th class="px-4 py-2">Estimated Completion Time</th>                                <th class="px-4 py-2">Course</th>                                <th class="px-4 py-2">Caddie</th>                                <th class="px-4 py-2">Playing Partners (Handicap)</th>                            </tr>                        </thead>                        <tbody id="tee-time-pairings-body">                            </tbody>                    </table>                </div>            </div>
-            <!-- Daily Pairings List -->            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>                <div id="daily-pairings-container" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Date</th>                                <th class="px-4 py-2">Time</th>                                <th class="px-4 py-2">Estimated Completion Time</th>                                <th class="px-4 py-2">Course</th>                                <th class="px-4 py-2">All Players (Handicap)</th>                            </tr>                        </thead>                        <tbody id="daily-pairings-body">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <!-- Tab Content: Caddy Summary -->        <div id="content-caddy" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>                <div id="caddy-summary-container" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr id="caddy-summary-header-row">                                <th class="px-4 py-2">Player</th>                                <!-- Dynamic date/round headers will go here -->                            </tr>                        </thead>                        <tbody id="caddy-summary-body">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <!-- New Tab Content: Caddy Summary by Tee Time -->        <div id="content-caddy-by-tee-time" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>                <div id="caddy-tee-time-summary-container" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Date</th>                                <th class="px-4 py-2">Time</th>                                <th class="px-4 py-2">Course</th>                                <th class="px-4 py-2">Players & Caddies</th>                                <th class="px-4 py-2">Caddy Summary</th>                            </tr>                        </thead>                        <tbody id="caddy-tee-time-summary-body">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <!-- New Tab Content: Daily Flowwww -->        <div id="content-daily-flow" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flowwww</h2>                <div id="daily-flow-container" class="overflow-x-auto">                    <table class="table-auto w-full daily-flow-table">                        <thead id="daily-flow-header"></thead>                        <tbody id="daily-flow-body"></tbody>                    </table>                </div>            </div>        </div>
 
-        <!-- Tabs for Scoring (Empty to start fresh) -->        <div id="content-scoring-8-20" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>                <div id="scoring-container-8-20" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Team</th>                                <th class="px-4 py-2">Player</th>                                <th class="px-4 py-2">Handicap</th>                                <th class="px-4 py-2">8/20 Score</th>                                <th class="px-4 py-2">Team Total</th>                            </tr>                        </thead>                        <tbody id="scoring-body-8-20">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <div id="content-scoring-8-21" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/21)</h2>                <div id="scoring-container-8-21" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Team</th>                                <th class="px-4 py-2">Player</th>                                <th class="px-4 py-2">Handicap</th>                                <th class="px-4 py-2">8/21 Score</th>                                <th class="px-4 py-2">Team Total</th>                            </tr>                        </thead>                        <tbody id="scoring-body-8-21">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <div id="content-scoring-8-22" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/22)</h2>                <div id="scoring-container-8-22" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Team</th>                                <th class="px-4 py-2">Player</th>                                <th class="px-4 py-2">Handicap</th>                                <th class="px-4 py-2">8/22 Score</th>                                <th class="px-4 py-2">Team Total</th>                            </tr>                        </thead>                        <tbody id="scoring-body-8-22">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <div id="content-scoring-8-23" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/23)</h2>                <div id="scoring-container-8-23" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Team</th>                                <th class="px-4 py-2">Player</th>                                <th class="px-4 py-2">Handicap</th>                                <th class="px-4 py-2">8/23 Score</th>                                <th class="px-4 py-2">Team Total</th>                            </tr>                        </thead>                        <tbody id="scoring-body-8-23">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>
-        <div id="content-scoring-8-24" class="tab-content">            <div class="card mt-6">                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/24)</h2>                <div id="scoring-container-8-24" class="overflow-x-auto">                    <table class="table-auto">                        <thead>                            <tr>                                <th class="px-4 py-2">Team</th>                                <th class="px-4 py-2">Player</th>                                <th class="px-4 py-2">Handicap</th>                                <th class="px-4 py-2">8/24 Score</th>                                <th class="px-4 py-2">Team Total</th>                            </tr>                        </thead>                        <tbody id="scoring-body-8-24">                            <!-- Data will be populated by JavaScript -->                        </tbody>                    </table>                </div>            </div>        </div>    </div>    <script>
-        // Raw CSV data for golf pairings - Cleaned up with proper newlines
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandon Dunes Golf Trip Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .table-auto {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        .table-auto th, .table-auto td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .table-auto th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #4a5568;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .table-auto tr:last-child td {
+            border-bottom: none;
+        }
+        .table-auto tbody tr:hover {
+            background-color: #f0f4f8;
+        }
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .flex-col.md\:flex-row {
+            flex-direction: column;
+        }
+        @media (min-width: 768px) {
+            .flex-col.md\:flex-row {
+                flex-direction: row;
+            }
+            .flex-1.md\:w-1\/2 {
+                width: 50%;
+            }
+        }
+        .player-handicap-row td {
+            background-color: #e0f2fe;
+        }
+        .highlight-player {
+            background-color: #fef08a;
+            padding: 0 0.25rem;
+            border-radius: 0.25rem;
+        }
+        .spacing-row td {
+            height: 1rem;
+            border-bottom: none;
+        }
+        .last-tee-time-of-day td {
+            border-bottom: 2px solid #a0a0a0;
+        }
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 2px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-button.active {
+            border-color: #10b981;
+            color: #10b981;
+        }
+        .tab-button:hover {
+            color: #059669;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .caddy-player-highlight {
+            background-color: #d1fae5;
+        }
+        .team-header {
+            background-color: #6ee7b7;
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+        .caddy-summary-separator {
+            border-bottom: 2px solid #a0a0a0;
+        }
+        .winning-team-highlight {
+            background-color: #86efac;
+            font-weight: bold;
+        }
+        .daily-flow-table td {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        .daily-flow-table th {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
+
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button id="tab-summary" class="tab-button active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
+            <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
+            <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
+        </div>
+
+        <!-- Tab Content: Trip Summary -->
+        <div id="content-summary" class="tab-content active">
+            <!-- Player Selection -->
+            <div class="card mb-6">
+                <div class="mb-4 player-select-section w-full md:w-1/2">
+                    <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
+                    <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <!-- Stableford Points System -->
+                <div class="card flex-1 md:w-1\/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
+                    <table class="table-auto" id="stableford-table">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                                <th class="px-4 py-2">Score Relative to Par</th>
+                                <th class="px-4 py-2">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">Double Eagle (Par 4 or 5)</td>
+                                <td class="border px-4 py-2">20</td>
+                                <td class="border px-4 py-2">Par</td>
+                                <td class="border px-4 py-2">3</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Hole-in-One</td>
+                                <td class="border px-4 py-2">15</td>
+                                <td class="border px-4 py-2">Bogey</td>
+                                <td class="border px-4 py-2">2</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Eagle</td>
+                                <td class="border px-4 py-2">10</td>
+                                <td class="border px-4 py-2">Double Bogey</td>
+                                <td class="border px-4 py-2">1</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Birdie</td>
+                                <td class="border px-4 py-2">5</td>
+                                <td class="border px-4 py-2">DNF/Triple +</td>
+                                <td class="border px-4 py-2">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Notes Table -->
+                <div class="card flex-1 md:w-1/2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notes-table-body">
+                            <!-- Notes will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Daily Group Gambling Table -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
+                <table class="table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Item</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">$50 / daily group bet for AM rounds only, afternoon rounds choose your own adventure.</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">There will be six (6), four (4) man teams. $240 payout per person on the winning team ($960 pot divided by 4).</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Gimmies are okay but don't swipe a 5 foot putt and call it yourself, let the group decide.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tee Time Pairings -->
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
+                <div id="tee-time-pairings-container" class="overflow-x-auto">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4" id="current-player-tee-times-title"></h3>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">Caddie</th>
+                                <th class="px-4 py-2">Playing Partners (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tee-time-pairings-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Daily Pairings List -->
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
+                <div id="daily-pairings-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Estimated Completion Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">All Players (Handicap)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daily-pairings-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Caddy Summary -->
+        <div id="content-caddy" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
+                <div id="caddy-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr id="caddy-summary-header-row">
+                                <th class="px-4 py-2">Player</th>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-summary-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Caddy Summary by Tee Time -->
+        <div id="content-caddy-by-tee-time" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
+                <div id="caddy-tee-time-summary-container" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Date</th>
+                                <th class="px-4 py-2">Time</th>
+                                <th class="px-4 py-2">Course</th>
+                                <th class="px-4 py-2">Players & Caddies</th>
+                                <th class="px-4 py-2">Caddy Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody id="caddy-tee-time-summary-body">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Daily Flow -->
+        <div id="content-daily-flow" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
+                <div id="daily-flow-container" class="overflow-x-auto">
+                    <table class="table-auto w-full daily-flow-table">
+                        <thead id="daily-flow-header"></thead>
+                        <tbody id="daily-flow-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scoring Tables -->
+        <div id="content-scoring-8-20" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
+                <div id="scoring-container-8-20" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/20 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-20">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-21" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/21)</h2>
+                <div id="scoring-container-8-21" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/21 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-21">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-22" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/22)</h2>
+                <div id="scoring-container-8-22" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/22 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-22">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-23" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/23)</h2>
+                <div id="scoring-container-8-23" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/23 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-23">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-scoring-8-24" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/24)</h2>
+                <div id="scoring-container-8-24" class="overflow-x-auto">
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Player</th>
+                                <th class="px-4 py-2">Handicap</th>
+                                <th class="px-4 py-2">8/24 Score</th>
+                                <th class="px-4 py-2">Team Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoring-body-8-24">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
 2025-08-20,3:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 15:15:00,2025-08-20 17:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
@@ -68,215 +500,331 @@
 2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
 2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710`;
-        
-        // Updated Raw CSV data for caddy workbook from the PDF
-        const caddyWorkbookCsvData = `PLAYER,8/20 (PM),8/21 (AM),8/21 (PM),8/22 (AM),8/22 (PM),8/23 (AM),8/23 (PM),8/24 (AM)
-AD Hoffman,Not Playing,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-Andrew Akers,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Bob Owlett,No Carry Caddy,Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy
-Brandon Itaoka,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Bryan Wolfe,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Not Playing
-Charlie Hildebrand,No Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Not Playing,Carry Caddy,No Caddy,Carry Caddy
-Cory Higgins,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy
-Cory Micheel,Not Playing,Carry Caddy,No Caddy,Carry Caddy,Carry Caddy,Carry Caddy,No Caddy,No Caddy
-Daniel Passino,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Hisham Sayeedi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-James Adolfson,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Johnathn Resetar,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy
-Kevan Oyama,No Caddy,Carry Caddy,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-Kevin Newell,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-Matt Akers,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Mike Newell,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy
-Nick Zangardi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy
-Paul Parker,No Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Carry Caddy
-Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy
-Ryan Hohn,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Vikas Bhasin,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-Will Quarles,No Caddy,No Caddy,No Caddy,No Caddy,Not Playing,No Caddy,No Caddy,No Caddy
-Zach Deines,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A`;
-        
-        const roomingListCsvData = `ROOM TYPE:,DOUBLE,,ROOM TYPE:,COTTAGE
-Description:,"1 Bedroom, 1 Bathroom, 2 Queen or California King",,Description:,"4 Bedrooms, 4 Bathrooms, 4 Queen or California King"
-,Select from menu,,,Select from menu
-ROOM #1,INN Golf Double Queen,,ROOM #1,Grove Cottage
-Guest 1:,Jacob Emert,,Guest 1:,Cory Higgins
-Guest 2:,Johnathn Resetar,,Guest 2:,Zach Deines
-,Select from menu,,Guest 3:,Vikas Bhasin
-ROOM #2,INN Golf Double Queen,,Guest 4:,Brandon Itaoka
-Guest 1:,Andrew Akers,,,Select from menu
-Guest 2:,Matt Akers,,ROOM #2,Grove Cottage
-,Select from menu,,Guest 1:,Kevin Newell
-ROOM #3,INN Golf Double Queen,,Guest 2:,Mike Newell
-Guest 1:,Cory Micheel,,Guest 3:,Kevan Oyama
-Guest 2:,Ad Hoffman ,,Guest 4:,Rob Small
-,Select from menu,,,
-ROOM #4,INN Golf Double Queen,,,
-Guest 1:,Nick Zangardi,,,
-Guest 2:,Daniel Passino,,,
-,Select from menu,,,
-ROOM #5,INN Forest Double Queen,,,
-Guest 1:,Charlie Hildebrand,,,
-Guest 2:,Hisham Sayeedi,,,
-,Select from menu,,,
-ROOM #6,INN Forest Double Queen,,,
-Guest 1:,Bryan Wolfe,,,
-Guest 2:,Bob Owlett,,,
-,Select from menu,,,
-ROOM #7,INN Forest Double Queen,,,
-Guest 1:,Ryan Hohn,,,
-Guest 2:,Paul Parker,,,`;
 
-        // Handicap data provided by the user
-        const handicaps = {            "Mike Newell": 0.0,            "Andrew Akers": 2,            "James Adolfson": 3,            "Cory Higgins": 3.3,            "Kevan Oyama": 5,            "Bob Owlett": 5,            "Jacob Emert": 5.5,            "Brandon Itaoka": 6.8,            "Ryan Hohn": 7,            "Zach Deines": 7.9,            "Rob Small": 9,            "Nick Zangardi": 8,            "Vikas Bhasin": 11,            "Daniel Passino": 11,            "Hisham Sayeedi": 11,            "Cory Micheel": 11,            "AD Hoffman": 11,            "Bryan Wolfe": 12,            "Johnathn Resetar": 12.7,            "Kevin Newell": 11.7,            "Paul Parker": 13,            "Will Quarles": 15,            "Charlie Hildebrand": 15,            "Matt Akers": 16.2        };                
-        // Actual scores for all days provided by the user
-        const allScoresData = {            "2025-08-20": {                "Mike Newell": 25, "Jacob Emert": 50, "Brandon Itaoka": 49, "Kevin Newell": 48, "Cory Micheel": 47, "Matt Akers": 46, "Andrew Akers": 45, "Bob Owlett": 44, "Zach Deines": 43, "Daniel Passino": 42, "AD Hoffman": 41, "Will Quarles": 40, "James Adolfson": 39, "Kevan Oyama": 38, "Rob Small": 37, "Hisham Sayeedi": 36, "Bryan Wolfe": 35, "Charlie Hildebrand": 34, "Cory Higgins": 33, "Ryan Hohn": 32, "Nick Zangardi": 31, "Vikas Bhasin": 30, "Johnathn Resetar": 29, "Paul Parker": 28            },            "2025-08-21": {                "Mike Newell": 31, "Andrew Akers": 52, "James Adolfson": 34, "Cory Higgins": 35, "Kevan Oyama": 29, "Bob Owlett": 30, "Brandon Itaoka": 55, "Jacob Emert": 36, "Ryan Hohn": 32, "Zach Deines": 44, "Rob Small": 26, "Nick Zangardi": 47, "Vikas Bhasin": 31, "Hisham Sayeedi": 36, "Daniel Passino": 25, "Kevin Newell": 38, "Cory Micheel": 52, "AD Hoffman": 42, "Johnathn Resetar": 42, "Bryan Wolfe": 36, "Paul Parker": 48, "Charlie Hildebrand": 42, "Will Quarles": 46, "Matt Akers": 51            },            "2025-08-22": {                "Mike Newell": 34, "Andrew Akers": 34, "James Adolfson": 40, "Cory Higgins": 25, "Kevan Oyama": 46, "Bob Owlett": 41, "Brandon Itaoka": 27, "Jacob Emert": 43, "Ryan Hohn": 52, "Zach Deines": 37, "Rob Small": 33, "Nick Zangardi": 36, "Vikas Bhasin": 44, "Hisham Sayeedi": 31, "Daniel Passino": 46, "Kevin Newell": 37, "Cory Micheel": 36, "AD Hoffman": 27, "Johnathn Resetar": 39, "Bryan Wolfe": 55, "Paul Parker": 53, "Charlie Hildebrand": 49, "Will Quarles": 32, "Matt Akers": 43            },            "2025-08-23": {                "Mike Newell": 39, "Andrew Akers": 47, "James Adolfson": 36, "Cory Higgins": 46, "Kevan Oyama": 53, "Bob Owlett": 30, "Brandon Itaoka": 38, "Jacob Emert": 40, "Ryan Hohn": 34, "Zach Deines": 49, "Rob Small": 47, "Nick Zangardi": 25, "Vikas Bhasin": 38, "Hisham Sayeedi": 51, "Daniel Passino": 31, "Kevin Newell": 47, "Cory Micheel": 29, "AD Hoffman": 50, "Johnathn Resetar": 55, "Bryan Wolfe": 32, "Paul Parker": 33, "Charlie Hildebrand": 35, "Will Quarles": 29, "Matt Akers": 42            },            "2025-08-24": {                "Mike Newell": 45, "Andrew Akers": 55, "James Adolfson": 55, "Cory Higgins": 44, "Kevan Oyama": 38, "Bob Owlett": 51, "Brandon Itaoka": 50, "Jacob Emert": 26, "Ryan Hohn": 49, "Zach Deines": 47, "Rob Small": 36, "Nick Zangardi": 55, "Vikas Bhasin": 31, "Hisham Sayeedi": 26, "Daniel Passino": 52, "Kevin Newell": 36, "Cory Micheel": 38, "AD Hoffman": 39, "Johnathn Resetar": 45, "Bryan Wolfe": 29, "Paul Parker": 54, "Charlie Hildebrand": 43, "Will Quarles": 44, "Matt Akers": 30            }        };
-        // Meal data provided by the user
-        const mealsData = {            "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },            "Ryan Hohn": { "Breakfast Buffet": 1, "Lunch Box": 1 },            "Johnathn Resetar": { "Breakfast Buffet": 1, "Lunch Box": 1 },            "Charlie Hildebrand": { "Breakfast Buffet": 1, "Lunch Box": 1 },            "Rob Small": { "Breakfast Buffet": 1, "Lunch Box": 1 },            "Mike Newell": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Cory Higgins": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Zach Deines": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Vikas Bhasin": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Jacob Emert": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Brandon Itaoka": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Nick Zangardi": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Andrew Akers": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 1 },            "Daniel Passino": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Matt Akers": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Bryan Wolfe": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Bob Owlett": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Kevan Oyama": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Cory Micheel": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "AD Hoffman": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Paul Parker": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },            "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }        };
-        
-        // Global variable to store parsed caddy selections
-        const caddySelectionsByPlayerRound = {};        
-        const roomingAssignments = {};
+        // Complete caddy data based on Excel file - updated to match Form Responses 2
+        const completeCaddyData = {
+            "AD Hoffman": {
+                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Andrew Akers": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Bob Owlett": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Brandon Itaoka": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Bryan Wolfe": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Not Playing" }
+            },
+            "Charlie Hildebrand": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Not Playing" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Higgins": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Micheel": {
+                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Daniel Passino": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Hisham Sayeedi": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Jacob Emert": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "James Adolfson": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Johnathn Resetar": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Kevan Oyama": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Kevin Newell": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Matt Akers": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Mike Newell": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Nick Zangardi": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Paul Parker": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "Non-Carry Strategy Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Rob Small": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Ryan Hohn": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Vikas Bhasin": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Will Quarles": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Zach Deines": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            }
+        };
+
+        // Handicap data
+        const handicaps = {
+            "Mike Newell": 0.0,
+            "Andrew Akers": 2,
+            "James Adolfson": 3,
+            "Cory Higgins": 3.3,
+            "Kevan Oyama": 5,
+            "Bob Owlett": 5,
+            "Jacob Emert": 5.5,
+            "Brandon Itaoka": 6.8,
+            "Ryan Hohn": 7,
+            "Zach Deines": 7.9,
+            "Rob Small": 9,
+            "Nick Zangardi": 8,
+            "Vikas Bhasin": 11,
+            "Daniel Passino": 11,
+            "Hisham Sayeedi": 11,
+            "Cory Micheel": 11,
+            "AD Hoffman": 11,
+            "Bryan Wolfe": 12,
+            "Johnathn Resetar": 12.7,
+            "Kevin Newell": 11.7,
+            "Paul Parker": 13,
+            "Will Quarles": 15,
+            "Charlie Hildebrand": 15,
+            "Matt Akers": 16.2
+        };
+
+        // Actual scores for all days
+        const allScoresData = {
+            "2025-08-20": {
+                "Mike Newell": 25, "Jacob Emert": 50, "Brandon Itaoka": 49, "Kevin Newell": 48,
+                "Cory Micheel": 47, "Matt Akers": 46, "Andrew Akers": 45, "Bob Owlett": 44,
+                "Zach Deines": 43, "Daniel Passino": 42, "AD Hoffman": 41, "Will Quarles": 40,
+                "James Adolfson": 39, "Kevan Oyama": 38, "Rob Small": 37, "Hisham Sayeedi": 36,
+                "Bryan Wolfe": 35, "Charlie Hildebrand": 34, "Cory Higgins": 33, "Ryan Hohn": 32,
+                "Nick Zangardi": 31, "Vikas Bhasin": 30, "Johnathn Resetar": 29, "Paul Parker": 28
+            },
+            "2025-08-21": {
+                "Mike Newell": 31, "Andrew Akers": 52, "James Adolfson": 34, "Cory Higgins": 35,
+                "Kevan Oyama": 29, "Bob Owlett": 30, "Brandon Itaoka": 55, "Jacob Emert": 36,
+                "Ryan Hohn": 32, "Zach Deines": 44, "Rob Small": 26, "Nick Zangardi": 47,
+                "Vikas Bhasin": 31, "Hisham Sayeedi": 36, "Daniel Passino": 25, "Kevin Newell": 38,
+                "Cory Micheel": 52, "AD Hoffman": 42, "Johnathn Resetar": 42, "Bryan Wolfe": 36,
+                "Paul Parker": 48, "Charlie Hildebrand": 42, "Will Quarles": 46, "Matt Akers": 51
+            },
+            "2025-08-22": {
+                "Mike Newell": 34, "Andrew Akers": 34, "James Adolfson": 40, "Cory Higgins": 25,
+                "Kevan Oyama": 46, "Bob Owlett": 41, "Brandon Itaoka": 27, "Jacob Emert": 43,
+                "Ryan Hohn": 52, "Zach Deines": 37, "Rob Small": 33, "Nick Zangardi": 36,
+                "Vikas Bhasin": 44, "Hisham Sayeedi": 31, "Daniel Passino": 46, "Kevin Newell": 37,
+                "Cory Micheel": 36, "AD Hoffman": 27, "Johnathn Resetar": 39, "Bryan Wolfe": 55,
+                "Paul Parker": 53, "Charlie Hildebrand": 49, "Will Quarles": 32, "Matt Akers": 43
+            },
+            "2025-08-23": {
+                "Mike Newell": 39, "Andrew Akers": 47, "James Adolfson": 36, "Cory Higgins": 46,
+                "Kevan Oyama": 53, "Bob Owlett": 30, "Brandon Itaoka": 38, "Jacob Emert": 40,
+                "Ryan Hohn": 34, "Zach Deines": 49, "Rob Small": 47, "Nick Zangardi": 25,
+                "Vikas Bhasin": 38, "Hisham Sayeedi": 51, "Daniel Passino": 31, "Kevin Newell": 47,
+                "Cory Micheel": 29, "AD Hoffman": 50, "Johnathn Resetar": 55, "Bryan Wolfe": 32,
+                "Paul Parker": 33, "Charlie Hildebrand": 35, "Will Quarles": 29, "Matt Akers": 42
+            },
+            "2025-08-24": {
+                "Mike Newell": 45, "Andrew Akers": 55, "James Adolfson": 55, "Cory Higgins": 44,
+                "Kevan Oyama": 38, "Bob Owlett": 51, "Brandon Itaoka": 50, "Jacob Emert": 26,
+                "Ryan Hohn": 49, "Zach Deines": 47, "Rob Small": 36, "Nick Zangardi": 55,
+                "Vikas Bhasin": 31, "Hisham Sayeedi": 26, "Daniel Passino": 52, "Kevin Newell": 36,
+                "Cory Micheel": 38, "AD Hoffman": 39, "Johnathn Resetar": 45, "Bryan Wolfe": 29,
+                "Paul Parker": 54, "Charlie Hildebrand": 43, "Will Quarles": 44, "Matt Akers": 30
+            }
+        };
+
+        // Meal data
+        const mealsData = {
+            "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Ryan Hohn": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Johnathn Resetar": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Charlie Hildebrand": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Rob Small": { "Breakfast Buffet": 1, "Lunch Box": 1 },
+            "Mike Newell": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Cory Higgins": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Zach Deines": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Vikas Bhasin": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Jacob Emert": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Brandon Itaoka": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Nick Zangardi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Andrew Akers": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
+            "Daniel Passino": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Matt Akers": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Bryan Wolfe": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Bob Owlett": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Kevan Oyama": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Cory Micheel": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "AD Hoffman": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Paul Parker": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
+            "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
+        };
+
+        // Global variables
+        const caddySelectionsByPlayerRound = {};
         let dailyTeams = {};
         let dailyScores = {};
         const scoringDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
-        
+
+        // CSV parsing function
         function parseCSV(csv) {
-            const lines = csv.trim().split('\n').filter(line => line.trim() !== '');
+            const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
+
             const data = [];
-            const headers = lines[0].split(',').map(h => h.trim());
-            const dateIndex = headers.indexOf('Date');
-            const timeIndex = headers.indexOf('Time');
-            const courseIndex = headers.indexOf('Course');
-            const player1Index = headers.indexOf('Player1');
-            const player2Index = headers.indexOf('Player2');
-            const player3Index = headers.indexOf('Player3');
-            const player4Index = headers.indexOf('Player4');
-            const caddieIndex = headers.indexOf('Caddie?');
-            const notesIndex = headers.indexOf('Notes');
-            const completeEstimateIndex = headers.indexOf('Complete Estimate');
+            const dateIndex = 0;
+            const timeIndex = 1;
+            const courseIndex = 2;
+            const playerIndices = [3, 4, 5, 6];
+            const caddieIndex = 7;
+            const notesIndex = 8;
+            const completeEstimateIndex = 10;
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].split(',');
+                if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
+
                 const row = {};
                 row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
                 row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
                 row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
-                row['Player1'] = currentLine[player1Index] ? currentLine[player1Index].trim() : '';
-                row['Player2'] = currentLine[player2Index] ? currentLine[player2Index].trim() : '';
-                row['Player3'] = currentLine[player3Index] ? currentLine[player3Index].trim() : '';
-                row['Player4'] = currentLine[player4Index] ? currentLine[player4Index].trim() : '';
                 row['Caddie?'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
                 row['Notes'] = currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
                 row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
 
-                if (row['Date'] && row['Time'] && row['Course'] && (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
+                row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
+                row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
+                row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
+                row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
+
+                if (row['Date'] && row['Time'] && row['Course'] &&
+                    (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
                     data.push(row);
                 }
             }
             return data;
         }
 
-        function parseCaddyWorkbookCSV(csv) {
-            const lines = csv.trim().split('\n').filter(line => line.trim() !== '');
-            if (lines.length < 2) return;
-
-            const headers = lines[0].split(',').map(h => h.trim());
-            const playerColumnIndex = 0;
-
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].split(',');
-                const playerName = currentLine[playerColumnIndex] ? currentLine[playerColumnIndex].trim() : '';
-                if (!playerName) continue;
-
-                if (!caddySelectionsByPlayerRound[playerName]) {
-                    caddySelectionsByPlayerRound[playerName] = {};
-                }
-
-                headers.forEach((header, index) => {
-                    if (index > 0) { // Skip player name column
-                        const match = header.match(/(\d{1,2}\/\d{1,2}) \((AM|PM)\)/);
-                        if (match) {
-                            const [_, monthDay, roundType] = match;
-                            const [month, day] = monthDay.split('/');
-                            const fullDate = `2025-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                            
-                            if (!caddySelectionsByPlayerRound[playerName][fullDate]) {
-                                caddySelectionsByPlayerRound[playerName][fullDate] = {};
-                            }
-                            let caddyType = currentLine[index] ? currentLine[index].trim() : 'No Caddy';
-                            if (caddyType.toLowerCase().includes('forecaddy') || caddyType.toLowerCase().includes('no carry')) {
-                                caddyType = 'Non-Carry Caddy';
-                            } else if (caddyType.toLowerCase() === 'n/a' || caddyType.toLowerCase() === 'caddy' || caddyType.toLowerCase() === 'no caddy') {
-                                caddyType = 'No Caddy';
-                            }
-                            caddySelectionsByPlayerRound[playerName][fullDate][roundType] = caddyType;
-                        }
-                    }
-                });
-            }
-        }
-
-        function parseRoomingListCSV(csv) {
-            const lines = csv.trim().split('\n');
-            const allRooms = [];
-
-            // --- Process DOUBLE Rooms (left side) ---
-            let currentDoubleRoom = null;
-            lines.forEach(line => {
-                const cols = line.split(',');
-                if (cols[0] && cols[0].startsWith('ROOM #')) {
-                    if (currentDoubleRoom) allRooms.push(currentDoubleRoom);
-                    currentDoubleRoom = {
-                        type: cols[1] ? cols[1].trim() : 'Unknown Room',
-                        guests: []
-                    };
-                }
-                if (cols[0] && cols[0].startsWith('Guest') && currentDoubleRoom) {
-                    const guestName = cols[1] ? cols[1].trim() : '';
-                    if (guestName) currentDoubleRoom.guests.push(guestName);
-                }
-            });
-            if (currentDoubleRoom) allRooms.push(currentDoubleRoom);
-
-            // --- Process COTTAGE Rooms (right side) ---
-            let currentCottage = null;
-            lines.forEach(line => {
-                const cols = line.split(',');
-                if (cols.length > 3) {
-                    if (cols[3] && cols[3].startsWith('ROOM #')) {
-                        if (currentCottage) allRooms.push(currentCottage);
-                        currentCottage = {
-                            type: cols[4] ? cols[4].trim() : 'Unknown Cottage',
-                            guests: []
-                        };
-                    }
-                    if (cols[3] && cols[3].startsWith('Guest') && currentCottage) {
-                        const guestName = cols[4] ? cols[4].trim() : '';
-                        if (guestName) currentCottage.guests.push(guestName);
-                    }
-                }
-            });
-            if (currentCottage) allRooms.push(currentCottage);
-
-            // --- Populate the global roomingAssignments object ---
-            allRooms.forEach(room => {
-                processRoom(room.guests, room.type);
+        // Caddy CSV parsing - now replaced with direct data mapping
+        function parseCaddyWorkbookCSV() {
+            // Simply use the complete caddy data directly
+            Object.keys(completeCaddyData).forEach(playerName => {
+                caddySelectionsByPlayerRound[playerName] = completeCaddyData[playerName];
             });
         }
-
-        function processRoom(roomGuests, roomType) {
-            roomGuests.forEach(player => {
-                const cleanedPlayerName = player.replace("Ad Hoffman", "AD Hoffman").trim();
-
-                roomingAssignments[cleanedPlayerName] = {
-                    roomType: roomType,
-                    roommates: roomGuests.map(p => p.replace("Ad Hoffman", "AD Hoffman").trim()).filter(p => p !== cleanedPlayerName)
-                };
-            });
-        }
-
 
         function populatePlayerSelect(players) {
             const playerSelect = document.getElementById('player-select');
@@ -294,7 +842,8 @@ Guest 2:,Paul Parker,,,`;
 
         function populateNotes(playerName) {
             const notesBody = document.getElementById('notes-table-body');
-            notesBody.innerHTML = ''; 
+            notesBody.innerHTML = '';
+
             const staticNotes = ["Welcome dinner at Trail's End 8:30 p.m."];
             staticNotes.forEach(note => {
                 const tr = document.createElement('tr');
@@ -309,35 +858,20 @@ Guest 2:,Paul Parker,,,`;
             if (playerMeals) {
                 const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
                 const lunchStatus = playerMeals["Lunch Box"] === 1 ? "Yes" : "No";
+
                 let trBreakfast = document.createElement('tr');
                 let tdBreakfast = document.createElement('td');
                 tdBreakfast.className = 'border px-4 py-2';
                 tdBreakfast.textContent = `Breakfast: ${breakfastStatus}`;
                 trBreakfast.appendChild(tdBreakfast);
                 notesBody.appendChild(trBreakfast);
+
                 let trLunch = document.createElement('tr');
                 let tdLunch = document.createElement('td');
                 tdLunch.className = 'border px-4 py-2';
                 tdLunch.textContent = `Lunch: ${lunchStatus}`;
                 trLunch.appendChild(tdLunch);
                 notesBody.appendChild(trLunch);
-            }
-
-            const roomInfo = roomingAssignments[playerName];
-            if (roomInfo) {
-                let trRoomType = document.createElement('tr');
-                let tdRoomType = document.createElement('td');
-                tdRoomType.className = 'border px-4 py-2';
-                tdRoomType.textContent = `Room: ${roomInfo.roomType}`;
-                trRoomType.appendChild(tdRoomType);
-                notesBody.appendChild(trRoomType);
-
-                let trRoommates = document.createElement('tr');
-                let tdRoommates = document.createElement('td');
-                tdRoommates.className = 'border px-4 py-2';
-                tdRoommates.textContent = `Roommate(s): ${roomInfo.roommates.join(', ')}`;
-                trRoommates.appendChild(tdRoommates);
-                notesBody.appendChild(trRoommates);
             }
         }
 
@@ -351,7 +885,7 @@ Guest 2:,Paul Parker,,,`;
             mainTripSummaryTitle.textContent = `${playerName} - Bandon Dunes Golf Trip Summary`;
             currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
             pairingsBody.innerHTML = '';
-            
+
             const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
             if (existingHandicapRow) existingHandicapRow.remove();
             const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
@@ -366,12 +900,13 @@ Guest 2:,Paul Parker,,,`;
             if (playerHandicap !== undefined) {
                 const tr = document.createElement('tr');
                 tr.className = 'player-handicap-row';
-                tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${playerName}'s Handicap</td><td class="border px-4 py-2 bg-white">${playerHandicap}</td><td class="border px-4 py-2 bg-white" colspan="2"></td>`;
+                tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${playerName}'s Handicap</td><td class="border px-4 py-2 bg-white">${playerHandicap.toFixed(1)}</td><td class="border px-4 py-2 bg-white" colspan="2"></td>`;
                 stablefordTableBody.appendChild(tr);
             }
 
             let playerTeeTimes = parsedData.filter(row => {
-                return (row['Player1'] === playerName || row['Player2'] === playerName || row['Player3'] === playerName || row['Player4'] === playerName);
+                return (row['Player1'] === playerName || row['Player2'] === playerName || 
+                        row['Player3'] === playerName || row['Player4'] === playerName);
             });
 
             playerTeeTimes.sort((a, b) => {
@@ -413,7 +948,7 @@ Guest 2:,Paul Parker,,,`;
                 tr.appendChild(courseTd);
 
                 let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-                let caddyTypeForRound = caddySelectionsByPlayerRound[playerName]?.[row['Date']]?.[teeTimeAmPm] || 'N/A';
+                let caddyTypeForRound = completeCaddyData[playerName]?.[row['Date']]?.[teeTimeAmPm] || 'N/A';
                 const caddieTd = document.createElement('td');
                 caddieTd.className = 'px-4 py-2';
                 caddieTd.textContent = caddyTypeForRound;
@@ -423,7 +958,7 @@ Guest 2:,Paul Parker,,,`;
                 partnersTd.className = 'px-4 py-2';
                 const partners = [row.Player1, row.Player2, row.Player3, row.Player4]
                     .filter(p => p && p !== playerName && p !== 'TBD')
-                    .map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p] : 'N/A'})`)
+                    .map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`)
                     .join(', ');
                 partnersTd.textContent = partners;
                 tr.appendChild(partnersTd);
@@ -456,7 +991,7 @@ Guest 2:,Paul Parker,,,`;
                         <td class="px-4 py-2">${row.Time}</td>
                         <td class="px-4 py-2">${row.CompleteEstimate && row.CompleteEstimate.includes(' ') ? new Date(row.CompleteEstimate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A'}</td>
                         <td class="px-4 py-2">${row.Course}</td>
-                        <td class="px-4 py-2">${[row.Player1, row.Player2, row.Player3, row.Player4].filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p] : 'N/A'})`).join('<br>')}</td>
+                        <td class="px-4 py-2">${[row.Player1, row.Player2, row.Player3, row.Player4].filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
                     `;
                     dailyPairingsBody.appendChild(tr);
                 });
@@ -470,35 +1005,34 @@ Guest 2:,Paul Parker,,,`;
             caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
 
             const players = Object.keys(handicaps).sort();
-            const datesWithRounds = new Set();
-            const parsedData = parseCSV(csvData);
-            parsedData.forEach(row => {
-                if(row.Date && row.Time && !row.Course.includes("Shorty's")) {
-                    const roundType = row.Time.toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-                    datesWithRounds.add(`${row.Date}-${roundType}`);
-                }
-            });
+            
+            // Define the exact date/round combinations we want to show
+            const dateRounds = [
+                { date: '2025-08-20', round: 'PM', label: 'Wed 8/20 (PM)' },
+                { date: '2025-08-21', round: 'AM', label: 'Thu 8/21 (AM)' },
+                { date: '2025-08-21', round: 'PM', label: 'Thu 8/21 (PM)' },
+                { date: '2025-08-22', round: 'AM', label: 'Fri 8/22 (AM)' },
+                { date: '2025-08-22', round: 'PM', label: 'Fri 8/22 (PM)' },
+                { date: '2025-08-23', round: 'AM', label: 'Sat 8/23 (AM)' },
+                { date: '2025-08-23', round: 'PM', label: 'Sat 8/23 (PM)' },
+                { date: '2025-08-24', round: 'AM', label: 'Sun 8/24 (AM)' }
+            ];
 
-            const sortedDates = [...datesWithRounds].sort();
-            sortedDates.forEach(dateRound => {
-                const parts = dateRound.split('-');
-                const roundType = parts.pop();
-                const date = parts.join('-');
+            // Create headers
+            dateRounds.forEach(dateRound => {
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
-                const dateObj = new Date(date.replace(/-/g, '/'));
-                th.textContent = `${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', '')} (${roundType})`;
+                th.textContent = dateRound.label;
                 caddySummaryHeaderRow.appendChild(th);
             });
 
+            // Create rows for each player
             players.forEach(player => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td class="px-4 py-2 font-semibold">${player}</td>`;
-                sortedDates.forEach(dateRound => {
-                    const parts = dateRound.split('-');
-                    const roundType = parts.pop();
-                    const date = parts.join('-');
-                    const caddyType = caddySelectionsByPlayerRound[player]?.[date]?.[roundType] || 'N/A';
+                
+                dateRounds.forEach(dateRound => {
+                    const caddyType = completeCaddyData[player]?.[dateRound.date]?.[dateRound.round] || 'N/A';
                     const caddyTd = document.createElement('td');
                     caddyTd.className = 'px-4 py-2';
                     caddyTd.textContent = caddyType;
@@ -528,12 +1062,18 @@ Guest 2:,Paul Parker,,,`;
                     let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
                     const players = [row.Player1, row.Player2, row.Player3, row.Player4];
                     const playersWithCaddies = players.filter(p => p && p !== 'TBD').map(p => {
-                        const caddyChoice = caddySelectionsByPlayerRound[p]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                        let caddyChoice = 'No Caddy';
+                        if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
+                            caddyChoice = completeCaddyData[p]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                        }
                         return `${p} - ${caddyChoice}`;
                     });
                     const caddyCounts = players.reduce((counts, player) => {
                         if (player && player !== 'TBD') {
-                            const caddyChoice = caddySelectionsByPlayerRound[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            let caddyChoice = 'No Caddy';
+                            if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
+                                caddyChoice = completeCaddyData[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            }
                             if (caddyChoice !== 'No Caddy') {
                                 counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
                             }
@@ -610,7 +1150,7 @@ Guest 2:,Paul Parker,,,`;
                     }
                     rowHtml += `
                         <td class="px-4 py-2">${player.name}</td>
-                        <td class="px-4 py-2">${player.handicap}</td>
+                        <td class="px-4 py-2">${player.handicap.toFixed(1)}</td>
                         <td class="px-4 py-2">${playerScore}</td>
                     `;
                     if (playerIndex === 0) {
@@ -629,27 +1169,31 @@ Guest 2:,Paul Parker,,,`;
             body.innerHTML = '';
 
             const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
-            let headerRow = '<tr><th class="px-4 py-2">Time</th>';
+            let headerRow = '<tr><th class="px-2 py-1">Time</th>';
             dates.forEach(date => {
                 const d = new Date(date.replace(/-/g, '/'));
-                headerRow += `<th class="px-4 py-2">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
+                headerRow += `<th class="px-2 py-1">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
             });
             headerRow += '</tr>';
             header.innerHTML = headerRow;
 
-            const playerTeeTimes = parseCSV(csvData).filter(row => [row.Player1, row.Player2, row.Player3, row.Player4].includes(playerName));
+            const playerTeeTimes = parseCSV(csvData).filter(row => 
+                [row.Player1, row.Player2, row.Player3, row.Player4].includes(playerName)
+            );
 
             for (let hour = 6; hour <= 20; hour++) {
-                for (let minute = 0; minute < 60; minute += 10) {
+                for (let minute = 0; minute < 60; minute += 30) {
                     const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    let rowHtml = `<tr><td class="px-4 py-2">${time}</td>`;
+                    let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
 
                     dates.forEach(date => {
                         let cellContent = '';
                         let cellClass = '';
                         const now = new Date(`${date} ${time}`);
 
-                        const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
+                        const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => 
+                            new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
+                        );
 
                         for(let i = 0; i < dailyTeeTimes.length; i++) {
                             const tt = dailyTeeTimes[i];
@@ -657,7 +1201,7 @@ Guest 2:,Paul Parker,,,`;
                             const endTime = new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
                             
                             if (now >= startTime && now < endTime) {
-                                if(now.getMinutes() === startTime.getMinutes() && now.getHours() === startTime.getHours()) {
+                                if(Math.abs(now - startTime) < 30 * 60 * 1000) {
                                     cellContent = `${tt.Time} - ${tt.Course}`;
                                 } else {
                                     cellContent = tt.Course;
@@ -670,12 +1214,12 @@ Guest 2:,Paul Parker,,,`;
                                 const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
                                 if (now >= endTime && now < nextTeeTime) {
                                     cellClass = 'bg-green-200';
-                                    cellContent = 'Between Rounds';
+                                    cellContent = 'Free Time';
                                     break;
                                 }
                             }
                         }
-                        rowHtml += `<td class="px-4 py-2 ${cellClass}">${cellContent}</td>`;
+                        rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
                     });
                     rowHtml += '</tr>';
                     body.innerHTML += rowHtml;
@@ -685,8 +1229,7 @@ Guest 2:,Paul Parker,,,`;
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
-            parseRoomingListCSV(roomingListCsvData);
-            parseCaddyWorkbookCSV(caddyWorkbookCsvData);
+            parseCaddyWorkbookCSV();
             populatePlayerSelect(allPlayers);
             
             const initialPlayer = allPlayers.sort()[0];
@@ -724,5 +1267,8 @@ Guest 2:,Paul Parker,,,`;
                 });
             });
         }
+
         window.onload = initialize;
-    </script></body></html>
+    </script>
+</body>
+</html>
