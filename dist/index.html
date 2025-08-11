@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,7 @@
         }
         .card {
             background-color: #fff;
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
@@ -30,7 +31,7 @@
         .table-auto {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.875rem; /* Standard font size for table content */
+            font-size: 0.875rem;
         }
         .table-auto th, .table-auto td {
             padding: 0.75rem;
@@ -42,9 +43,8 @@
             font-weight: 600;
             color: #4a5568;
             text-transform: uppercase;
-            font-size: 0.875rem; /* Standard font size for all headers */
+            font-size: 0.875rem;
         }
-        /* Removed specific smaller font size for tee-time-pairings-container th */
         .table-auto tr:last-child td {
             border-bottom: none;
         }
@@ -52,49 +52,43 @@
             background-color: #f0f4f8;
         }
         h1 {
-            font-size: 2.25rem; /* text-4xl */
+            font-size: 2.25rem;
             margin-bottom: 1.5rem;
         }
         h2 {
-            font-size: 1.5rem; /* text-2xl */
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
         h3 {
-            font-size: 1.25rem; /* text-xl */
+            font-size: 1.25rem;
             margin-bottom: 1rem;
         }
-        /* Ensure tables stack vertically on small screens and side-by-side on md and larger */
         .flex-col.md\:flex-row {
-            flex-direction: column; /* Default to column for small screens */
+            flex-direction: column;
         }
-        @media (min-width: 768px) { /* md breakpoint */
+        @media (min-width: 768px) {
             .flex-col.md\:flex-row {
-                flex-direction: row; /* Change to row for medium and larger screens */
+                flex-direction: row;
             }
             .flex-1.md\:w-1\/2 {
-                width: 50%; /* Each takes half width on medium and larger screens */
+                width: 50%;
             }
         }
-        /* Style for the handicap row */
         .player-handicap-row td {
-            background-color: #e0f2fe; /* Light blue shading */
+            background-color: #e0f2fe;
         }
-        /* Highlight selected player in daily pairings */
         .highlight-player {
-            background-color: #fef08a; /* Tailwind yellow-200 */
+            background-color: #fef08a;
             padding: 0 0.25rem;
             border-radius: 0.25rem;
         }
-        /* Spacing row style */
         .spacing-row td {
-            height: 1rem; /* Adjust height as needed for spacing */
-            border-bottom: none; /* Remove border for spacing row */
+            height: 1rem;
+            border-bottom: none;
         }
-        /* Style for the last tee time of the day */
         .last-tee-time-of-day td {
-            border-bottom: 2px solid #a0a0a0; /* Bold gray line */
+            border-bottom: 2px solid #a0a0a0;
         }
-        /* Tab styles */
         .tab-button {
             padding: 0.75rem 1.5rem;
             border-bottom: 2px solid transparent;
@@ -103,11 +97,11 @@
             transition: all 0.2s ease-in-out;
         }
         .tab-button.active {
-            border-color: #10b981; /* Tailwind green-500 */
+            border-color: #10b981;
             color: #10b981;
         }
         .tab-button:hover {
-            color: #059669; /* Darker green on hover */
+            color: #059669;
         }
         .tab-content {
             display: none;
@@ -116,26 +110,32 @@
             display: block;
         }
         .caddy-player-highlight {
-            background-color: #d1fae5; /* Light green for caddy highlight */
+            background-color: #d1fae5;
         }
         .team-header {
-            background-color: #6ee7b7; /* Tailwind green-300 */
+            background-color: #6ee7b7;
             font-size: 1.125rem;
             font-weight: 700;
         }
         .caddy-summary-separator {
             border-bottom: 2px solid #a0a0a0;
         }
-        /* New class for the winning team highlight */
         .winning-team-highlight {
-            background-color: #86efac; /* Tailwind green-300 */
+            background-color: #86efac;
             font-weight: bold;
+        }
+        .daily-flow-table td {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        .daily-flow-table th {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
         }
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
-        <!-- Consolidated and Left-Aligned Title without Golf Club Logo -->
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
         <!-- Tabs Navigation -->
@@ -143,6 +143,7 @@
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
+            <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
         </div>
 
         <!-- Tab Content: Trip Summary -->
@@ -193,10 +194,8 @@
                                 <td class="border px-4 py-2">Birdie</td>
                                 <td class="border px-4 py-2">5</td>
                                 <td class="border px-4 py-2">DNF/Triple +</td>
-                                <td class="px-4 py-2">0</td>
+                                <td class="border px-4 py-2">0</td>
                             </tr>
-                            <!-- Spacing row will be added here by JavaScript -->
-                            <!-- Player Handicap row will be added here by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -257,7 +256,7 @@
                             </tr>
                         </thead>
                         <tbody id="tee-time-pairings-body">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -304,7 +303,7 @@
             </div>
         </div>
 
-        <!-- New Tab Content: Caddy Summary by Tee Time -->
+        <!-- Tab Content: Caddy Summary by Tee Time -->
         <div id="content-caddy-by-tee-time" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
@@ -327,8 +326,20 @@
             </div>
         </div>
 
+        <!-- Tab Content: Daily Flow -->
+        <div id="content-daily-flow" class="tab-content">
+            <div class="card mt-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
+                <div id="daily-flow-container" class="overflow-x-auto">
+                    <table class="table-auto w-full daily-flow-table">
+                        <thead id="daily-flow-header"></thead>
+                        <tbody id="daily-flow-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-        <!-- Tabs for Scoring (Empty to start fresh) -->
+        <!-- Scoring Tables -->
         <div id="content-scoring-8-20" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
@@ -344,7 +355,6 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-20">
-                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -366,7 +376,6 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-21">
-                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -388,7 +397,6 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-22">
-                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -410,7 +418,6 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-23">
-                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -432,13 +439,13 @@
                             </tr>
                         </thead>
                         <tbody id="scoring-body-8-24">
-                            <!-- Data will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
     <script>
         // Raw CSV data for golf pairings
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
@@ -461,7 +468,7 @@
 2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
 2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
 2025-08-21,1:50 p.m. ,Shorty's,TBD,TBD,,,,,,2025-08-21 13:50:00,2025-08-21 15:50:00,,830,,Shorty's,2,,,,,,955,395
-2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-02-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
+2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
 2025-08-21,6:00 p.m.,Bandon Preserve,TBD,TBD,TBD,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
 2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
 2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
@@ -488,49 +495,185 @@
 2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,REPLAY,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
 2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
 2025-08-23,6:00 p.m. ,Bandon Preserve,Hisham Sayeedi,Daniel Passino,+ replay from main course,,,Bill to individuals,,2025-08-23 18:00:00,2025-08-23 20:00:00,,1080,,,,,,,,,1220,660
-2025-08-24, 7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
+2025-08-24,7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,2025-08-24 07:00:00,2025-08-24 11:30:00,,420,,,,,,,,,1230,670
 2025-08-24,7:10 a.m. ,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-24 07:10:00,2025-08-24 11:40:00,,430,,,,,,,,,1240,680
 2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
-2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710
-,,,,,,,,,,,,,,,,,,,,,,1280,720
-,,,,,,,,,,,,,,,,,,,,,,1290,730
-,,,,,,,,,,,,,,,,,,,,,,1300,740
-,,,,,,,,,,,,,,,,,,,,,,1310,750
-,,,,,,,,,,,,,,,,,,,,,,1320,760
-,,,,,,,,,,,,,,,,,,,,,,1330,770
-,,,,,,,,,,,,,,,,,,,,,,1340,780
-,,,,,,,,,,,,,,,,,,,,,,1350,790
-,,,,,,,,,,,,,,,,,,,,,,1360,800
-,,,,,,,,,,,,,,,,,,,,,,1370,810
-,,,,,,,,,,,,,,,,,,,,,,1380,820
-,,,,,,,,,,,,,,,,,,,,,,1390,830
-,,,,,,,,,,,,,,,,,,,,,,1400,840
-,,,,,,,,,,,,,,,,,,,,,,1410,850
-,,,,,,,,,,,,,,,,,,,,,,1420,860
-,,,,,,,,,,,,,,,,,,,,,,1430,870
-,,,,,,,,,,,,,,,,,,,,,,1440,880`;
+2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710`;
 
-        // Raw CSV data for caddy workbook
-        const caddyWorkbookCsvData = `Timestamp,Email Address,Column 12,Caddy options - Please pick one option for each date [Wednesday 8/20 (PM round only)],Caddy options - Please pick one option for each date [Thursday 8/21 - AM Round],Caddy options - Please pick one option for each date [Thursday 8/21 - PM Round],Caddy options - Please pick one option for each date [Friday 8/22 - AM Round],Caddy options - Please pick one option for each date [Friday 8/22 - PM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - AM Round],Caddy options - Please pick one option for each date [Saturday 8/23 - PM Round],Caddy options - Please pick one option for each date [Sunday 8/24 (AM round only)],Fancy Steak Dinner Saturday night?
-7/15/2025 12:24:09,cory.higgins@gmail.com,Cory Higgins,Caddy,Caddy,No Caddy,Caddy,Caddy,Caddy,No Caddy,Caddy,Yes
-7/17/2025 11:11:06,Paul.w.parker8@gmail.com,Paul Parker,No Caddy,No Caddy,Non-Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Non-Carry Caddy,Yes
-7/17/2025 13:26:53,bryanwolfe1993@gmail.com,Bryan Wolfe,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Not Playing/Short Course,No
-7/17/2025 14:20:36,johnresetar@hotmail.com,Johnathn Resetar,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No Caddy,No Caddy,Yes
-7/17/2025 14:30:07,bobowlett@gmail.com,Bob Owlett,No Caddy,Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
-7/17/2025 15:00:23,nickzangardi@gmail.com,Nick Zangardi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,No Caddy,No
-7/19/2025 12:14:20,cory.micheel@gmail.com,Cory Micheel,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,Carry Caddy,Non-Carry Caddy,No Caddy,No Caddy,No
-7/22/2025 17:16:13,adonis.hoffman@gmail.com,AD Hoffman,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No Caddy,Non-Carry Caddy,No
-7/25/2025 09:00:00,mike.newell@gmail.com,Mike Newell,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,Carry Caddy,No
-7/25/2025 09:00:00,kevin.newell@gmail.com,Kevin Newell,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,rob.small@gmail.com,Rob Small,Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,jacob.emert@gmail.com,Jacob Emert,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,charlie.hildebrand@gmail.com,Charlie Hildebrand,No Caddy,Non-Carry Caddy,Non-Carry Caddy,Non-Carry Caddy,Not Playing/Short Course,Non-Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,kevan.oyama@gmail.com,Kevan Oyama,No Caddy,Carry Caddy,Non-Carry Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
-7/25/2025 09:00:00,hisham.sayeedi@gmail.com,Hisham Sayeedi,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No Caddy,Carry Caddy,No
-`;
+        // Complete caddy data based on Excel file - updated to match Form Responses 2
+        const completeCaddyData = {
+            "AD Hoffman": {
+                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Andrew Akers": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Bob Owlett": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Brandon Itaoka": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Bryan Wolfe": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Not Playing" }
+            },
+            "Charlie Hildebrand": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Not Playing" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Higgins": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Micheel": {
+                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Daniel Passino": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Hisham Sayeedi": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Jacob Emert": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "James Adolfson": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Johnathn Resetar": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Kevan Oyama": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Kevin Newell": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Matt Akers": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Mike Newell": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Nick Zangardi": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Paul Parker": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "Non-Carry Strategy Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Rob Small": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Ryan Hohn": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Vikas Bhasin": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Will Quarles": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            },
+            "Zach Deines": {
+                "2025-08-20": { "PM": "N/A" },
+                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
+                "2025-08-24": { "AM": "N/A" }
+            }
+        };
 
-        // Handicap data provided by the user
+        // Handicap data
         const handicaps = {
             "Mike Newell": 0.0,
             "Andrew Akers": 2,
@@ -557,142 +700,52 @@
             "Charlie Hildebrand": 15,
             "Matt Akers": 16.2
         };
-        
-        // Actual scores for all days provided by the user
+
+        // Actual scores for all days
         const allScoresData = {
             "2025-08-20": {
-                "Mike Newell": 25,
-                "Jacob Emert": 50,
-                "Brandon Itaoka": 49,
-                "Kevin Newell": 48,
-                "Cory Micheel": 47,
-                "Matt Akers": 46,
-                "Andrew Akers": 45,
-                "Bob Owlett": 44,
-                "Zach Deines": 43,
-                "Daniel Passino": 42,
-                "AD Hoffman": 41,
-                "Will Quarles": 40,
-                "James Adolfson": 39,
-                "Kevan Oyama": 38,
-                "Rob Small": 37,
-                "Hisham Sayeedi": 36,
-                "Bryan Wolfe": 35,
-                "Charlie Hildebrand": 34,
-                "Cory Higgins": 33,
-                "Ryan Hohn": 32,
-                "Nick Zangardi": 31,
-                "Vikas Bhasin": 30,
-                "Johnathn Resetar": 29,
-                "Paul Parker": 28
+                "Mike Newell": 25, "Jacob Emert": 50, "Brandon Itaoka": 49, "Kevin Newell": 48,
+                "Cory Micheel": 47, "Matt Akers": 46, "Andrew Akers": 45, "Bob Owlett": 44,
+                "Zach Deines": 43, "Daniel Passino": 42, "AD Hoffman": 41, "Will Quarles": 40,
+                "James Adolfson": 39, "Kevan Oyama": 38, "Rob Small": 37, "Hisham Sayeedi": 36,
+                "Bryan Wolfe": 35, "Charlie Hildebrand": 34, "Cory Higgins": 33, "Ryan Hohn": 32,
+                "Nick Zangardi": 31, "Vikas Bhasin": 30, "Johnathn Resetar": 29, "Paul Parker": 28
             },
             "2025-08-21": {
-                "Mike Newell": 31,
-                "Andrew Akers": 52,
-                "James Adolfson": 34,
-                "Cory Higgins": 35,
-                "Kevan Oyama": 29,
-                "Bob Owlett": 30,
-                "Brandon Itaoka": 55,
-                "Jacob Emert": 36,
-                "Ryan Hohn": 32,
-                "Zach Deines": 44,
-                "Rob Small": 26,
-                "Nick Zangardi": 47,
-                "Vikas Bhasin": 31,
-                "Hisham Sayeedi": 36,
-                "Daniel Passino": 25,
-                "Kevin Newell": 38,
-                "Cory Micheel": 52,
-                "AD Hoffman": 42,
-                "Johnathn Resetar": 42,
-                "Bryan Wolfe": 36,
-                "Paul Parker": 48,
-                "Charlie Hildebrand": 42,
-                "Will Quarles": 46,
-                "Matt Akers": 51
+                "Mike Newell": 31, "Andrew Akers": 52, "James Adolfson": 34, "Cory Higgins": 35,
+                "Kevan Oyama": 29, "Bob Owlett": 30, "Brandon Itaoka": 55, "Jacob Emert": 36,
+                "Ryan Hohn": 32, "Zach Deines": 44, "Rob Small": 26, "Nick Zangardi": 47,
+                "Vikas Bhasin": 31, "Hisham Sayeedi": 36, "Daniel Passino": 25, "Kevin Newell": 38,
+                "Cory Micheel": 52, "AD Hoffman": 42, "Johnathn Resetar": 42, "Bryan Wolfe": 36,
+                "Paul Parker": 48, "Charlie Hildebrand": 42, "Will Quarles": 46, "Matt Akers": 51
             },
             "2025-08-22": {
-                "Mike Newell": 34,
-                "Andrew Akers": 34,
-                "James Adolfson": 40,
-                "Cory Higgins": 25,
-                "Kevan Oyama": 46,
-                "Bob Owlett": 41,
-                "Brandon Itaoka": 27,
-                "Jacob Emert": 43,
-                "Ryan Hohn": 52,
-                "Zach Deines": 37,
-                "Rob Small": 33,
-                "Nick Zangardi": 36,
-                "Vikas Bhasin": 44,
-                "Hisham Sayeedi": 31,
-                "Daniel Passino": 46,
-                "Kevin Newell": 37,
-                "Cory Micheel": 36,
-                "AD Hoffman": 27,
-                "Johnathn Resetar": 39,
-                "Bryan Wolfe": 55,
-                "Paul Parker": 53,
-                "Charlie Hildebrand": 49,
-                "Will Quarles": 32,
-                "Matt Akers": 43
+                "Mike Newell": 34, "Andrew Akers": 34, "James Adolfson": 40, "Cory Higgins": 25,
+                "Kevan Oyama": 46, "Bob Owlett": 41, "Brandon Itaoka": 27, "Jacob Emert": 43,
+                "Ryan Hohn": 52, "Zach Deines": 37, "Rob Small": 33, "Nick Zangardi": 36,
+                "Vikas Bhasin": 44, "Hisham Sayeedi": 31, "Daniel Passino": 46, "Kevin Newell": 37,
+                "Cory Micheel": 36, "AD Hoffman": 27, "Johnathn Resetar": 39, "Bryan Wolfe": 55,
+                "Paul Parker": 53, "Charlie Hildebrand": 49, "Will Quarles": 32, "Matt Akers": 43
             },
             "2025-08-23": {
-                "Mike Newell": 39,
-                "Andrew Akers": 47,
-                "James Adolfson": 36,
-                "Cory Higgins": 46,
-                "Kevan Oyama": 53,
-                "Bob Owlett": 30,
-                "Brandon Itaoka": 38,
-                "Jacob Emert": 40,
-                "Ryan Hohn": 34,
-                "Zach Deines": 49,
-                "Rob Small": 47,
-                "Nick Zangardi": 25,
-                "Vikas Bhasin": 38,
-                "Hisham Sayeedi": 51,
-                "Daniel Passino": 31,
-                "Kevin Newell": 47,
-                "Cory Micheel": 29,
-                "AD Hoffman": 50,
-                "Johnathn Resetar": 55,
-                "Bryan Wolfe": 32,
-                "Paul Parker": 33,
-                "Charlie Hildebrand": 35,
-                "Will Quarles": 29,
-                "Matt Akers": 42
+                "Mike Newell": 39, "Andrew Akers": 47, "James Adolfson": 36, "Cory Higgins": 46,
+                "Kevan Oyama": 53, "Bob Owlett": 30, "Brandon Itaoka": 38, "Jacob Emert": 40,
+                "Ryan Hohn": 34, "Zach Deines": 49, "Rob Small": 47, "Nick Zangardi": 25,
+                "Vikas Bhasin": 38, "Hisham Sayeedi": 51, "Daniel Passino": 31, "Kevin Newell": 47,
+                "Cory Micheel": 29, "AD Hoffman": 50, "Johnathn Resetar": 55, "Bryan Wolfe": 32,
+                "Paul Parker": 33, "Charlie Hildebrand": 35, "Will Quarles": 29, "Matt Akers": 42
             },
             "2025-08-24": {
-                "Mike Newell": 45,
-                "Andrew Akers": 55,
-                "James Adolfson": 55,
-                "Cory Higgins": 44,
-                "Kevan Oyama": 38,
-                "Bob Owlett": 51,
-                "Brandon Itaoka": 50,
-                "Jacob Emert": 26,
-                "Ryan Hohn": 49,
-                "Zach Deines": 47,
-                "Rob Small": 36,
-                "Nick Zangardi": 55,
-                "Vikas Bhasin": 31,
-                "Hisham Sayeedi": 26,
-                "Daniel Passino": 52,
-                "Kevin Newell": 36,
-                "Cory Micheel": 38,
-                "AD Hoffman": 39,
-                "Johnathn Resetar": 45,
-                "Bryan Wolfe": 29,
-                "Paul Parker": 54,
-                "Charlie Hildebrand": 43,
-                "Will Quarles": 44,
-                "Matt Akers": 30
+                "Mike Newell": 45, "Andrew Akers": 55, "James Adolfson": 55, "Cory Higgins": 44,
+                "Kevan Oyama": 38, "Bob Owlett": 51, "Brandon Itaoka": 50, "Jacob Emert": 26,
+                "Ryan Hohn": 49, "Zach Deines": 47, "Rob Small": 36, "Nick Zangardi": 55,
+                "Vikas Bhasin": 31, "Hisham Sayeedi": 26, "Daniel Passino": 52, "Kevin Newell": 36,
+                "Cory Micheel": 38, "AD Hoffman": 39, "Johnathn Resetar": 45, "Bryan Wolfe": 29,
+                "Paul Parker": 54, "Charlie Hildebrand": 43, "Will Quarles": 44, "Matt Akers": 30
             }
         };
 
-        // Meal data provided by the user
+        // Meal data
         const mealsData = {
             "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
             "Ryan Hohn": { "Breakfast Buffet": 1, "Lunch Box": 1 },
@@ -707,7 +760,7 @@
             "Brandon Itaoka": { "Breakfast Buffet": 0, "Lunch Box": 1 },
             "Nick Zangardi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
             "Andrew Akers": { "Breakfast Buffet": 0, "Lunch Box": 1 },
-            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 1 }, // Updated Hisham Sayeedi's Lunch Box to 1
+            "Hisham Sayeedi": { "Breakfast Buffet": 0, "Lunch Box": 1 },
             "Daniel Passino": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Matt Akers": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Bryan Wolfe": { "Breakfast Buffet": 0, "Lunch Box": 0 },
@@ -720,33 +773,28 @@
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
 
-        // Global variable to store parsed caddy selections
+        // Global variables
         const caddySelectionsByPlayerRound = {};
-        const parsedTeeTimes = [];
-        let dailyTeams = {}; // Global variable to store teams for each day
-        let dailyScores = {}; // Global variable to store mock scores for each day
-
-        // Dates for the trip
+        let dailyTeams = {};
+        let dailyScores = {};
         const scoringDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
 
+        // CSV parsing function
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
 
             const data = [];
-            // Define fixed indices for relevant columns based on the CSV structure
             const dateIndex = 0;
             const timeIndex = 1;
             const courseIndex = 2;
-            const playerIndices = [3, 4, 5, 6]; // Indices for Player columns (C, D, E, F)
-            const caddieIndex = 7; // Index for 'Caddie?' column
-            const notesIndex = 8; // Index for 'Notes' column
-            const completeEstimateIndex = 11; // Index for 'Complete Estimate' column (L)
+            const playerIndices = [3, 4, 5, 6];
+            const caddieIndex = 7;
+            const notesIndex = 8;
+            const completeEstimateIndex = 10;
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].split(',');
-
-                // Ensure the line has enough columns to avoid index out of bounds
                 if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
 
                 const row = {};
@@ -757,14 +805,11 @@
                 row['Notes'] = currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
                 row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
 
-
-                // Assign players to unique keys based on their their fixed indices
                 row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
                 row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
                 row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
                 row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
 
-                // Only add row if it has essential data and at least one player
                 if (row['Date'] && row['Time'] && row['Course'] &&
                     (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
                     data.push(row);
@@ -773,84 +818,19 @@
             return data;
         }
 
-        function parseCaddyWorkbookCSV(csv) {
-            const lines = csv.split('\n').filter(line => line.trim() !== '');
-            if (lines.length < 2) return;
-
-            const headers = lines[0].split(',').map(h => h.trim());
-            const playerColumnIndex = 2; // "Column 12" is the player name now
-            const caddyColumnIndices = [];
-            const caddyColumnMap = {}; // Maps header index to { date: 'YYYY-MM-DD', roundType: 'AM' | 'PM' }
-
-            // Parse caddy headers to create a map for lookup
-            headers.forEach((header, index) => {
-                if (header.includes("Caddy options - Please pick one option for each date")) {
-                    const match = header.match(/\[.*? (\d{1,2}\/\d{1,2})(?: - (AM|PM) Round)?(?: \((AM|PM) round only\))?\]/);
-                    if (match) {
-                        const monthDay = match[1]; // e.g., "8/20"
-                        let roundType = '';
-
-                        // Determine round type based on specific phrases or explicit "AM/PM Round"
-                        if (header.includes("(PM round only)")) {
-                            roundType = 'PM';
-                        } else if (header.includes("(AM round only)")) {
-                            roundType = 'AM';
-                        } else if (match[2]) { // If "AM Round" or "PM Round" is explicitly stated
-                            roundType = match[2];
-                        }
-
-                        // Construct YYYY-MM-DD date string (assuming 2025 as per original data)
-                        const [month, day] = monthDay.split('/');
-                        const fullDate = `2025-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-
-                        if (roundType) { // Only add if roundType is determined
-                            caddyColumnIndices.push(index);
-                            caddyColumnMap[index] = { date: fullDate, roundType: roundType };
-                        }
-                    }
-                }
+        // Caddy CSV parsing - now replaced with direct data mapping
+        function parseCaddyWorkbookCSV() {
+            // Simply use the complete caddy data directly
+            Object.keys(completeCaddyData).forEach(playerName => {
+                caddySelectionsByPlayerRound[playerName] = completeCaddyData[playerName];
             });
-
-            // Populate caddySelectionsByPlayerRound
-            for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].split(',');
-                const playerName = currentLine[playerColumnIndex] ? currentLine[playerColumnIndex].trim() : '';
-                if (!playerName) continue;
-
-                caddySelectionsByPlayerRound[playerName] = {};
-
-                caddyColumnIndices.forEach(colIndex => {
-                    let caddyType = currentLine[colIndex] ? currentLine[colIndex].trim() : 'No Caddy';
-
-                    // Apply transformations
-                    if (caddyType.includes("Non-carry Strategy Caddy") || caddyType.includes("$40") || caddyType.toLowerCase() === "fore caddy") {
-                        caddyType = "Non-Carry Caddy";
-                    } else if (caddyType.includes("Carry Caddy") || caddyType.includes("$100") || caddyType === "Caddy") {
-                        caddyType = "Carry Caddy";
-                    } else if (caddyType.includes("Not Playing") || caddyType === "Not Playing/Short Course") {
-                        caddyType = "Not Playing";
-                    }
-
-                    const { date, roundType } = caddyColumnMap[colIndex];
-
-                    if (!caddySelectionsByPlayerRound[playerName][date]) {
-                        caddySelectionsByPlayerRound[playerName][date] = {};
-                    }
-                    caddySelectionsByPlayerRound[playerName][date][roundType] = caddyType;
-                });
-            }
         }
-
 
         function populatePlayerSelect(players) {
             const playerSelect = document.getElementById('player-select');
-            // Check if playerSelect exists before trying to manipulate it
             if (playerSelect) {
-                playerSelect.innerHTML = ''; // Clear existing options
-
-                // Sort players alphabetically
+                playerSelect.innerHTML = '';
                 const sortedPlayers = [...players].sort();
-
                 sortedPlayers.forEach(player => {
                     const option = document.createElement('option');
                     option.value = player;
@@ -862,13 +842,9 @@
 
         function populateNotes(playerName) {
             const notesBody = document.getElementById('notes-table-body');
-            notesBody.innerHTML = ''; // Clear existing notes
+            notesBody.innerHTML = '';
 
-            // Static notes
-            const staticNotes = [
-                "Welcome dinner at Trail's End 8:30 p.m."
-            ];
-
+            const staticNotes = ["Welcome dinner at Trail's End 8:30 p.m."];
             staticNotes.forEach(note => {
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
@@ -878,7 +854,6 @@
                 notesBody.appendChild(tr);
             });
 
-            // Dynamic meal notes
             const playerMeals = mealsData[playerName];
             if (playerMeals) {
                 const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
@@ -897,110 +872,55 @@
                 tdLunch.textContent = `Lunch: ${lunchStatus}`;
                 trLunch.appendChild(tdLunch);
                 notesBody.appendChild(trLunch);
-
-            } else {
-                // If meal data not found for the player
-                let trBreakfast = document.createElement('tr');
-                let tdBreakfast = document.createElement('td');
-                tdBreakfast.className = 'border px-4 py-2';
-                tdBreakfast.textContent = `Breakfast: N/A`;
-                trBreakfast.appendChild(tdBreakfast);
-                notesBody.appendChild(trBreakfast);
-
-                let trLunch = document.createElement('tr');
-                let tdLunch = document.createElement('td');
-                tdLunch.className = 'border px-4 py-2';
-                tdLunch.textContent = `Lunch: N/A`;
-                trLunch.appendChild(tdLunch);
-                notesBody.appendChild(trLunch);
             }
         }
-
 
         function populateTeeTimesForPlayer(playerName) {
             const pairingsBody = document.getElementById('tee-time-pairings-body');
             const currentPlayerTitle = document.getElementById('current-player-tee-times-title');
-            const mainTripSummaryTitle = document.getElementById('main-trip-summary-title'); // Get main title element
-            const stablefordTableBody = document.querySelector('#stableford-table tbody'); // Get stableford table body
+            const mainTripSummaryTitle = document.getElementById('main-trip-summary-title');
+            const stablefordTableBody = document.querySelector('#stableford-table tbody');
             const parsedData = parseCSV(csvData);
 
-            // Update the main title dynamically
-            const baseTitle = "Bandon Dunes Golf Trip Summary";
-            mainTripSummaryTitle.textContent = `${playerName} - ${baseTitle}`;
-            // Update the section title
+            mainTripSummaryTitle.textContent = `${playerName} - Bandon Dunes Golf Trip Summary`;
             currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
-
-            // Clear existing rows
             pairingsBody.innerHTML = '';
 
-            // Clear existing handicap row in Stableford table and spacing row
             const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
-            if (existingHandicapRow) {
-                existingHandicapRow.remove();
-            }
+            if (existingHandicapRow) existingHandicapRow.remove();
             const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
-            if (existingSpacingRow) {
-                existingSpacingRow.remove();
-            }
+            if (existingSpacingRow) existingSpacingRow.remove();
 
-            // Add spacing row *before* handicap row
             const spacingTr = document.createElement('tr');
             spacingTr.className = 'spacing-row';
-            spacingTr.innerHTML = '<td colspan="4"></td>'; // Span all columns
+            spacingTr.innerHTML = '<td colspan="4"></td>';
             stablefordTableBody.appendChild(spacingTr);
 
-            // Add selected player's handicap to Stableford table
             const playerHandicap = handicaps[playerName];
             if (playerHandicap !== undefined) {
                 const tr = document.createElement('tr');
-                tr.className = 'player-handicap-row'; // Add a class to easily find and remove later
-                const tdLabel = document.createElement('td');
-                tdLabel.className = 'border px-4 py-2 font-semibold';
-                tdLabel.textContent = `${playerName}'s Handicap`;
-                tr.appendChild(tdLabel);
-                const tdValue = document.createElement('td');
-                tdValue.className = 'border px-4 py-2 bg-white'; // Set background to white
-                tdValue.textContent = playerHandicap;
-                tr.appendChild(tdValue);
-                // Merge the remaining two cells (columns 3 and 4)
-                const tdMerged = document.createElement('td');
-                tdMerged.className = 'border px-4 py-2 bg-white'; // Set background to white
-                tdMerged.colSpan = 2; // Span 2 columns
-                tr.appendChild(tdMerged);
+                tr.className = 'player-handicap-row';
+                tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${playerName}'s Handicap</td><td class="border px-4 py-2 bg-white">${playerHandicap.toFixed(1)}</td><td class="border px-4 py-2 bg-white" colspan="2"></td>`;
                 stablefordTableBody.appendChild(tr);
             }
 
-            // Filter data for the specific player
             let playerTeeTimes = parsedData.filter(row => {
-                // Check all possible player columns for the playerName
-                return (row['Player1'] === playerName ||
-                        row['Player2'] === playerName ||
-                        row['Player3'] === playerName ||
-                        row['Player4'] === playerName);
+                return (row['Player1'] === playerName || row['Player2'] === playerName || 
+                        row['Player3'] === playerName || row['Player4'] === playerName);
             });
 
-            // Sort tee times by date and then by time for accurate "last round" identification
             playerTeeTimes.sort((a, b) => {
-                const dateA = new Date(a['Date'] + ' ' + a['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
-                const dateB = new Date(b['Date'] + ' ' + b['Time'].replace('a.m.', 'AM').replace('p.m.', 'PM'));
+                const dateA = new Date(`${a['Date']} ${a['Time'].replace(/\./g, '')}`);
+                const dateB = new Date(`${b['Date']} ${b['Time'].replace(/\./g, '')}`);
                 return dateA - dateB;
             });
 
-            // Iterate through the filtered and sorted data and create table rows
             playerTeeTimes.forEach(row => {
                 const tr = document.createElement('tr');
-
+                const dateObj = new Date(row['Date'].replace(/-/g, '/'));
                 const dateTd = document.createElement('td');
                 dateTd.className = 'px-4 py-2';
-                // Format the date: "Wed - 8/20"
-                const dateParts = row['Date'].split('-'); // Split YYYY-MM-DD
-                const year = parseInt(dateParts[0]);
-                const month = parseInt(dateParts[1]) - 1; // Month is 0-indexed
-                const day = parseInt(dateParts[2]);
-                const dateObj = new Date(year, month, day);
-
-                const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -'); // "Wed, 8/20" to "Wed - 8/20"
+                dateTd.textContent = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -');
                 tr.appendChild(dateTd);
 
                 const timeTd = document.createElement('td');
@@ -1008,50 +928,27 @@
                 timeTd.textContent = row['Time'];
                 tr.appendChild(timeTd);
 
-                // Add Estimated Completion Time
                 const completeTimeTd = document.createElement('td');
                 completeTimeTd.className = 'px-4 py-2';
                 const fullDateTime = row['CompleteEstimate'];
-                if (fullDateTime) {
-                    // Assuming fullDateTime is like "YYYY-MM-DD HH:MM:SS" or "HH:MM"
-                    let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
+                if (fullDateTime && fullDateTime.includes(' ')) {
+                    let timeString = fullDateTime.split(' ')[1];
                     let [hours, minutes] = timeString.split(':').map(Number);
                     let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                    hours = hours % 12;
-                    hours = hours ? hours : 12; // The hour '0' should be '12'
-                    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                    completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
+                    hours = hours % 12 || 12;
+                    completeTimeTd.textContent = `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
                 } else {
                     completeTimeTd.textContent = 'N/A';
                 }
                 tr.appendChild(completeTimeTd);
-
 
                 const courseTd = document.createElement('td');
                 courseTd.className = 'px-4 py-2';
                 courseTd.textContent = row['Course'];
                 tr.appendChild(courseTd);
 
-                // Determine round type (AM/PM) from the tee time
-                let teeTimeHours = parseInt(row['Time'].split(':')[0]);
                 let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-
-                // Handle 12 AM/PM
-                if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
-                    teeTimeAmPm = 'AM'; // 12 AM
-                } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
-                    teeTimeAmPm = 'PM'; // 12 PM
-                }
-
-
-                // Get caddie selection for this specific round from the new caddy data
-                let caddyTypeForRound = 'N/A';
-                if (caddySelectionsByPlayerRound[playerName] &&
-                    caddySelectionsByPlayerRound[playerName][row['Date']] &&
-                    caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm]) {
-                        caddyTypeForRound = caddySelectionsByPlayerRound[playerName][row['Date']][teeTimeAmPm];
-                }
-
+                let caddyTypeForRound = completeCaddyData[playerName]?.[row['Date']]?.[teeTimeAmPm] || 'N/A';
                 const caddieTd = document.createElement('td');
                 caddieTd.className = 'px-4 py-2';
                 caddieTd.textContent = caddyTypeForRound;
@@ -1059,273 +956,161 @@
 
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
-                const partners = [];
-                // Check all possible player columns, excluding the current player
-                for (let i = 1; i <= 4; i++) {
-                    const player = row[`Player${i}`];
-                    if (player && player !== playerName && player !== 'TBD') {
-                        const partnerHandicap = handicaps[player];
-                        partners.push(`${player} (${handicaps[player] !== undefined ? handicaps[player] : 'N/A'})`);
-                    }
-                }
-                partnersTd.textContent = partners.join(', ');
+                const partners = [row.Player1, row.Player2, row.Player3, row.Player4]
+                    .filter(p => p && p !== playerName && p !== 'TBD')
+                    .map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`)
+                    .join(', ');
+                partnersTd.textContent = partners;
                 tr.appendChild(partnersTd);
-
                 pairingsBody.appendChild(tr);
             });
         }
-
 
         function populateDailyPairings() {
             const dailyPairingsBody = document.getElementById('daily-pairings-body');
             dailyPairingsBody.innerHTML = '';
             const parsedData = parseCSV(csvData);
 
-            // Group pairings by date
             const pairingsByDate = {};
             parsedData.forEach(row => {
-                if (!pairingsByDate[row.Date]) {
-                    pairingsByDate[row.Date] = [];
-                }
+                if (!pairingsByDate[row.Date]) pairingsByDate[row.Date] = [];
                 pairingsByDate[row.Date].push(row);
             });
 
-            // Iterate over each date
             Object.keys(pairingsByDate).sort().forEach(date => {
                 const dailyPairings = pairingsByDate[date];
                 dailyPairings.forEach((row, index) => {
                     const tr = document.createElement('tr');
-                    // Add class for a bold line if it's the last tee time of the day
                     if (index === dailyPairings.length - 1) {
                         tr.className = 'last-tee-time-of-day';
                     }
-
-                    const dateTd = document.createElement('td');
-                    dateTd.className = 'px-4 py-2';
-                    const dateParts = row.Date.split('-');
-                    const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-                    const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
-                    tr.appendChild(dateTd);
-
-                    const timeTd = document.createElement('td');
-                    timeTd.className = 'px-4 py-2';
-                    timeTd.textContent = row.Time;
-                    tr.appendChild(timeTd);
-
-                    const completeTimeTd = document.createElement('td');
-                    completeTimeTd.className = 'px-4 py-2';
-                    const fullDateTime = row['CompleteEstimate'];
-                    if (fullDateTime) {
-                        let timeString = fullDateTime.includes(' ') ? fullDateTime.split(' ')[1] : fullDateTime;
-                        let [hours, minutes] = timeString.split(':').map(Number);
-                        let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                        hours = hours % 12;
-                        hours = hours ? hours : 12;
-                        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-                        completeTimeTd.textContent = `${hours}:${formattedMinutes} ${ampm}`;
-                    } else {
-                        completeTimeTd.textContent = 'N/A';
-                    }
-                    tr.appendChild(completeTimeTd);
-
-                    const courseTd = document.createElement('td');
-                    courseTd.className = 'px-4 py-2';
-                    courseTd.textContent = row.Course;
-                    tr.appendChild(courseTd);
-
-                    const allPlayersTd = document.createElement('td');
-                    allPlayersTd.className = 'px-4 py-2';
-                    const players = [];
-                    for (let i = 1; i <= 4; i++) {
-                        const player = row[`Player${i}`];
-                        if (player && player !== 'TBD') {
-                            const playerHandicap = handicaps[player];
-                            players.push(`${player} (${playerHandicap !== undefined ? playerHandicap : 'N/A'})`);
-                        }
-                    }
-                    allPlayersTd.innerHTML = players.join('<br>');
-                    tr.appendChild(allPlayersTd);
-
+                    
+                    const dateObj = new Date(row.Date.replace(/-/g, '/'));
+                    tr.innerHTML = `
+                        <td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
+                        <td class="px-4 py-2">${row.Time}</td>
+                        <td class="px-4 py-2">${row.CompleteEstimate && row.CompleteEstimate.includes(' ') ? new Date(row.CompleteEstimate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A'}</td>
+                        <td class="px-4 py-2">${row.Course}</td>
+                        <td class="px-4 py-2">${[row.Player1, row.Player2, row.Player3, row.Player4].filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
+                    `;
                     dailyPairingsBody.appendChild(tr);
                 });
             });
         }
 
-
         function populateCaddySummary() {
             const caddySummaryBody = document.getElementById('caddy-summary-body');
             const caddySummaryHeaderRow = document.getElementById('caddy-summary-header-row');
             caddySummaryBody.innerHTML = '';
-            // Clear existing headers
-            const existingHeaders = caddySummaryHeaderRow.querySelectorAll('th:not(:first-child)');
-            existingHeaders.forEach(th => th.remove());
+            caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
 
             const players = Object.keys(handicaps).sort();
-            const datesWithRounds = new Set();
             
-            // Collect all unique dates with rounds from the parsed caddy data
-            Object.values(caddySelectionsByPlayerRound).forEach(playerData => {
-                Object.keys(playerData).forEach(date => {
-                    Object.keys(playerData[date]).forEach(roundType => {
-                        datesWithRounds.add(`${date}-${roundType}`);
-                    });
-                });
-            });
+            // Define the exact date/round combinations we want to show
+            const dateRounds = [
+                { date: '2025-08-20', round: 'PM', label: 'Wed 8/20 (PM)' },
+                { date: '2025-08-21', round: 'AM', label: 'Thu 8/21 (AM)' },
+                { date: '2025-08-21', round: 'PM', label: 'Thu 8/21 (PM)' },
+                { date: '2025-08-22', round: 'AM', label: 'Fri 8/22 (AM)' },
+                { date: '2025-08-22', round: 'PM', label: 'Fri 8/22 (PM)' },
+                { date: '2025-08-23', round: 'AM', label: 'Sat 8/23 (AM)' },
+                { date: '2025-08-23', round: 'PM', label: 'Sat 8/23 (PM)' },
+                { date: '2025-08-24', round: 'AM', label: 'Sun 8/24 (AM)' }
+            ];
 
-            const sortedDates = [...datesWithRounds].sort();
-
-            // Add dynamic headers
-            sortedDates.forEach(dateRound => {
-                const parts = dateRound.split('-');
-                const roundType = parts.pop();
-                const date = parts.join('-');
-                
+            // Create headers
+            dateRounds.forEach(dateRound => {
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
-                const dateParts = date.split('-');
-                const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-                const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                th.textContent = `${dateObj.toLocaleDateString('en-US', options).replace(',', '')} (${roundType})`;
+                th.textContent = dateRound.label;
                 caddySummaryHeaderRow.appendChild(th);
             });
 
-
+            // Create rows for each player
             players.forEach(player => {
                 const tr = document.createElement('tr');
-                const playerTd = document.createElement('td');
-                playerTd.className = 'px-4 py-2 font-semibold';
-                playerTd.textContent = player;
-                tr.appendChild(playerTd);
-
-                sortedDates.forEach(dateRound => {
-                    const parts = dateRound.split('-');
-                    const roundType = parts.pop();
-                    const date = parts.join('-');
-                    
+                tr.innerHTML = `<td class="px-4 py-2 font-semibold">${player}</td>`;
+                
+                dateRounds.forEach(dateRound => {
+                    const caddyType = completeCaddyData[player]?.[dateRound.date]?.[dateRound.round] || 'N/A';
                     const caddyTd = document.createElement('td');
                     caddyTd.className = 'px-4 py-2';
-                    const caddyType = caddySelectionsByPlayerRound[player]?.[date]?.[roundType] || 'N/A';
                     caddyTd.textContent = caddyType;
                     tr.appendChild(caddyTd);
                 });
-
                 caddySummaryBody.appendChild(tr);
             });
         }
 
-        // New function to populate the caddy summary by tee time table
         function populateCaddySummaryByTeeTime() {
             const teeTimeSummaryBody = document.getElementById('caddy-tee-time-summary-body');
             if (!teeTimeSummaryBody) return;
             teeTimeSummaryBody.innerHTML = '';
-            
             const parsedData = parseCSV(csvData);
 
-            // Group tee times by date
             const teeTimesByDate = {};
             parsedData.forEach(row => {
-                if (!teeTimesByDate[row.Date]) {
-                    teeTimesByDate[row.Date] = [];
-                }
+                if (!teeTimesByDate[row.Date]) teeTimesByDate[row.Date] = [];
                 teeTimesByDate[row.Date].push(row);
             });
 
             Object.keys(teeTimesByDate).sort().forEach(date => {
                 const dailyTeeTimes = teeTimesByDate[date];
-                dailyTeeTimes.forEach(row => {
+                dailyTeeTimes.forEach((row, index) => {
                     const tr = document.createElement('tr');
-
-                    const dateTd = document.createElement('td');
-                    const dateParts = row.Date.split('-');
-                    const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-                    const options = { weekday: 'short', month: 'numeric', day: 'numeric' };
-                    dateTd.textContent = dateObj.toLocaleDateString('en-US', options).replace(',', ' -');
-                    dateTd.className = 'px-4 py-2';
-                    tr.appendChild(dateTd);
-
-                    const timeTd = document.createElement('td');
-                    timeTd.textContent = row.Time;
-                    timeTd.className = 'px-4 py-2';
-                    tr.appendChild(timeTd);
-
-                    const courseTd = document.createElement('td');
-                    courseTd.textContent = row.Course;
-                    courseTd.className = 'px-4 py-2';
-                    tr.appendChild(courseTd);
-
-                    const playersAndCaddiesTd = document.createElement('td');
-                    playersAndCaddiesTd.className = 'px-4 py-2';
-
+                    const dateObj = new Date(row.Date.replace(/-/g, '/'));
                     let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-                    if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('a.m.')) {
-                        teeTimeAmPm = 'AM';
-                    } else if (row['Time'].toLowerCase().startsWith('12') && row['Time'].toLowerCase().includes('p.m.')) {
-                        teeTimeAmPm = 'PM';
-                    }
-
                     const players = [row.Player1, row.Player2, row.Player3, row.Player4];
-                    const playersWithCaddies = players.filter(player => player && player !== 'TBD').map(player => {
-                        const caddyChoice = caddySelectionsByPlayerRound[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
-                        return `${player} - ${caddyChoice}`;
+                    const playersWithCaddies = players.filter(p => p && p !== 'TBD').map(p => {
+                        let caddyChoice = 'No Caddy';
+                        if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
+                            caddyChoice = completeCaddyData[p]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                        }
+                        return `${p} - ${caddyChoice}`;
                     });
-
-                    playersAndCaddiesTd.innerHTML = playersWithCaddies.join('<br>');
-                    tr.appendChild(playersAndCaddiesTd);
-
-                    const caddySummaryTd = document.createElement('td');
-                    caddySummaryTd.className = 'px-4 py-2';
                     const caddyCounts = players.reduce((counts, player) => {
                         if (player && player !== 'TBD') {
-                            const caddyChoice = caddySelectionsByPlayerRound[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            let caddyChoice = 'No Caddy';
+                            if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
+                                caddyChoice = completeCaddyData[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            }
                             if (caddyChoice !== 'No Caddy') {
                                 counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
                             }
                         }
                         return counts;
                     }, {});
-
-                    const summaryString = Object.keys(caddyCounts).map(type => `${type}: ${caddyCounts[type]}`).join(', ');
-                    caddySummaryTd.textContent = summaryString || 'No Caddies';
-                    tr.appendChild(caddySummaryTd);
-
-                    teeTimeSummaryBody.appendChild(tr);
+                    const summaryString = Object.keys(caddyCounts).map(type => `${type}: ${caddyCounts[type]}`).join(', ') || 'No Caddies';
                     
-                    // Add a bold line separator after all tee times for a date
-                    if (dailyTeeTimes.indexOf(row) === dailyTeeTimes.length - 1) {
-                         const separatorTr = document.createElement('tr');
-                         separatorTr.className = 'caddy-summary-separator';
-                         separatorTr.innerHTML = '<td colspan="5"></td>';
-                         teeTimeSummaryBody.appendChild(separatorTr);
+                    tr.innerHTML = `
+                        <td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
+                        <td class="px-4 py-2">${row.Time}</td>
+                        <td class="px-4 py-2">${row.Course}</td>
+                        <td class="px-4 py-2">${playersWithCaddies.join('<br>')}</td>
+                        <td class="px-4 py-2">${summaryString}</td>
+                    `;
+                    teeTimeSummaryBody.appendChild(tr);
+
+                    if (index === dailyTeeTimes.length - 1) {
+                        const separatorTr = document.createElement('tr');
+                        separatorTr.className = 'caddy-summary-separator';
+                        separatorTr.innerHTML = '<td colspan="5"></td>';
+                        teeTimeSummaryBody.appendChild(separatorTr);
                     }
                 });
             });
         }
 
-
-        // Function to create teams for a given day
         function createDailyTeams(players, previousDayScores) {
             let playersWithRank = [];
             const numTeams = 6;
             const teams = Array.from({ length: numTeams }, () => []);
 
-            // If it's the first day, rank by handicap
             if (!previousDayScores) {
-                playersWithRank = players.map(name => ({
-                    name,
-                    handicap: handicaps[name],
-                    score: null
-                }));
-                // Sort by handicap ascending for the first day
+                playersWithRank = players.map(name => ({ name, handicap: handicaps[name], score: null }));
                 playersWithRank.sort((a, b) => a.handicap - b.handicap);
             } else {
-                // For subsequent days, rank by previous day's score with a handicap tie-breaker
-                playersWithRank = players.map(name => ({
-                    name,
-                    handicap: handicaps[name],
-                    score: previousDayScores[name]
-                }));
-                // Sort players by previous day's score (higher is better), then by handicap (lower is better)
+                playersWithRank = players.map(name => ({ name, handicap: handicaps[name], score: previousDayScores[name] }));
                 playersWithRank.sort((a, b) => {
                     if (b.score !== a.score) {
                         return b.score - a.score;
@@ -1334,167 +1119,151 @@
                 });
             }
 
-            // Snake draft logic
             for (let i = 0; i < playersWithRank.length; i++) {
                 const player = playersWithRank[i];
-                if (Math.floor(i / numTeams) % 2 === 0) {
-                    teams[i % numTeams].push(player);
-                } else {
-                    teams[numTeams - 1 - (i % numTeams)].push(player);
-                }
+                const teamIndex = Math.floor(i / numTeams) % 2 === 0 ? i % numTeams : numTeams - 1 - (i % numTeams);
+                teams[teamIndex].push(player);
             }
             return teams;
         }
 
-        function generateMockScores(players, previousDayScores) {
-            const scores = {};
-            players.forEach(player => {
-                // Generate a score based on previous day's score or handicap
-                let baseScore = 25; // Base score for a decent day
-                if (previousDayScores && previousDayScores[player] !== undefined) {
-                    // Use previous day's performance to influence today's score
-                    // Example: A better score yesterday (higher number) might lead to a slightly higher score today
-                    baseScore = previousDayScores[player];
-                } else {
-                    // For the first day, use handicap as a base
-                    baseScore = 25 - handicaps[player];
-                }
-                
-                // Add some random variation
-                const score = Math.max(0, Math.floor(baseScore + (Math.random() * 10 - 5)));
-                scores[player] = score;
-            });
-            return scores;
-        }
-
-        // Function to populate a single scoring table for a given date
         function populateScoringTable(date, teamsForDay, scoresForDay) {
-            const scoringBody = document.getElementById(`scoring-body-${date.split('-').slice(1).join('-')}`);
+            const dateSuffix = date.substring(5).replace(/-/g, '-');
+            const scoringBody = document.getElementById(`scoring-body-${dateSuffix}`);
             if (!scoringBody) return;
             scoringBody.innerHTML = '';
-            
-            // Calculate team total scores and find the winning team
-            const teamTotals = teamsForDay.map(team => 
-                team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0)
-            );
+
+            const teamTotals = teamsForDay.map(team => team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0));
             const winningTeamScore = Math.max(...teamTotals);
-            
+
             teamsForDay.forEach((team, teamIndex) => {
                 const teamTotalScore = teamTotals[teamIndex];
-                
-                let rowsForTeam = [];
-                team.forEach(player => {
+                team.forEach((player, playerIndex) => {
                     const playerScore = scoresForDay[player.name] || 'N/A';
-                    
                     const tr = document.createElement('tr');
-                    
-                    const playerTd = document.createElement('td');
-                    playerTd.className = 'px-4 py-2';
-                    playerTd.textContent = player.name;
-                    tr.appendChild(playerTd);
-                    
-                    const handicapTd = document.createElement('td');
-                    handicapTd.className = 'px-4 py-2';
-                    handicapTd.textContent = player.handicap;
-                    tr.appendChild(handicapTd);
-                    
-                    const scoreTd = document.createElement('td');
-                    scoreTd.className = 'px-4 py-2';
-                    scoreTd.textContent = playerScore;
-                    tr.appendChild(scoreTd);
-                    
-                    rowsForTeam.push(tr);
-                });
-
-                if (rowsForTeam.length > 0) {
-                    const firstRow = rowsForTeam[0];
-                    
-                    const teamTd = document.createElement('td');
-                    teamTd.rowSpan = team.length;
-                    teamTd.className = 'px-4 py-2 team-header';
-                    teamTd.textContent = `Team ${teamIndex + 1}`;
-                    firstRow.prepend(teamTd);
-                    
-                    const teamTotalCell = document.createElement('td');
-                    teamTotalCell.rowSpan = team.length;
-                    teamTotalCell.className = 'px-4 py-2 font-bold';
-                    teamTotalCell.textContent = teamTotalScore;
-                    firstRow.appendChild(teamTotalCell);
-                }
-
-                // Append rows to the table body
-                rowsForTeam.forEach(row => {
                     if (teamTotalScore === winningTeamScore) {
-                        row.classList.add('winning-team-highlight');
+                        tr.classList.add('winning-team-highlight');
                     }
-                    scoringBody.appendChild(row);
+                    let rowHtml = '';
+                    if (playerIndex === 0) {
+                        rowHtml += `<td rowspan="${team.length}" class="px-4 py-2 team-header">Team ${teamIndex + 1}</td>`;
+                    }
+                    rowHtml += `
+                        <td class="px-4 py-2">${player.name}</td>
+                        <td class="px-4 py-2">${player.handicap.toFixed(1)}</td>
+                        <td class="px-4 py-2">${playerScore}</td>
+                    `;
+                    if (playerIndex === 0) {
+                        rowHtml += `<td rowspan="${team.length}" class="px-4 py-2 font-bold">${teamTotalScore}</td>`;
+                    }
+                    tr.innerHTML = rowHtml;
+                    scoringBody.appendChild(tr);
                 });
             });
         }
 
+        function populateDailyFlow(playerName) {
+            const header = document.getElementById('daily-flow-header');
+            const body = document.getElementById('daily-flow-body');
+            header.innerHTML = '';
+            body.innerHTML = '';
+
+            const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
+            let headerRow = '<tr><th class="px-2 py-1">Time</th>';
+            dates.forEach(date => {
+                const d = new Date(date.replace(/-/g, '/'));
+                headerRow += `<th class="px-2 py-1">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
+            });
+            headerRow += '</tr>';
+            header.innerHTML = headerRow;
+
+            const playerTeeTimes = parseCSV(csvData).filter(row => 
+                [row.Player1, row.Player2, row.Player3, row.Player4].includes(playerName)
+            );
+
+            for (let hour = 6; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
+
+                    dates.forEach(date => {
+                        let cellContent = '';
+                        let cellClass = '';
+                        const now = new Date(`${date} ${time}`);
+
+                        const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => 
+                            new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
+                        );
+
+                        for(let i = 0; i < dailyTeeTimes.length; i++) {
+                            const tt = dailyTeeTimes[i];
+                            const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
+                            const endTime = new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
+                            
+                            if (now >= startTime && now < endTime) {
+                                if(Math.abs(now - startTime) < 30 * 60 * 1000) {
+                                    cellContent = `${tt.Time} - ${tt.Course}`;
+                                } else {
+                                    cellContent = tt.Course;
+                                }
+                                cellClass = 'bg-blue-200';
+                                break;
+                            }
+
+                            if (i + 1 < dailyTeeTimes.length) {
+                                const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
+                                if (now >= endTime && now < nextTeeTime) {
+                                    cellClass = 'bg-green-200';
+                                    cellContent = 'Free Time';
+                                    break;
+                                }
+                            }
+                        }
+                        rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
+                    });
+                    rowHtml += '</tr>';
+                    body.innerHTML += rowHtml;
+                }
+            }
+        }
 
         function initialize() {
-            // First, parse all the data once
             const allPlayers = Object.keys(handicaps);
-            const parsedMainData = parseCSV(csvData);
-            parseCaddyWorkbookCSV(caddyWorkbookCsvData);
-
-            // Populate the player dropdown with all player names
+            parseCaddyWorkbookCSV();
             populatePlayerSelect(allPlayers);
-
-            // Initial population of the tables
-            const initialPlayer = allPlayers[0];
+            
+            const initialPlayer = allPlayers.sort()[0];
+            document.getElementById('player-select').value = initialPlayer;
+            
             populateTeeTimesForPlayer(initialPlayer);
             populateNotes(initialPlayer);
             populateDailyPairings();
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
+            populateDailyFlow(initialPlayer);
 
-            // Create and populate all scoring tables with dynamic teams
             let previousDayScores = null;
-
             scoringDates.forEach(date => {
-                const dateKey = date; // e.g., '2025-08-20'
-                const playersList = Object.keys(handicaps); // Use the keys from handicaps to get all players
-
-                let currentDayScores = {};
-                // Use actual scores for 8/20, generate mock scores for other days
-                if (allScoresData[dateKey]) {
-                    currentDayScores = allScoresData[dateKey];
-                } else {
-                    currentDayScores = generateMockScores(playersList, previousDayScores);
-                }
-                dailyScores[dateKey] = currentDayScores;
-                
-                // Create teams for the current day based on previous day's scores or handicaps
-                dailyTeams[dateKey] = createDailyTeams(playersList, previousDayScores);
-
-                // Populate the table for the current day
-                populateScoringTable(dateKey, dailyTeams[dateKey], dailyScores[dateKey]);
-
-                // Set the current day's scores as the previous day's scores for the next iteration
-                previousDayScores = currentDayScores;
+                const playersList = Object.keys(handicaps);
+                dailyScores[date] = allScoresData[date];
+                dailyTeams[date] = createDailyTeams(playersList, previousDayScores);
+                populateScoringTable(date, dailyTeams[date], dailyScores[date]);
+                previousDayScores = dailyScores[date];
             });
 
-
-            // Add event listeners
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
                 populateTeeTimesForPlayer(selectedPlayer);
                 populateNotes(selectedPlayer);
+                populateDailyFlow(selectedPlayer);
             });
 
-            // Tab functionality
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    // Remove active class from all buttons and content
                     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-                    // Add active class to the clicked button and its corresponding content
                     button.classList.add('active');
-                    const targetId = button.id.replace('tab-', 'content-');
-                    document.getElementById(targetId).classList.add('active');
+                    document.getElementById(button.id.replace('tab-', 'content-')).classList.add('active');
                 });
             });
         }
