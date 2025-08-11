@@ -447,7 +447,7 @@
     </div>
 
     <script>
-        // Raw CSV data for golf pairings
+        // Raw CSV data for golf pairings - Updated with missing tee times from PDF
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
 2025-08-20,3:15 p.m. ,Shorty's,TBD,TBD,TBD,TBD,,Bill to individuals,,2025-08-20 15:15:00,2025-08-20 17:15:00,,855,,Shorty's,2,,,,,,780,220
 2025-08-20,2:40 p.m. ,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,YES,2 Caddies,,2025-08-20 14:40:00,2025-08-20 19:10:00,,880,,Bandon Dunes,4.5,,,,,,790,230
@@ -462,35 +462,37 @@
 2025-08-21,8:00 a.m. ,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,,,2025-08-21 08:00:00,2025-08-21 12:30:00,,480,,,,,,,,,880,320
 2025-08-21,8:10 a.m. ,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,,,2025-08-21 08:10:00,2025-08-21 12:40:00,,490,,,,,,,,,890,330
 2025-08-21,8:20 a.m. ,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-21 08:20:00,2025-08-21 12:50:00,,500,,,,,,,,,900,340
+2025-08-21,1:00 p.m. ,Bandon Dunes,TBD,TBD,TBD,TBD,,REPLAY,,2025-08-21 13:00:00,2025-08-21 18:00:00,,780,,,,,,,,905,345
 2025-08-21,1:10 p.m. ,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY,,2025-08-21 13:10:00,2025-08-21 17:40:00,,790,,,,,,,,,910,350
 2025-08-21,1:20 p.m. ,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,,,2025-08-21 13:20:00,2025-08-21 17:50:00,,800,,Time until next tee time,,,,,,,920,360
 2025-08-21,1:30 p.m. ,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,,,2025-08-21 13:30:00,2025-08-21 18:00:00,,810,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,930,370
 2025-08-21,1:40 p.m. ,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,2025-08-21 13:40:00,2025-08-21 18:10:00,,820,,1080,1264.9999999953434,1069.9999999988358,1090.0000000011642,,,,940,380
 2025-08-21,1:50 p.m. ,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,,,2025-08-21 13:50:00,2025-08-21 18:20:00,,830,,1090.0000000011642,1080,1090.0000000011642,1274.9999999965075,,,,950,390
-2025-08-21,1:50 p.m. ,Shorty's,TBD,TBD,,,,,,2025-08-21 13:50:00,2025-08-21 15:50:00,,830,,Shorty's,2,,,,,,955,395
 2025-08-21,2:15 p.m. ,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,2025-08-21 14:15:00,2025-08-21 16:15:00,,855,,1080,1110.0000000034925,1080,1080,,,,960,400
 2025-08-21,6:00 p.m.,Bandon Preserve,TBD,TBD,TBD,,,Bill to individuals,,2025-08-21 18:00:00,2025-08-21 20:00:00,,1080,,1100.0000000023283,1110.0000000034925,1090.0000000011642,Name Not Found in Morning Group,,,,970,410
 2025-08-22,7:30 a.m. ,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,2025-08-22 07:30:00,2025-08-22 12:00:00,,450,,1319.9999999965075,1319.9999999965075,1145.0000000023283,1145.0000000023283,,,,980,420
 2025-08-22,7:40 a.m. ,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,2025-08-22 07:40:00,2025-08-22 12:10:00,,460,,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,Name Not Found in Morning Group,,,,990,430
 2025-08-22,7:50 a.m. ,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,2025-08-22 07:50:00,2025-08-22 12:20:00,,470,,,,,,,,,1000,440
 2025-08-22,8:00 a.m. ,Bandon Trails,Zach Deines,Johnathn Resetar,James Adolfson,,,,2025-08-22 08:00:00,2025-08-22 12:30:00,,480,,,,,,,,,1010,450
-2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1020,460
+2025-08-22,8:10 a.m. ,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-22 08:10:00,2025-08-22 12:40:00,,490,,,,,,,,,1020,460
 2025-08-22,8:20 a.m. ,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,2025-08-22 08:20:00,2025-08-22 12:50:00,,500,,,,,,,,,1030,470
 2025-08-22,1:10 p.m. ,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,2025-08-22 13:10:00,2025-08-22 17:40:00,,790,,,,,,,,,1040,480
 2025-08-22,1:20 p.m. ,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,,,2025-08-22 13:20:00,2025-08-22 17:50:00,,800,,,,,,,,,1050,490
 2025-08-22,1:30 p.m. ,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,,,2025-08-22 13:30:00,2025-08-22 18:00:00,,810,,,,,,,,,1060,500
 2025-08-22,1:40 p.m. ,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,,,,2025-08-22 13:40:00,2025-08-22 18:10:00,,820,,,,,,,,,1070,510
+2025-08-22,1:50 p.m. ,Pacific Dunes,TBD,TBD,TBD,TBD,,REPLAY,,2025-08-22 13:50:00,2025-08-22 18:50:00,,830,,,,,,,,,1075,515
 2025-08-22,2:15 p.m. ,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals,,2025-08-22 14:15:00,2025-08-22 16:15:00,,855,,,,,,,,,1080,520
 2025-08-22,6:30 p.m. ,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals,,2025-08-22 18:30:00,2025-08-22 20:30:00,,1110,,,,,,,,,1090,530
 2025-08-23,7:30 a.m. ,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,2025-08-23 07:30:00,2025-08-23 12:00:00,,450,,,,,,,,,1100,540
 2025-08-23,7:40 a.m. ,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,2025-08-23 07:40:00,2025-08-23 12:10:00,,460,,,,,,,,,1110,550
 2025-08-23,7:50 a.m. ,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,,,2025-08-23 07:50:00,2025-08-23 12:20:00,,470,,,,,,,,,1120,560
 2025-08-23,8:00 a.m. ,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,2025-08-23 08:00:00,2025-08-23 12:30:00,,480,,,,,,,,,1130,570
-2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Daniel Passino,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1140,580
+2025-08-23,8:10 a.m. ,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,2025-08-23 08:10:00,2025-08-23 12:40:00,,490,,,,,,,,,1140,580
 2025-08-23,8:20 a.m. ,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,2025-08-23 08:20:00,2025-08-23 12:50:00,,500,,,,,,,,,1150,590
 2025-08-23,1:10 p.m. ,Bandon Trails,Kevan Oyama,Ryan Hohn,Nick Zangardi,Zach Deines,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1160,600
 2025-08-23,1:20 p.m. ,Bandon Trails,James Adolfson,Johnathn Resetar,Brandon Itaoka,Paul Parker,,,,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1170,610
 2025-08-23,1:30 p.m. ,Bandon Trails,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,,,,2025-08-23 13:30:00,2025-08-23 18:00:00,,810,,,,,,,,,1180,620
+2025-08-23,1:50 p.m. ,Bandon Trails,TBD,TBD,TBD,TBD,,REPLAY,,2025-08-23 13:50:00,2025-08-23 18:50:00,,830,,,,,,,,,1175,615
 2025-08-23,1:10 p.m. ,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,REPLAY,,2025-08-23 13:10:00,2025-08-23 17:40:00,,790,,,,,,,,,1190,630
 2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,REPLAY,,2025-08-23 13:20:00,2025-08-23 17:50:00,,800,,,,,,,,,1200,640
 2025-08-23,2:15 p.m. ,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals,,2025-08-23 14:15:00,2025-08-23 16:15:00,,855,,,,,,,,,1210,650
@@ -501,7 +503,7 @@
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
 2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710`;
 
-        // Complete caddy data based on Excel file - updated to match Form Responses 2
+        // Complete caddy data based on ORIGINAL PDF (source of truth) with Excel form updates
         const completeCaddyData = {
             "AD Hoffman": {
                 "2025-08-20": { "PM": "Not Playing" },
@@ -511,11 +513,11 @@
                 "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
             },
             "Andrew Akers": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Bob Owlett": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -525,11 +527,11 @@
                 "2025-08-24": { "AM": "No Caddy" }
             },
             "Brandon Itaoka": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Bryan Wolfe": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -567,25 +569,25 @@
                 "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Hisham Sayeedi": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Jacob Emert": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "James Adolfson": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Johnathn Resetar": {
                 "2025-08-20": { "PM": "Carry Caddy" },
@@ -595,32 +597,32 @@
                 "2025-08-24": { "AM": "No Caddy" }
             },
             "Kevan Oyama": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Kevin Newell": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Matt Akers": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Mike Newell": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Nick Zangardi": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -637,39 +639,39 @@
                 "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
             },
             "Rob Small": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Ryan Hohn": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Vikas Bhasin": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Will Quarles": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "Not Playing" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             },
             "Zach Deines": {
-                "2025-08-20": { "PM": "N/A" },
-                "2025-08-21": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-22": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-23": { "AM": "N/A", "PM": "N/A" },
-                "2025-08-24": { "AM": "N/A" }
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
             }
         };
 
@@ -1165,8 +1167,13 @@
         function populateDailyFlow(playerName) {
             const header = document.getElementById('daily-flow-header');
             const body = document.getElementById('daily-flow-body');
+            const dailyFlowTitle = document.querySelector('#content-daily-flow .card h2');
+            
             header.innerHTML = '';
             body.innerHTML = '';
+            
+            // Update the title to include player name
+            dailyFlowTitle.textContent = `Daily Flow - ${playerName}`;
 
             const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
             let headerRow = '<tr><th class="px-2 py-1">Time</th>';
@@ -1181,42 +1188,59 @@
                 [row.Player1, row.Player2, row.Player3, row.Player4].includes(playerName)
             );
 
-            for (let hour = 6; hour <= 20; hour++) {
-                for (let minute = 0; minute < 60; minute += 30) {
+            // Changed from 6-20 hours to 7-20 hours, and 30-minute to 15-minute increments
+            for (let hour = 7; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
                     const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
                     let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
 
                     dates.forEach(date => {
                         let cellContent = '';
-                        let cellClass = '';
+                        let cellClass = 'bg-gray-100'; // Default gray for empty cells
                         const now = new Date(`${date} ${time}`);
 
-                        const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => 
-                            new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
-                        );
+                        // Check for group dinner on 8/20 at 20:30
+                        if (date === '2025-08-20' && time === '20:30') {
+                            cellContent = 'Trails End Grill - Group Dinner';
+                            cellClass = 'bg-purple-200';
+                        } else {
+                            const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => 
+                                new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
+                            );
 
-                        for(let i = 0; i < dailyTeeTimes.length; i++) {
-                            const tt = dailyTeeTimes[i];
-                            const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
-                            const endTime = new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
-                            
-                            if (now >= startTime && now < endTime) {
-                                if(Math.abs(now - startTime) < 30 * 60 * 1000) {
-                                    cellContent = `${tt.Time} - ${tt.Course}`;
-                                } else {
-                                    cellContent = tt.Course;
-                                }
-                                cellClass = 'bg-blue-200';
-                                break;
-                            }
+                            let foundActivity = false;
 
-                            if (i + 1 < dailyTeeTimes.length) {
-                                const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
-                                if (now >= endTime && now < nextTeeTime) {
-                                    cellClass = 'bg-green-200';
-                                    cellContent = 'Free Time';
+                            for(let i = 0; i < dailyTeeTimes.length; i++) {
+                                const tt = dailyTeeTimes[i];
+                                const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
+                                const endTime = new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
+                                
+                                if (now >= startTime && now < endTime) {
+                                    if(Math.abs(now - startTime) < 15 * 60 * 1000) {
+                                        cellContent = `${tt.Time} - ${tt.Course}`;
+                                    } else {
+                                        cellContent = tt.Course;
+                                    }
+                                    cellClass = 'bg-blue-200'; // Blue for active rounds
+                                    foundActivity = true;
                                     break;
                                 }
+
+                                if (i + 1 < dailyTeeTimes.length) {
+                                    const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
+                                    if (now >= endTime && now < nextTeeTime) {
+                                        cellClass = 'bg-green-300'; // Green for free time
+                                        cellContent = 'Free Time';
+                                        foundActivity = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // If no activity found, cell remains gray with empty content
+                            if (!foundActivity) {
+                                cellContent = '';
+                                cellClass = 'bg-gray-100';
                             }
                         }
                         rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
