@@ -641,32 +641,32 @@
             }
         };
 
-        // Rooming data - Rebuilt from the latest Rooming List image.
+        // Rooming data - Rebuilt from the latest Rooming List file.
         const roomingData = {
-            "Matt Akers": { accommodation: "Golf Double", roommate: "Andrew Akers" },
-            "Andrew Akers": { accommodation: "Golf Double", roommate: "Matt Akers" },
-            "Bob Owlett": { accommodation: "Golf Double", roommate: "Kevan Oyama" },
-            "Kevan Oyama": { accommodation: "Golf Double", roommate: "Bob Owlett" },
-            "Brandon Itaoka": { accommodation: "Golf Double", roommate: "Cory Micheel" },
-            "Cory Micheel": { accommodation: "Golf Double", roommate: "Brandon Itaoka" },
-            "Charlie Hildebrand": { accommodation: "Golf Double", roommate: "Hisham Sayeedi" },
-            "Hisham Sayeedi": { accommodation: "Golf Double", roommate: "Charlie Hildebrand" },
-            "Cory Higgins": { accommodation: "Golf Double", roommate: "Will Quarles" },
-            "Will Quarles": { accommodation: "Golf Double", roommate: "Cory Higgins" },
-            "Daniel Passino": { accommodation: "Golf Double", roommate: "Vikas Bhasin" },
-            "Vikas Bhasin": { accommodation: "Golf Double", roommate: "Daniel Passino" },
-            "Jacob Emert": { accommodation: "Grove Two Bedroom Suite", roommate: "Zach Deines" },
-            "Zach Deines": { accommodation: "Grove Two Bedroom Suite", roommate: "Jacob Emert" },
-            "James Adolfson": { accommodation: "Golf Double", roommate: "Paul Parker" },
-            "Paul Parker": { accommodation: "Golf Double", roommate: "James Adolfson" },
-            "Johnathn Resetar": { accommodation: "Golf Double", roommate: "Ryan Hohn" },
-            "Ryan Hohn": { accommodation: "Golf Double", roommate: "Johnathn Resetar" },
-            "Kevin Newell": { accommodation: "Golf Double", roommate: "Mike Newell" },
-            "Mike Newell": { accommodation: "Golf Double", roommate: "Kevin Newell" },
-            "Nick Zangardi": { accommodation: "Golf Double", roommate: "Rob Small" },
-            "Rob Small": { accommodation: "Golf Double", roommate: "Nick Zangardi" },
-            "Bryan Wolfe": { accommodation: "Chrome King", roommate: "None" },
-            "AD Hoffman": { accommodation: "Chrome King", roommate: "None" }
+            "Matt Akers": { accommodation: "Golf Double", roommates: ["Andrew Akers"] },
+            "Andrew Akers": { accommodation: "Golf Double", roommates: ["Matt Akers"] },
+            "Bob Owlett": { accommodation: "Golf Double", roommates: ["Kevan Oyama"] },
+            "Kevan Oyama": { accommodation: "Golf Double", roommates: ["Bob Owlett"] },
+            "Brandon Itaoka": { accommodation: "Golf Double", roommates: ["Cory Micheel"] },
+            "Cory Micheel": { accommodation: "Golf Double", roommates: ["Brandon Itaoka"] },
+            "Charlie Hildebrand": { accommodation: "Golf Double", roommates: ["Hisham Sayeedi"] },
+            "Hisham Sayeedi": { accommodation: "Golf Double", roommates: ["Charlie Hildebrand"] },
+            "Zach Deines": { accommodation: "Grove Two Bedroom Suite", roommates: ["Jacob Emert"] },
+            "Jacob Emert": { accommodation: "Grove Two Bedroom Suite", roommates: ["Zach Deines"] },
+            "James Adolfson": { accommodation: "Golf Double", roommates: ["Paul Parker"] },
+            "Paul Parker": { accommodation: "Golf Double", roommates: ["James Adolfson"] },
+            "Johnathn Resetar": { accommodation: "Golf Double", roommates: ["Ryan Hohn"] },
+            "Ryan Hohn": { accommodation: "Golf Double", roommates: ["Johnathn Resetar"] },
+            "Kevin Newell": { accommodation: "Golf Double", roommates: ["Mike Newell"] },
+            "Mike Newell": { accommodation: "Golf Double", roommates: ["Kevin Newell"] },
+            "Nick Zangardi": { accommodation: "Golf Double", roommates: ["Rob Small"] },
+            "Rob Small": { accommodation: "Golf Double", roommates: ["Nick Zangardi"] },
+            "Bryan Wolfe": { accommodation: "Chrome King", roommates: [] },
+            "AD Hoffman": { accommodation: "Chrome King", roommates: [] },
+            "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Daniel Passino", "Vikas Bhasin", "Will Quarles"] },
+            "Daniel Passino": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Vikas Bhasin", "Will Quarles"] },
+            "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Will Quarles"] },
+            "Will Quarles": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Vikas Bhasin"] }
         };
 
         // Handicap data
@@ -883,7 +883,12 @@
                 let trRoommate = document.createElement('tr');
                 let tdRoommate = document.createElement('td');
                 tdRoommate.className = 'border px-4 py-2';
-                tdRoommate.textContent = `Roommate: ${playerRoomingInfo.roommate}`;
+                let roommateText = 'None';
+                if (playerRoomingInfo.roommates.length > 0) {
+                    roommateText = playerRoomingInfo.roommates.join(', ');
+                }
+                const roommateLabel = playerRoomingInfo.roommates.length > 1 ? 'Roommates' : 'Roommate';
+                tdRoommate.textContent = `${roommateLabel}: ${roommateText}`;
                 trRoommate.appendChild(tdRoommate);
                 notesBody.appendChild(trRoommate);
             }
