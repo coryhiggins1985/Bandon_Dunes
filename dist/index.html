@@ -662,37 +662,35 @@
         // This is the new centralized data object for daily teams and scores.
         const dailyData = {
             "8-20": {
-                sixTeamData: {
-                    "Team 1": ["Mike Newell", "Rob Small", "Vikas Bhasin", "Matt Akers"],
-                    "Team 2": ["Andrew Akers", "Nick Zangardi", "Daniel Passino", "Will Quarles"],
-                    "Team 3": ["Cory Higgins", "Kevin Newell", "Hisham Sayeedi", "Charlie Hildebrand"],
-                    "Team 4": ["James Adolfson", "Zach Deines", "Cory Micheel", "Paul Parker"],
-                    "Team 5": ["Ryan Hohn", "Jacob Emert", "AD Hoffman", "Johnathn Resetar"],
-                    "Team 6": ["Kevan Oyama", "Bob Owlett", "Brandon Itaoka", "Bryan Wolfe"]
-                },
-                fourTeamData: {
-                    "Team 1": ["Mike Newell", "Ryan Hohn", "Kevin Newell", "AD Hoffman", "Paul Parker", "Will Quarles"],
-                    "Team 2": ["Andrew Akers", "Kevan Oyama", "Nick Zangardi", "Bryan Wolfe", "Charlie Hildebrand", "Matt Akers"],
-                    "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
-                    "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
-                },
-                scores: {
-                    "Cory Higgins": 50,
-                    "Mike Newell": 25, "Andrew Akers": 25, "James Adolfson": 25, "Ryan Hohn": 25, "Kevan Oyama": 25,
-                    "Bob Owlett": 25, "Jacob Emert": 25, "Brandon Itaoka": 25, "Zach Deines": 25, "Rob Small": 25,
-                    "Kevin Newell": 25, "Nick Zangardi": 25, "Vikas Bhasin": 25, "Hisham Sayeedi": 25, "Daniel Passino": 25,
-                    "Cory Micheel": 25, "AD Hoffman": 25, "Bryan Wolfe": 25, "Johnathn Resetar": 25, "Paul Parker": 25,
-                    "Charlie Hildebrand": 25, "Will Quarles": 25, "Matt Akers": 25
-                },
-                funBets: [
-                    { bet: "Low Net", winner: "Cory Higgins", score: 0 },
-                    { bet: "Low Gross", winner: "Cory Higgins", score: 0 }
-                ]
+                sixTeamData: { "Team 1": ["Mike Newell","Rob Small","Vikas Bhasin","Matt Akers"], "Team 2": ["Andrew Akers","Nick Zangardi","Daniel Passino","Will Quarles"], "Team 3": ["Cory Higgins","Kevin Newell","Hisham Sayeedi","Charlie Hildebrand"], "Team 4": ["James Adolfson","Zach Deines","Cory Micheel","Paul Parker"], "Team 5": ["Ryan Hohn","Jacob Emert","AD Hoffman","Johnathn Resetar"], "Team 6": ["Kevan Oyama","Bob Owlett","Brandon Itaoka","Bryan Wolfe"] },
+                fourTeamData: { "Team 1": ["Mike Newell","Ryan Hohn","Kevin Newell","AD Hoffman","Paul Parker","Will Quarles"], "Team 2": ["Andrew Akers","Kevan Oyama","Nick Zangardi","Bryan Wolfe","Charlie Hildebrand","Matt Akers"], "Team 3": ["Cory Higgins","Jacob Emert","Daniel Passino","Hisham Sayeedi","Cory Micheel","Johnathn Resetar"], "Team 4": ["James Adolfson","Bob Owlett","Brandon Itaoka","Zach Deines","Rob Small","Vikas Bhasin"] },
+                scores: { "Cory Higgins": 57, "Mike Newell": 63, "Andrew Akers": 25, "James Adolfson": 32, "Ryan Hohn": 50, "Kevan Oyama": 32, "Bob Owlett": 62, "Jacob Emert": 49, "Brandon Itaoka": 29, "Zach Deines": 51, "Rob Small": 45, "Kevin Newell": 60, "Nick Zangardi": 64, "Vikas Bhasin": 63, "Hisham Sayeedi": 54, "Daniel Passino": 47, "Cory Micheel": 0, "AD Hoffman": 0, "Bryan Wolfe": 0, "Johnathn Resetar": 0, "Paul Parker": 0, "Charlie Hildebrand": 0, "Will Quarles": 0, "Matt Akers": 0 },
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins", score: "" }, { bet: "Closest to the Pin #2", winner: "Cory Higgins", score: "" }, { bet: "Long Drive", winner: "Cory Higgins", score: "" } ]
             },
-            "8-21": { sixTeamData: {}, fourTeamData: {}, scores: {}, funBets: [{ bet: "Skins", winner: "Cory Higgins", score: 0 }] },
-            "8-22": { sixTeamData: {}, fourTeamData: {}, scores: {}, funBets: [{ bet: "CTP", winner: "Cory Higgins", score: 0 }] },
-            "8-23": { sixTeamData: {}, fourTeamData: {}, scores: {}, funBets: [{ bet: "Long Drive", winner: "Cory Higgins", score: 0 }] },
-            "8-24": { sixTeamData: {}, fourTeamData: {}, scores: {}, funBets: [{ bet: "Skins", winner: "Cory Higgins", score: 0 }] }
+            "8-21": { 
+                sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
+                fourTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino","Andrew Akers","Bob Owlett"], "Team 2": ["Zach Deines","Hisham Sayeedi","Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 3": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi","Cory Higgins","Kevan Oyama"], "Team 4": ["Rob Small","Vikas Bhasin","James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"] },
+                scores: { "Mike Newell": 63, "Jacob Emert": 44, "Brandon Itaoka": 28, "Daniel Passino": 47, "Andrew Akers": 40, "Bob Owlett": 30, "Zach Deines": 39, "Hisham Sayeedi": 61, "Cory Higgins": 38, "Kevan Oyama": 28, "Rob Small": 58, "Vikas Bhasin": 61, "James Adolfson": 46, "Ryan Hohn": 29, "Kevin Newell": 54, "Nick Zangardi": 64, "Cory Micheel": 0, "AD Hoffman": 0, "Paul Parker": 0, "Will Quarles": 0, "Bryan Wolfe": 0, "Charlie Hildebrand": 0, "Johnathn Resetar": 0, "Matt Akers": 0 },
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins", score: "" }, { bet: "Closest to the Pin #2", winner: "Cory Higgins", score: "" }, { bet: "Long Drive", winner: "Cory Higgins", score: "" } ]
+            },
+            "8-22": { 
+                sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
+                fourTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino","Andrew Akers","Bob Owlett"], "Team 2": ["Zach Deines","Hisham Sayeedi","Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 3": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi","Cory Higgins","Kevan Oyama"], "Team 4": ["Rob Small","Vikas Bhasin","James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"] },
+                scores: { "Mike Newell": 27, "Jacob Emert": 36, "Brandon Itaoka": 42, "Daniel Passino": 59, "Andrew Akers": 43, "Bob Owlett": 53, "Zach Deines": 32, "Hisham Sayeedi": 43, "Cory Higgins": 45, "Kevan Oyama": 30, "Rob Small": 58, "Vikas Bhasin": 41, "James Adolfson": 59, "Ryan Hohn": 45, "Kevin Newell": 40, "Nick Zangardi": 33, "Cory Micheel": 0, "AD Hoffman": 0, "Paul Parker": 0, "Will Quarles": 0, "Bryan Wolfe": 0, "Charlie Hildebrand": 0, "Johnathn Resetar": 0, "Matt Akers": 0 },
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins", score: "" }, { bet: "Closest to the Pin #2", winner: "Cory Higgins", score: "" }, { bet: "Long Drive", winner: "Cory Higgins", score: "" } ]
+            },
+            "8-23": { 
+                sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
+                fourTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino","Andrew Akers","Bob Owlett"], "Team 2": ["Zach Deines","Hisham Sayeedi","Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 3": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi","Cory Higgins","Kevan Oyama"], "Team 4": ["Rob Small","Vikas Bhasin","James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"] },
+                scores: { "Mike Newell": 53, "Jacob Emert": 55, "Brandon Itaoka": 65, "Daniel Passino": 35, "Andrew Akers": 49, "Bob Owlett": 40, "Zach Deines": 29, "Hisham Sayeedi": 32, "Cory Higgins": 30, "Kevan Oyama": 50, "Rob Small": 36, "Vikas Bhasin": 37, "James Adolfson": 59, "Ryan Hohn": 65, "Kevin Newell": 39, "Nick Zangardi": 61, "Cory Micheel": 0, "AD Hoffman": 0, "Paul Parker": 0, "Will Quarles": 0, "Bryan Wolfe": 0, "Charlie Hildebrand": 0, "Johnathn Resetar": 0, "Matt Akers": 0 },
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins", score: "" }, { bet: "Closest to the Pin #2", winner: "Cory Higgins", score: "" }, { bet: "Long Drive", winner: "Cory Higgins", score: "" } ]
+            },
+            "8-24": { 
+                sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
+                fourTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino","Andrew Akers","Bob Owlett"], "Team 2": ["Zach Deines","Hisham Sayeedi","Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 3": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi","Cory Higgins","Kevan Oyama"], "Team 4": ["Rob Small","Vikas Bhasin","James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"] },
+                scores: { "Mike Newell": 51, "Jacob Emert": 37, "Brandon Itaoka": 42, "Daniel Passino": 51, "Andrew Akers": 46, "Bob Owlett": 61, "Zach Deines": 46, "Hisham Sayeedi": 39, "Cory Higgins": 33, "Kevan Oyama": 33, "Rob Small": 63, "Vikas Bhasin": 26, "James Adolfson": 65, "Ryan Hohn": 36, "Kevin Newell": 30, "Nick Zangardi": 49, "Cory Micheel": 0, "AD Hoffman": 0, "Paul Parker": 0, "Will Quarles": 0, "Bryan Wolfe": 0, "Charlie Hildebrand": 0, "Johnathn Resetar": 0, "Matt Akers": 0 },
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins", score: "" }, { bet: "Closest to the Pin #2", winner: "Cory Higgins", score: "" }, { bet: "Long Drive", winner: "Cory Higgins", score: "" } ]
+            }
         };
 
         // All JavaScript functions follow...
