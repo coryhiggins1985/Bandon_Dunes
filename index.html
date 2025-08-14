@@ -778,18 +778,18 @@
             if (lines.length < 2) return [];
 
             const data = [];
-            const headers = lines[0].split(',');
-            const dateIndex = headers.findIndex(h => h.trim() === 'Date');
-            const timeIndex = headers.findIndex(h => h.trim() === 'Time');
-            const courseIndex = headers.findIndex(h => h.trim() === 'Course');
+            const headers = lines[0].split(',').map(h => h.trim());
+            const dateIndex = headers.indexOf('Date');
+            const timeIndex = headers.indexOf('Time');
+            const courseIndex = headers.indexOf('Course');
             const playerIndices = [
-                headers.findIndex(h => h.trim() === 'Player1'),
-                headers.findIndex(h => h.trim() === 'Player2'),
-                headers.findIndex(h => h.trim() === 'Player3'),
-                headers.findIndex(h => h.trim() === 'Player4'),
-                headers.findIndex(h => h.trim() === 'Player5')
+                headers.indexOf('Player1'),
+                headers.indexOf('Player2'),
+                headers.indexOf('Player3'),
+                headers.indexOf('Player4'),
+                headers.indexOf('Player5')
             ].filter(i => i !== -1);
-            const notesIndex = headers.findIndex(h => h.trim() === 'Notes');
+            const notesIndex = headers.indexOf('Notes');
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].split(',');
@@ -800,10 +800,12 @@
                 row['Notes'] = notesIndex > -1 && currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
                 
                 let players = [];
-                playerIndices.forEach((pIndex, idx) => {
-                    const playerName = currentLine[pIndex] ? currentLine[pIndex].trim() : '';
-                    if (playerName) {
-                        players[idx] = playerName;
+                playerIndices.forEach((pIndex) => {
+                    if (pIndex < currentLine.length) {
+                        const playerName = currentLine[pIndex] ? currentLine[pIndex].trim() : '';
+                        if (playerName) {
+                            players.push(playerName);
+                        }
                     }
                 });
                 row['Players'] = players;
@@ -815,10 +817,7 @@
             return data;
         }
 
-
-        // Caddy CSV parsing - now replaced with direct data mapping
         function parseCaddyWorkbookCSV() {
-            // Simply use the complete caddy data directly
             Object.keys(completeCaddyData).forEach(playerName => {
                 caddySelectionsByPlayerRound[playerName] = completeCaddyData[playerName];
             });
@@ -984,7 +983,7 @@
                 const dailyPairings = pairingsByDate[date].sort((a,b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
                 dailyPairings.forEach((row, index) => {
                     const tr = document.createElement('tr');
-                    if (index === dailyPairings.length - 1) {
+                    if (index === dailyPairings.length - 1 && date !== '2025-08-24') {
                         tr.className = 'last-tee-time-of-day';
                     }
                     
@@ -1009,7 +1008,6 @@
 
             const players = Object.keys(handicaps).sort();
             
-            // Define the exact date/round combinations we want to show
             const dateRounds = [
                 { date: '2025-08-20', round: 'PM', label: 'Wed 8/20 (PM)' },
                 { date: '2025-08-21', round: 'AM', label: 'Thu 8/21 (AM)' },
@@ -1021,7 +1019,6 @@
                 { date: '2025-08-24', round: 'AM', label: 'Sun 8/24 (AM)' }
             ];
 
-            // Create headers
             dateRounds.forEach(dateRound => {
                 const th = document.createElement('th');
                 th.className = 'px-4 py-2';
@@ -1029,7 +1026,6 @@
                 caddySummaryHeaderRow.appendChild(th);
             });
 
-            // Create rows for each player
             players.forEach(player => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td class="px-4 py-2 font-semibold">${player}</td>`;
@@ -1097,7 +1093,7 @@
                     `;
                     teeTimeSummaryBody.appendChild(tr);
 
-                    if (index === dailyTeeTimes.length - 1) {
+                    if (index === dailyTeeTimes.length - 1 && Object.keys(teeTimesByDate).sort().pop() !== date) {
                         const separatorTr = document.createElement('tr');
                         separatorTr.className = 'caddy-summary-separator';
                         separatorTr.innerHTML = '<td colspan="5"></td>';
@@ -1176,7 +1172,6 @@
             header.innerHTML = '';
             body.innerHTML = '';
             
-            // Update the title to include player name
             dailyFlowTitle.textContent = `Daily Flow - ${playerName}`;
 
             const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
@@ -1190,7 +1185,6 @@
 
             const playerTeeTimes = parseCSV(csvData).filter(row => row.Players.includes(playerName));
 
-            // Changed from 6-20 hours to 7-20 hours, and 30-minute to 15-minute increments
             for (let hour = 7; hour <= 20; hour++) {
                 for (let minute = 0; minute < 60; minute += 15) {
                     const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
@@ -1198,10 +1192,9 @@
 
                     dates.forEach(date => {
                         let cellContent = '';
-                        let cellClass = 'bg-gray-100'; // Default gray for empty cells
+                        let cellClass = 'bg-gray-100';
                         const now = new Date(`${date} ${time}`);
 
-                        // Check for group dinner on 8/20 at 20:30
                         if (date === '2025-08-20' && time === '20:30') {
                             cellContent = 'Trails End Grill - Group Dinner';
                             cellClass = 'bg-purple-200';
@@ -1215,7 +1208,7 @@
                             for(let i = 0; i < dailyTeeTimes.length; i++) {
                                 const tt = dailyTeeTimes[i];
                                 const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
-                                let durationHours = 4.5; // Default duration
+                                let durationHours = 4.5;
                                 if (tt.Course === "Bandon Preserve" || tt.Course === "Shorty's") {
                                     durationHours = 2;
                                 }
@@ -1227,7 +1220,7 @@
                                     } else {
                                         cellContent = tt.Course;
                                     }
-                                    cellClass = 'bg-blue-200'; // Blue for active rounds
+                                    cellClass = 'bg-blue-200';
                                     foundActivity = true;
                                     break;
                                 }
@@ -1235,15 +1228,13 @@
                                 if (i + 1 < dailyTeeTimes.length) {
                                     const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
                                     if (now >= endTime && now < nextTeeTime) {
-                                        cellClass = 'bg-green-300'; // Green for free time
+                                        cellClass = 'bg-green-300';
                                         cellContent = 'Free Time';
                                         foundActivity = true;
                                         break;
                                     }
                                 }
                             }
-
-                            // If no activity found, cell remains gray with empty content
                             if (!foundActivity) {
                                 cellContent = '';
                                 cellClass = 'bg-gray-100';
