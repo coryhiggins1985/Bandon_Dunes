@@ -423,48 +423,51 @@
         </div>
     </div>
     <script>
-        // Raw CSV data for golf pairings - Updated to match the official PDF Tee Sheet
-        const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate
-2025-08-20,2:40 p.m.,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,,,,,
-2025-08-20,2:50 p.m.,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,,,,
-2025-08-20,3:00 p.m.,Bandon Dunes,Bryan Wolfe,Matt Akers,Paul Parker,Andrew Akers,,,,,
-2025-08-20,3:10 p.m.,Bandon Dunes,Kevan Oyama,Bob Owlett,Nick Zangardi,James Adolfson,,,,,
-2025-08-20,3:20 p.m.,Bandon Dunes,Vikas Bhasin,Daniel Passino,Charlie Hildebrand,Hisham Sayeedi,,,,,
-2025-08-21,7:30 a.m.,Pacific Dunes,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,,,,
-2025-08-21,7:40 a.m.,Pacific Dunes,Cory Higgins,Matt Akers,Andrew Akers,James Adolfson,,,,,
-2025-08-21,7:50 a.m.,Pacific Dunes,Bob Owlett,Kevin Newell,Mike Newell,Rob Small,,,,,
-2025-08-21,8:00 a.m.,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,,,,
-2025-08-21,8:10 a.m.,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,,,,
-2025-08-21,8:20 a.m.,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,,
-2025-08-21,1:10 p.m.,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY,,,
-2025-08-21,1:20 p.m.,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,REPLAY,,,
-2025-08-21,1:30 p.m.,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,REPLAY,,,
-2025-08-21,1:40 p.m.,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,REPLAY,,,
-2025-08-21,1:50 p.m.,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,REPLAY,,,
-2025-08-21,2:15 p.m.,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals,,,
-2025-08-22,7:30 a.m.,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,,,,
-2025-08-22,7:40 a.m.,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,,,,
-2025-08-22,7:50 a.m.,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,,,,
-2025-08-22,8:00 a.m.,Bandon Trails,Zach Deines,Johnathn Resetar,James Adolfson,,,
-2025-08-22,8:10 a.m.,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,,
-2025-08-22,8:20 a.m.,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,,,,
-2025-08-22,1:10 p.m.,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY,,,
-2025-08-22,1:20 p.m.,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,REPLAY,,,
-2025-08-22,1:30 p.m.,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,REPLAY,,,
-2025-08-22,1:40 p.m.,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,REPLAY,,,
-2025-08-23,7:30 a.m.,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,,,,
-2025-08-23,7:40 a.m.,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,,,,
-2025-08-23,7:50 a.m.,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,,,,
-2025-08-23,8:00 a.m.,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,,,,
-2025-08-23,8:10 a.m.,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,,
-2025-08-23,8:20 a.m.,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,,,,
-2025-08-23,1:10 p.m.,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,REPLAY,,,
-2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,REPLAY,,,
-2025-08-24,7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,,,,
-2025-08-24,7:10 a.m.,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,,,,
-2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,,
-2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,,
-2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,,`;
+        // Raw CSV data for golf pairings - Rebuilt from the latest Golf Pairings CSV file.
+        const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Player5,Notes
+2025-08-20,2:40 p.m.,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,,
+2025-08-20,2:50 p.m.,Bandon Dunes,Zach Deines,Johnathn Resetar,Ryan Hohn,Jacob Emert,,
+2025-08-20,3:00 p.m.,Bandon Dunes,Bryan Wolfe,Matt Akers,Paul Parker,Andrew Akers,,
+2025-08-20,3:10 p.m.,Bandon Dunes,Kevan Oyama,Bob Owlett,Nick Zangardi,James Adolfson,,
+2025-08-20,3:20 p.m.,Bandon Dunes,Vikas Bhasin,Daniel Passino,Charlie Hildebrand,Hisham Sayeedi,,
+2025-08-20,6:45 p.m.,Shorty's,Brandon Itaoka,Cory Micheel,AD Hoffman,Will Quarles,,
+2025-08-21,7:30 a.m.,Pacific Dunes,Vikas Bhasin,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,,
+2025-08-21,7:40 a.m.,Pacific Dunes,Cory Higgins,Matt Akers,Andrew Akers,James Adolfson,,
+2025-08-21,7:50 a.m.,Pacific Dunes,Bob Owlett,Kevin Newell,Mike Newell,Rob Small,,
+2025-08-21,8:00 a.m.,Pacific Dunes,Kevan Oyama,Zach Deines,Nick Zangardi,Johnathn Resetar,,
+2025-08-21,8:10 a.m.,Pacific Dunes,Brandon Itaoka,Ryan Hohn,Paul Parker,Jacob Emert,,
+2025-08-21,8:20 a.m.,Pacific Dunes,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,
+2025-08-21,1:10 p.m.,Bandon Dunes,Charlie Hildebrand,Hisham Sayeedi,Daniel Passino,Vikas Bhasin,,REPLAY
+2025-08-21,1:20 p.m.,Bandon Dunes,Kevan Oyama,Cory Higgins,Jacob Emert,Mike Newell,,REPLAY
+2025-08-21,1:30 p.m.,Bandon Dunes,Zach Deines,Paul Parker,Johnathn Resetar,James Adolfson,,REPLAY
+2025-08-21,1:40 p.m.,Bandon Dunes,Cory Micheel,Bob Owlett,Will Quarles,AD Hoffman,,REPLAY
+2025-08-21,1:50 p.m.,Bandon Dunes,Ryan Hohn,Nick Zangardi,Bryan Wolfe,,,REPLAY
+2025-08-21,2:15 p.m.,Bandon Preserve,Matt Akers,Andrew Akers,Kevin Newell,Rob Small,Brandon Itaoka,Bill to individuals
+2025-08-22,7:30 a.m.,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,
+2025-08-22,7:40 a.m.,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,
+2025-08-22,7:50 a.m.,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,
+2025-08-22,8:10 a.m.,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,
+2025-08-22,8:20 a.m.,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,
+2025-08-22,1:10 p.m.,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY
+2025-08-22,1:20 p.m.,Pacific Dunes,Bob Owlett,Nick Zangardi,Jacob Emert,Zach Deines,,REPLAY
+2025-08-22,1:30 p.m.,Pacific Dunes,James Adolfson,AD Hoffman,Bryan Wolfe,Will Quarles,,REPLAY
+2025-08-22,1:40 p.m.,Pacific Dunes,Kevan Oyama,Johnathn Resetar,,,REPLAY
+2025-08-22,2:15 p.m.,Shorty's,Brandon Itaoka,Ryan Hohn,Paul Parker,Charlie Hildebrand,Hisham Sayeedi,Bill to individuals
+2025-08-22,6:30 p.m.,Shorty's,Daniel Passino,Andrew Akers,Kevin Newell,Rob Small,Matt Akers,Bill to individuals
+2025-08-23,7:30 a.m.,Old Macdonald,Kevan Oyama,Mike Newell,Bob Owlett,Nick Zangardi,,
+2025-08-23,7:40 a.m.,Old Macdonald,Cory Higgins,Brandon Itaoka,Jacob Emert,Zach Deines,,
+2025-08-23,7:50 a.m.,Old Macdonald,Rob Small,Matt Akers,Andrew Akers,Kevin Newell,,
+2025-08-23,8:00 a.m.,Old Macdonald,Johnathn Resetar,Ryan Hohn,Paul Parker,James Adolfson,,
+2025-08-23,8:10 a.m.,Old Macdonald,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,
+2025-08-23,8:20 a.m.,Old Macdonald,AD Hoffman,Bryan Wolfe,Will Quarles,Cory Micheel,,
+2025-08-23,1:10 p.m.,Sheep Ranch,Cory Higgins,Matt Akers,Andrew Akers,Jacob Emert,,REPLAY
+2025-08-23,1:20 p.m.,Sheep Ranch,Mike Newell,Kevan Oyama,Nick Zangardi,Bryan Wolfe,,REPLAY
+2025-08-23,2:15 p.m.,Bandon Preserve,Kevin Newell,Rob Small,Vikas Bhasin,Charlie Hildebrand,,Bill to individuals
+2025-08-24,7:00 a.m.,Sheep Ranch,Kevan Oyama,AD Hoffman,Kevin Newell,Rob Small,,
+2025-08-24,7:10 a.m.,Sheep Ranch,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,
+2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,
+2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,
+2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,`;
         
         // Caddy data rebuilt from the provided CSV and cross-referenced with the tee time schedule for 100% accuracy.
         const completeCaddyData = {
@@ -541,21 +544,21 @@
             "Jacob Emert": {
                 "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "Carry Caddy" }
             },
             "James Adolfson": {
                 "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "No Caddy" }
             },
             "Johnathn Resetar": {
                 "2025-08-20": { "PM": "Carry Caddy" },
                 "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "No Caddy" }
             },
@@ -632,7 +635,7 @@
             "Zach Deines": {
                 "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "No Caddy" }
             }
@@ -775,38 +778,43 @@
             if (lines.length < 2) return [];
 
             const data = [];
-            const dateIndex = 0;
-            const timeIndex = 1;
-            const courseIndex = 2;
-            const playerIndices = [3, 4, 5, 6];
-            const caddieIndex = 7;
-            const notesIndex = 8;
-            const completeEstimateIndex = 10;
+            const headers = lines[0].split(',');
+            const dateIndex = headers.findIndex(h => h.trim() === 'Date');
+            const timeIndex = headers.findIndex(h => h.trim() === 'Time');
+            const courseIndex = headers.findIndex(h => h.trim() === 'Course');
+            const playerIndices = [
+                headers.findIndex(h => h.trim() === 'Player1'),
+                headers.findIndex(h => h.trim() === 'Player2'),
+                headers.findIndex(h => h.trim() === 'Player3'),
+                headers.findIndex(h => h.trim() === 'Player4'),
+                headers.findIndex(h => h.trim() === 'Player5')
+            ].filter(i => i !== -1);
+            const notesIndex = headers.findIndex(h => h.trim() === 'Notes');
 
             for (let i = 1; i < lines.length; i++) {
                 const currentLine = lines[i].split(',');
-                if (currentLine.length <= Math.max(...playerIndices, completeEstimateIndex)) continue;
-
                 const row = {};
                 row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
                 row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
                 row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
-                row['Caddie?'] = currentLine[caddieIndex] ? currentLine[caddieIndex].trim() : '';
-                row['Notes'] = currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
-                row['CompleteEstimate'] = currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
+                row['Notes'] = notesIndex > -1 && currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
+                
+                let players = [];
+                playerIndices.forEach((pIndex, idx) => {
+                    const playerName = currentLine[pIndex] ? currentLine[pIndex].trim() : '';
+                    if (playerName) {
+                        players[idx] = playerName;
+                    }
+                });
+                row['Players'] = players;
 
-                row['Player1'] = currentLine[playerIndices[0]] ? currentLine[playerIndices[0]].trim() : '';
-                row['Player2'] = currentLine[playerIndices[1]] ? currentLine[playerIndices[1]].trim() : '';
-                row['Player3'] = currentLine[playerIndices[2]] ? currentLine[playerIndices[2]].trim() : '';
-                row['Player4'] = currentLine[playerIndices[3]] ? currentLine[playerIndices[3]].trim() : '';
-
-                if (row['Date'] && row['Time'] && row['Course'] &&
-                    (row['Player1'] || row['Player2'] || row['Player3'] || row['Player4'])) {
+                if (row['Date'] && row['Time'] && row['Course'] && players.length > 0) {
                     data.push(row);
                 }
             }
             return data;
         }
+
 
         // Caddy CSV parsing - now replaced with direct data mapping
         function parseCaddyWorkbookCSV() {
@@ -911,10 +919,7 @@
                 stablefordTableBody.appendChild(tr);
             }
 
-            let playerTeeTimes = parsedData.filter(row => {
-                return (row['Player1'] === playerName || row['Player2'] === playerName || 
-                         row['Player3'] === playerName || row['Player4'] === playerName);
-            });
+            let playerTeeTimes = parsedData.filter(row => row.Players.includes(playerName));
 
             playerTeeTimes.sort((a, b) => {
                 const dateA = new Date(`${a['Date']} ${a['Time'].replace(/\./g, '')}`);
@@ -937,16 +942,7 @@
 
                 const completeTimeTd = document.createElement('td');
                 completeTimeTd.className = 'px-4 py-2';
-                const fullDateTime = row['CompleteEstimate'];
-                if (fullDateTime && fullDateTime.includes(' ')) {
-                    let timeString = fullDateTime.split(' ')[1];
-                    let [hours, minutes] = timeString.split(':').map(Number);
-                    let ampm = hours >= 12 ? 'p.m.' : 'a.m.';
-                    hours = hours % 12 || 12;
-                    completeTimeTd.textContent = `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
-                } else {
-                    completeTimeTd.textContent = 'N/A';
-                }
+                completeTimeTd.textContent = 'N/A'; // This column is no longer in the new CSV
                 tr.appendChild(completeTimeTd);
 
                 const courseTd = document.createElement('td');
@@ -963,7 +959,7 @@
 
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
-                const partners = [row.Player1, row.Player2, row.Player3, row.Player4]
+                const partners = row.Players
                     .filter(p => p && p !== playerName && p !== 'TBD')
                     .map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`)
                     .join(', ');
@@ -985,7 +981,7 @@
             });
 
             Object.keys(pairingsByDate).sort().forEach(date => {
-                const dailyPairings = pairingsByDate[date];
+                const dailyPairings = pairingsByDate[date].sort((a,b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
                 dailyPairings.forEach((row, index) => {
                     const tr = document.createElement('tr');
                     if (index === dailyPairings.length - 1) {
@@ -996,9 +992,9 @@
                     tr.innerHTML = `
                         <td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
                         <td class="px-4 py-2">${row.Time}</td>
-                        <td class="px-4 py-2">${row.CompleteEstimate && row.CompleteEstimate.includes(' ') ? new Date(row.CompleteEstimate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A'}</td>
+                        <td class="px-4 py-2">N/A</td>
                         <td class="px-4 py-2">${row.Course}</td>
-                        <td class="px-4 py-2">${[row.Player1, row.Player2, row.Player3, row.Player4].filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
+                        <td class="px-4 py-2">${row.Players.filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
                     `;
                     dailyPairingsBody.appendChild(tr);
                 });
@@ -1062,13 +1058,13 @@
             });
 
             Object.keys(teeTimesByDate).sort().forEach(date => {
-                const dailyTeeTimes = teeTimesByDate[date];
+                const dailyTeeTimes = teeTimesByDate[date].sort((a,b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
                 dailyTeeTimes.forEach((row, index) => {
                     const tr = document.createElement('tr');
                     const dateObj = new Date(row.Date.replace(/-/g, '/'));
                     let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
 
-                    const players = [row.Player1, row.Player2, row.Player3, row.Player4];
+                    const players = row.Players;
                     const playersWithCaddies = players.filter(p => p && p !== 'TBD').map(p => {
                         let caddyChoice = 'No Caddy';
                         if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
@@ -1192,9 +1188,7 @@
             headerRow += '</tr>';
             header.innerHTML = headerRow;
 
-            const playerTeeTimes = parseCSV(csvData).filter(row => 
-                [row.Player1, row.Player2, row.Player3, row.Player4].includes(playerName)
-            );
+            const playerTeeTimes = parseCSV(csvData).filter(row => row.Players.includes(playerName));
 
             // Changed from 6-20 hours to 7-20 hours, and 30-minute to 15-minute increments
             for (let hour = 7; hour <= 20; hour++) {
