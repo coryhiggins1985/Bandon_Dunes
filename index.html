@@ -654,6 +654,24 @@
             "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
+
+        // Team data for scoring tab
+        const sixTeamData = {
+            "Team 1": ["Mike Newell", "Rob Small", "Vikas Bhasin", "Matt Akers"],
+            "Team 2": ["Andrew Akers", "Nick Zangardi", "Daniel Passino", "Will Quarles"],
+            "Team 3": ["Cory Higgins", "Kevin Newell", "Hisham Sayeedi", "Charlie Hildebrand"],
+            "Team 4": ["James Adolfson", "Zach Deines", "Cory Micheel", "Paul Parker"],
+            "Team 5": ["Ryan Hohn", "Jacob Emert", "AD Hoffman", "Johnathn Resetar"],
+            "Team 6": ["Kevan Oyama", "Bob Owlett", "Brandon Itaoka", "Bryan Wolfe"]
+        };
+
+        const fourTeamData = {
+            "Team 1": ["Mike Newell", "Ryan Hohn", "Kevin Newell", "AD Hoffman", "Paul Parker", "Will Quarles"],
+            "Team 2": ["Andrew Akers", "Kevan Oyama", "Nick Zangardi", "Bryan Wolfe", "Charlie Hildebrand", "Matt Akers"],
+            "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
+            "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
+        };
+
         // All JavaScript functions follow...
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
@@ -1077,6 +1095,53 @@
                 }
             }
         }
+        
+        function populateScoringTable(teamData, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = ''; // Clear previous content
+
+            for (const teamName in teamData) {
+                const players = teamData[teamName];
+                let tableHtml = `
+                    <div class="mb-6">
+                        <table class="table-auto w-full">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 team-header" colspan="4">${teamName}</th>
+                                </tr>
+                                <tr>
+                                    <th class="px-4 py-2">Player</th>
+                                    <th class="px-4 py-2">Handicap</th>
+                                    <th class="px-4 py-2">Score</th>
+                                    <th class="px-4 py-2">Team Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                players.forEach((player, index) => {
+                    const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
+                    tableHtml += `
+                        <tr>
+                            <td class="border px-4 py-2">${player}</td>
+                            <td class="border px-4 py-2">${handicap}</td>
+                            <td class="border px-4 py-2"></td>
+                    `;
+                    if (index === 0) {
+                        tableHtml += `<td class="border px-4 py-2 font-bold" rowspan="${players.length}"></td>`;
+                    }
+                    tableHtml += `</tr>`;
+                });
+
+                tableHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.innerHTML += tableHtml;
+            }
+        }
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
@@ -1091,6 +1156,8 @@
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
+            populateScoringTable(sixTeamData, 'six-team-view');
+            populateScoringTable(fourTeamData, 'four-team-view');
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
@@ -1106,6 +1173,16 @@
                     button.classList.add('active');
                     document.getElementById(button.id.replace('tab-', 'content-')).classList.add('active');
                 });
+            });
+
+            document.getElementById('team-select').addEventListener('change', function() {
+                if (this.value === 'six') {
+                    document.getElementById('six-team-view').style.display = 'block';
+                    document.getElementById('four-team-view').style.display = 'none';
+                } else {
+                    document.getElementById('six-team-view').style.display = 'none';
+                    document.getElementById('four-team-view').style.display = 'block';
+                }
             });
         }
 
