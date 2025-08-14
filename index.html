@@ -166,12 +166,6 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Bandon Dunes Weather Forecast</h2>
-                <div id="weather-container" class="overflow-x-auto">
-                    <p>Loading weather forecast...</p>
-                </div>
-            </div>
             <div class="flex flex-col md:flex-row gap-6 mb-6">
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
@@ -407,30 +401,174 @@
         
         // Caddy data
         const completeCaddyData = {
-            "AD Hoffman": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Non-Carry Strategy Caddy" } },
-            "Andrew Akers": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
-            "Bob Owlett": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Brandon Itaoka": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Bryan Wolfe": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
-            "Charlie Hildebrand": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Cory Higgins": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Cory Micheel": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Daniel Passino": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Hisham Sayeedi": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Jacob Emert": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "James Adolfson": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Johnathn Resetar": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Kevan Oyama": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Kevin Newell": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Matt Akers": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Mike Newell": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Nick Zangardi": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Paul Parker": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Non-Carry Strategy Caddy" } },
-            "Rob Small": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Ryan Hohn": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
-            "Vikas Bhasin": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
-            "Will Quarles": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
-            "Zach Deines": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } }
+            "AD Hoffman": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Andrew Akers": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Not Playing" }
+            },
+            "Bob Owlett": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Brandon Itaoka": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Bryan Wolfe": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Not Playing" }
+            },
+            "Charlie Hildebrand": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Higgins": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Cory Micheel": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Daniel Passino": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Hisham Sayeedi": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Jacob Emert": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "James Adolfson": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Johnathn Resetar": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Kevan Oyama": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Kevin Newell": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Matt Akers": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Mike Newell": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Nick Zangardi": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Paul Parker": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
+            },
+            "Rob Small": {
+                "2025-08-20": { "PM": "Carry Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Ryan Hohn": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            },
+            "Vikas Bhasin": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Carry Caddy" }
+            },
+            "Will Quarles": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "Not Playing" }
+            },
+            "Zach Deines": {
+                "2025-08-20": { "PM": "No Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-24": { "AM": "No Caddy" }
+            }
         };
 
         // Rooming data - UPDATED 8/15/25
@@ -552,60 +690,6 @@
         };
 
         // All JavaScript functions follow...
-        // ===== WEATHER FUNCTIONS =====
-        function getWeatherDescription(code) {
-            const descriptions = {
-                0: "☀️ Clear sky", 1: "🌤️ Mainly clear", 2: "🌥️ Partly cloudy", 3: "☁️ Overcast",
-                45: "🌫️ Fog", 48: "🌫️ Depositing rime fog", 51: "💧 Light drizzle", 53: "💧 Moderate drizzle",
-                55: "💧 Dense drizzle", 61: "🌦️ Slight rain", 63: "🌧️ Moderate rain", 65: "⛈️ Heavy rain",
-                80: "🌦️ Slight rain showers", 81: "🌧️ Moderate rain showers", 82: "⛈️ Violent rain showers",
-            };
-            return descriptions[code] || "Weather data unavailable";
-        }
-        
-        function displayWeather(data) {
-            const container = document.getElementById('weather-container');
-            if (!data || !data.daily || !data.daily.time) {
-                container.innerHTML = '<p>Could not retrieve weather forecast.</p>';
-                return;
-            }
-            let tableHtml = `<table class="table-auto"><thead><tr>
-                <th class="px-4 py-2">Date</th><th class="px-4 py-2">Conditions</th>
-                <th class="px-4 py-2">High / Low</th><th class="px-4 py-2">Max Wind</th>
-                </tr></thead><tbody>`;
-            data.daily.time.forEach((date, index) => {
-                const day = new Date(date + 'T00:00:00-07:00');
-                const dayFormatted = day.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
-                const weatherCode = data.daily.weathercode[index];
-                const tempMax = Math.round(data.daily.temperature_2m_max[index]);
-                const tempMin = Math.round(data.daily.temperature_2m_min[index]);
-                const windSpeed = Math.round(data.daily.wind_speed_10m_max[index]);
-                tableHtml += `<tr>
-                    <td class="border px-4 py-2">${dayFormatted}</td>
-                    <td class="border px-4 py-2">${getWeatherDescription(weatherCode)}</td>
-                    <td class="border px-4 py-2">${tempMax}°F / ${tempMin}°F</td>
-                    <td class="border px-4 py-2">${windSpeed} mph</td>
-                    </tr>`;
-            });
-            tableHtml += '</tbody></table>';
-            container.innerHTML = tableHtml;
-        }
-
-        async function fetchWeather() {
-            const lat = 43.12, lon = -124.41, startDate = '2025-08-20', endDate = '2025-08-24';
-            const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&start_date=${startDate}&end_date=${endDate}`;
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                displayWeather(data);
-            } catch (error) {
-                console.error("Failed to fetch weather. The specific error was:", error);
-                document.getElementById('weather-container').innerHTML = `<p class="text-red-500">Error: Could not load weather forecast. Please check your internet connection and ensure content blockers are not interfering with the request.</p>`;
-            }
-        }
-        // ===== END OF WEATHER FUNCTIONS =====
-
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
@@ -1162,8 +1246,6 @@
             
             const initialPlayer = allPlayers.sort()[0];
             document.getElementById('player-select').value = initialPlayer;
-
-            fetchWeather();
             
             populateTeeTimesForPlayer(initialPlayer);
             populateNotes(initialPlayer);
