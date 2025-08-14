@@ -146,7 +146,6 @@
         <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
-        <!-- Tabs Navigation -->
         <div class="flex border-b border-gray-200 mb-6 flex-wrap">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
@@ -159,20 +158,16 @@
             <button id="tab-scoring-8-24" class="tab-button">8/24 - Team Scoring</button>
         </div>
 
-        <!-- Tab Content: Trip Summary -->
         <div id="content-summary" class="tab-content active">
-            <!-- Player Selection -->
             <div class="card mb-6">
                 <div class="mb-4 player-select-section w-full md:w-1\/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
                     <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
+                        </select>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
-                <!-- Stableford Points System -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
                     <table class="table-auto" id="stableford-table">
@@ -213,7 +208,6 @@
                     </table>
                 </div>
 
-                <!-- Notes Table -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
                     <table class="table-auto">
@@ -223,13 +217,11 @@
                             </tr>
                         </thead>
                         <tbody id="notes-table-body">
-                            <!-- Notes will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Daily Group Gambling Table -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
                 <table class="table-auto">
@@ -252,7 +244,6 @@
                 </table>
             </div>
 
-            <!-- Tee Time Pairings -->
             <div class="card">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
                 <div id="tee-time-pairings-container" class="overflow-x-auto">
@@ -274,7 +265,6 @@
                 </div>
             </div>
 
-            <!-- Daily Pairings List -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
                 <div id="daily-pairings-container" class="overflow-x-auto">
@@ -289,14 +279,12 @@
                             </tr>
                         </thead>
                         <tbody id="daily-pairings-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Caddy Summary -->
         <div id="content-caddy" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
@@ -305,18 +293,15 @@
                         <thead>
                             <tr id="caddy-summary-header-row">
                                 <th class="px-4 py-2">Player</th>
-                                <!-- Dynamic date/round headers will go here -->
-                            </tr>
+                                </tr>
                         </thead>
                         <tbody id="caddy-summary-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Caddy Summary by Tee Time -->
         <div id="content-caddy-by-tee-time" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
@@ -332,14 +317,12 @@
                             </tr>
                         </thead>
                         <tbody id="caddy-tee-time-summary-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Daily Flow -->
         <div id="content-daily-flow" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
@@ -352,7 +335,6 @@
             </div>
         </div>
         
-        <!-- Tab Content: Scoring -->
         <div id="content-scoring-8-20" class="tab-content"></div>
         <div id="content-scoring-8-21" class="tab-content"></div>
         <div id="content-scoring-8-22" class="tab-content"></div>
@@ -663,36 +645,38 @@
             "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
-
-        // Team data for scoring tab
-        const sixTeamData = {
-            "Team 1": ["Mike Newell", "Rob Small", "Vikas Bhasin", "Matt Akers"],
-            "Team 2": ["Andrew Akers", "Nick Zangardi", "Daniel Passino", "Will Quarles"],
-            "Team 3": ["Cory Higgins", "Kevin Newell", "Hisham Sayeedi", "Charlie Hildebrand"],
-            "Team 4": ["James Adolfson", "Zach Deines", "Cory Micheel", "Paul Parker"],
-            "Team 5": ["Ryan Hohn", "Jacob Emert", "AD Hoffman", "Johnathn Resetar"],
-            "Team 6": ["Kevan Oyama", "Bob Owlett", "Brandon Itaoka", "Bryan Wolfe"]
-        };
-
-        const fourTeamData = {
-            "Team 1": ["Mike Newell", "Ryan Hohn", "Kevin Newell", "AD Hoffman", "Paul Parker", "Will Quarles"],
-            "Team 2": ["Andrew Akers", "Kevan Oyama", "Nick Zangardi", "Bryan Wolfe", "Charlie Hildebrand", "Matt Akers"],
-            "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
-            "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
-        };
         
-        const allScoresData = {
-            '8-20': {},
-            '8-21': {},
-            '8-22': {},
-            '8-23': {},
-            '8-24': {}
+        // This is the new centralized data object for daily teams and scores.
+        const dailyData = {
+            "8-20": {
+                sixTeamData: {
+                    "Team 1": ["Mike Newell", "Rob Small", "Vikas Bhasin", "Matt Akers"],
+                    "Team 2": ["Andrew Akers", "Nick Zangardi", "Daniel Passino", "Will Quarles"],
+                    "Team 3": ["Cory Higgins", "Kevin Newell", "Hisham Sayeedi", "Charlie Hildebrand"],
+                    "Team 4": ["James Adolfson", "Zach Deines", "Cory Micheel", "Paul Parker"],
+                    "Team 5": ["Ryan Hohn", "Jacob Emert", "AD Hoffman", "Johnathn Resetar"],
+                    "Team 6": ["Kevan Oyama", "Bob Owlett", "Brandon Itaoka", "Bryan Wolfe"]
+                },
+                fourTeamData: {
+                    "Team 1": ["Mike Newell", "Ryan Hohn", "Kevin Newell", "AD Hoffman", "Paul Parker", "Will Quarles"],
+                    "Team 2": ["Andrew Akers", "Kevan Oyama", "Nick Zangardi", "Bryan Wolfe", "Charlie Hildebrand", "Matt Akers"],
+                    "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
+                    "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
+                },
+                scores: {
+                    "Cory Higgins": 50,
+                    "Mike Newell": 25, "Andrew Akers": 25, "James Adolfson": 25, "Ryan Hohn": 25, "Kevan Oyama": 25,
+                    "Bob Owlett": 25, "Jacob Emert": 25, "Brandon Itaoka": 25, "Zach Deines": 25, "Rob Small": 25,
+                    "Kevin Newell": 25, "Nick Zangardi": 25, "Vikas Bhasin": 25, "Hisham Sayeedi": 25, "Daniel Passino": 25,
+                    "Cory Micheel": 25, "AD Hoffman": 25, "Bryan Wolfe": 25, "Johnathn Resetar": 25, "Paul Parker": 25,
+                    "Charlie Hildebrand": 25, "Will Quarles": 25, "Matt Akers": 25
+                }
+            },
+            "8-21": { sixTeamData: {}, fourTeamData: {}, scores: {} },
+            "8-22": { sixTeamData: {}, fourTeamData: {}, scores: {} },
+            "8-23": { sixTeamData: {}, fourTeamData: {}, scores: {} },
+            "8-24": { sixTeamData: {}, fourTeamData: {}, scores: {} }
         };
-
-        Object.keys(handicaps).forEach(player => {
-            allScoresData['8-20'][player] = 25; // Default score for 8/20
-        });
-        allScoresData['8-20']["Cory Higgins"] = 50; // Special case for 8/20
 
         // All JavaScript functions follow...
         function parseCSV(csv) {
@@ -1239,8 +1223,8 @@
                             <div id="four-team-view-${date}" style="display: none;"></div>
                         </div>
                     `;
-                    populateScoringTable(sixTeamData, allScoresData[date] || {}, `six-team-view-${date}`);
-                    populateScoringTable(fourTeamData, allScoresData[date] || {}, `four-team-view-${date}`);
+                    populateScoringTable(dailyData[date].sixTeamData, dailyData[date].scores, `six-team-view-${date}`);
+                    populateScoringTable(dailyData[date].fourTeamData, dailyData[date].scores, `four-team-view-${date}`);
 
                     document.getElementById(`team-select-${date}`).addEventListener('change', function() {
                         if (this.value === 'six') {
