@@ -599,7 +599,7 @@
             },
             "Paul Parker": {
                 "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "Non-Carry Strategy Caddy" },
+                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
@@ -641,7 +641,7 @@
             }
         };
 
-        // Rooming data - Rebuilt from the latest Rooming List file.
+        // Rooming data - Rebuilt from the definitive "Sheet1.csv" file.
         const roomingData = {
             "Matt Akers": { accommodation: "Golf Double", roommates: ["Andrew Akers"] },
             "Andrew Akers": { accommodation: "Golf Double", roommates: ["Matt Akers"] },
@@ -651,22 +651,22 @@
             "Cory Micheel": { accommodation: "Golf Double", roommates: ["Brandon Itaoka"] },
             "Charlie Hildebrand": { accommodation: "Golf Double", roommates: ["Hisham Sayeedi"] },
             "Hisham Sayeedi": { accommodation: "Golf Double", roommates: ["Charlie Hildebrand"] },
-            "Zach Deines": { accommodation: "Grove Two Bedroom Suite", roommates: ["Jacob Emert"] },
-            "Jacob Emert": { accommodation: "Grove Two Bedroom Suite", roommates: ["Zach Deines"] },
-            "James Adolfson": { accommodation: "Golf Double", roommates: ["Paul Parker"] },
-            "Paul Parker": { accommodation: "Golf Double", roommates: ["James Adolfson"] },
-            "Johnathn Resetar": { accommodation: "Golf Double", roommates: ["Ryan Hohn"] },
-            "Ryan Hohn": { accommodation: "Golf Double", roommates: ["Johnathn Resetar"] },
+            "James Adolfson": { accommodation: "Golf Double", roommates: ["Will Quarles"] },
+            "Will Quarles": { accommodation: "Golf Double", roommates: ["James Adolfson"] },
+            "Johnathn Resetar": { accommodation: "Golf Double", roommates: ["Paul Parker"] },
+            "Paul Parker": { accommodation: "Golf Double", roommates: ["Johnathn Resetar"] },
             "Kevin Newell": { accommodation: "Golf Double", roommates: ["Mike Newell"] },
             "Mike Newell": { accommodation: "Golf Double", roommates: ["Kevin Newell"] },
             "Nick Zangardi": { accommodation: "Golf Double", roommates: ["Rob Small"] },
             "Rob Small": { accommodation: "Golf Double", roommates: ["Nick Zangardi"] },
+            "Zach Deines": { accommodation: "Golf Double", roommates: ["Jacob Emert"] },
+            "Jacob Emert": { accommodation: "Golf Double", roommates: ["Zach Deines"] },
             "Bryan Wolfe": { accommodation: "Chrome King", roommates: [] },
             "AD Hoffman": { accommodation: "Chrome King", roommates: [] },
-            "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Daniel Passino", "Vikas Bhasin", "Will Quarles"] },
-            "Daniel Passino": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Vikas Bhasin", "Will Quarles"] },
-            "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Will Quarles"] },
-            "Will Quarles": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Vikas Bhasin"] }
+            "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Ryan Hohn", "Daniel Passino", "Vikas Bhasin"] },
+            "Ryan Hohn": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Vikas Bhasin"] },
+            "Daniel Passino": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Vikas Bhasin"] },
+            "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Daniel Passino"] }
         };
 
         // Handicap data
@@ -884,10 +884,10 @@
                 let tdRoommate = document.createElement('td');
                 tdRoommate.className = 'border px-4 py-2';
                 let roommateText = 'None';
-                if (playerRoomingInfo.roommates.length > 0) {
+                if (playerRoomingInfo.roommates && playerRoomingInfo.roommates.length > 0) {
                     roommateText = playerRoomingInfo.roommates.join(', ');
                 }
-                const roommateLabel = playerRoomingInfo.roommates.length > 1 ? 'Roommates' : 'Roommate';
+                const roommateLabel = (playerRoomingInfo.roommates && playerRoomingInfo.roommates.length > 1) ? 'Roommates' : 'Roommate';
                 tdRoommate.textContent = `${roommateLabel}: ${roommateText}`;
                 trRoommate.appendChild(tdRoommate);
                 notesBody.appendChild(trRoommate);
