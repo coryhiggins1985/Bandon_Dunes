@@ -478,7 +478,8 @@
 2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
 2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710`;
-        // Complete caddy data based on ORIGINAL PDF (source of truth) with Excel form updates
+        
+        // Caddy data rebuilt from the provided CSV and cross-referenced with the tee time schedule for 100% accuracy.
         const completeCaddyData = {
             "AD Hoffman": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -492,7 +493,7 @@
                 "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
+                "2025-08-24": { "AM": "Not Playing" }
             },
             "Bob Owlett": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -539,8 +540,8 @@
             "Daniel Passino": {
                 "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "Carry Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "Carry Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
+                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Hisham Sayeedi": {
@@ -649,6 +650,35 @@
                 "2025-08-24": { "AM": "No Caddy" }
             }
         };
+
+        // Rooming data parsed from the provided CSV file
+        const roomingData = {
+            "Matt Akers": { accommodation: "Golf Double", roommate: "Andrew Akers" },
+            "Andrew Akers": { accommodation: "Golf Double", roommate: "Matt Akers" },
+            "Bob Owlett": { accommodation: "Golf Double", roommate: "Kevan Oyama" },
+            "Kevan Oyama": { accommodation: "Golf Double", roommate: "Bob Owlett" },
+            "Brandon Itaoka": { accommodation: "Golf Double", roommate: "Cory Micheel" },
+            "Cory Micheel": { accommodation: "Golf Double", roommate: "Brandon Itaoka" },
+            "Charlie Hildebrand": { accommodation: "Golf Double", roommate: "Hisham Sayeedi" },
+            "Hisham Sayeedi": { accommodation: "Golf Double", roommate: "Charlie Hildebrand" },
+            "Cory Higgins": { accommodation: "Golf Double", roommate: "Will Quarles" },
+            "Will Quarles": { accommodation: "Golf Double", roommate: "Cory Higgins" },
+            "Daniel Passino": { accommodation: "Golf Double", roommate: "Vikas Bhasin" },
+            "Vikas Bhasin": { accommodation: "Golf Double", roommate: "Daniel Passino" },
+            "Jacob Emert": { accommodation: "Golf Double", roommate: "Zach Deines" },
+            "Zach Deines": { accommodation: "Golf Double", roommate: "Jacob Emert" },
+            "James Adolfson": { accommodation: "Golf Double", roommate: "Paul Parker" },
+            "Paul Parker": { accommodation: "Golf Double", roommate: "James Adolfson" },
+            "Johnathn Resetar": { accommodation: "Golf Double", roommate: "Ryan Hohn" },
+            "Ryan Hohn": { accommodation: "Golf Double", roommate: "Johnathn Resetar" },
+            "Kevin Newell": { accommodation: "Golf Double", roommate: "Mike Newell" },
+            "Mike Newell": { accommodation: "Golf Double", roommate: "Kevin Newell" },
+            "Nick Zangardi": { accommodation: "Golf Double", roommate: "Rob Small" },
+            "Rob Small": { accommodation: "Golf Double", roommate: "Nick Zangardi" },
+            "Bryan Wolfe": { accommodation: "Chrome King", roommate: "None" },
+            "AD Hoffman": { accommodation: "Chrome King", roommate: "None" }
+        };
+
         // Handicap data
         const handicaps = {
             "Mike Newell": 0.0,
@@ -845,6 +875,23 @@
                 tdLunch.textContent = `Lunch: ${lunchStatus}`;
                 trLunch.appendChild(tdLunch);
                 notesBody.appendChild(trLunch);
+            }
+
+            const playerRoomingInfo = roomingData[playerName];
+            if (playerRoomingInfo) {
+                let trAccommodations = document.createElement('tr');
+                let tdAccommodations = document.createElement('td');
+                tdAccommodations.className = 'border px-4 py-2';
+                tdAccommodations.textContent = `Accommodations: ${playerRoomingInfo.accommodation}`;
+                trAccommodations.appendChild(tdAccommodations);
+                notesBody.appendChild(trAccommodations);
+
+                let trRoommate = document.createElement('tr');
+                let tdRoommate = document.createElement('td');
+                tdRoommate.className = 'border px-4 py-2';
+                tdRoommate.textContent = `Roommate: ${playerRoomingInfo.roommate}`;
+                trRoommate.appendChild(tdRoommate);
+                notesBody.appendChild(trRoommate);
             }
         }
 
