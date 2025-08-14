@@ -19,6 +19,14 @@
             background-color: #fff;
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added for logo positioning */
+        }
+        #trip-logo {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 120px;
+            height: auto;
         }
         .card {
             background-color: #fff;
@@ -135,6 +143,7 @@
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
+        <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
         <div class="flex border-b border-gray-200 mb-6">
@@ -569,7 +578,7 @@
             "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Daniel Passino"] }
         };
 
-        // Handicap data - UPDATED with the final definitive list.
+        // Handicap data - UPDATED with latest user-provided numbers.
         const handicaps = {
             "Mike Newell": 0.0,
             "Andrew Akers": 2.0,
@@ -624,12 +633,7 @@
             "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
-        // Global variables
-        let dailyTeams = {};
-        let dailyScores = {};
-        const scoringDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
-
-        // CSV parsing function
+        // All JavaScript functions follow...
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
