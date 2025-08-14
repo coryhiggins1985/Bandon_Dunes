@@ -320,107 +320,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="content-scoring-8-20" class="tab-content">
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
-                <div id="scoring-container-8-20" class="overflow-x-auto">
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Team</th>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">8/20 Score</th>
-                                <th class="px-4 py-2">Team Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoring-body-8-20">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="content-scoring-8-21" class="tab-content">
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/21)</h2>
-                <div id="scoring-container-8-21" class="overflow-x-auto">
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Team</th>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">8/21 Score</th>
-                                <th class="px-4 py-2">Team Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoring-body-8-21">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="content-scoring-8-22" class="tab-content">
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/22)</h2>
-                <div id="scoring-container-8-22" class="overflow-x-auto">
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Team</th>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">8/22 Score</th>
-                                <th class="px-4 py-2">Team Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoring-body-8-22">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="content-scoring-8-23" class="tab-content">
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/23)</h2>
-                <div id="scoring-container-8-23" class="overflow-x-auto">
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Team</th>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">8/23 Score</th>
-                                <th class="px-4 py-2">Team Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoring-body-8-23">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="content-scoring-8-24" class="tab-content">
-            <div class="card mt-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/24)</h2>
-                <div id="scoring-container-8-24" class="overflow-x-auto">
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Team</th>
-                                <th class="px-4 py-2">Player</th>
-                                <th class="px-4 py-2">Handicap</th>
-                                <th class="px-4 py-2">8/24 Score</th>
-                                <th class="px-4 py-2">Team Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoring-body-8-24">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
     <script>
         // Raw CSV data for golf pairings - Rebuilt from the latest Golf Pairings CSV file.
@@ -641,7 +540,7 @@
             }
         };
 
-        // Rooming data - Rebuilt from the definitive "Sheet1.csv" file.
+        // Rooming data - Rebuilt from the definitive roommate list image provided by the user.
         const roomingData = {
             "Matt Akers": { accommodation: "Golf Double", roommates: ["Andrew Akers"] },
             "Andrew Akers": { accommodation: "Golf Double", roommates: ["Matt Akers"] },
@@ -661,8 +560,8 @@
             "Rob Small": { accommodation: "Golf Double", roommates: ["Nick Zangardi"] },
             "Zach Deines": { accommodation: "Golf Double", roommates: ["Jacob Emert"] },
             "Jacob Emert": { accommodation: "Golf Double", roommates: ["Zach Deines"] },
-            "Bryan Wolfe": { accommodation: "Chrome King", roommates: [] },
-            "AD Hoffman": { accommodation: "Chrome King", roommates: [] },
+            "Bryan Wolfe": { accommodation: "Chrome King", roommates: ["AD Hoffman"] },
+            "AD Hoffman": { accommodation: "Chrome King", roommates: ["Bryan Wolfe"] },
             "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Ryan Hohn", "Daniel Passino", "Vikas Bhasin"] },
             "Ryan Hohn": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Vikas Bhasin"] },
             "Daniel Passino": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Vikas Bhasin"] },
@@ -696,49 +595,6 @@
             "Charlie Hildebrand": 15,
             "Matt Akers": 16.2
         };
-        // Actual scores for all days
-        const allScoresData = {
-            "2025-08-20": {
-                "Mike Newell": 25, "Jacob Emert": 50, "Brandon Itaoka": 49, "Kevin Newell": 48,
-                "Cory Micheel": 47, "Matt Akers": 46, "Andrew Akers": 45, "Bob Owlett": 44,
-                "Zach Deines": 43, "Daniel Passino": 42, "AD Hoffman": 41, "Will Quarles": 40,
-                "James Adolfson": 39, "Kevan Oyama": 38, "Rob Small": 37, "Hisham Sayeedi": 36,
-                "Bryan Wolfe": 35, "Charlie Hildebrand": 34, "Cory Higgins": 33, "Ryan Hohn": 32,
-                "Nick Zangardi": 31, "Vikas Bhasin": 30, "Johnathn Resetar": 29, "Paul Parker": 28
-            },
-            "2025-08-21": {
-                "Mike Newell": 31, "Andrew Akers": 52, "James Adolfson": 34, "Cory Higgins": 35,
-                "Kevan Oyama": 29, "Bob Owlett": 30, "Brandon Itaoka": 55, "Jacob Emert": 36,
-                "Ryan Hohn": 32, "Zach Deines": 44, "Rob Small": 26, "Nick Zangardi": 47,
-                "Vikas Bhasin": 31, "Hisham Sayeedi": 36, "Daniel Passino": 25, "Kevin Newell": 38,
-                "Cory Micheel": 52, "AD Hoffman": 42, "Johnathn Resetar": 42, "Bryan Wolfe": 36,
-                "Paul Parker": 48, "Charlie Hildebrand": 42, "Will Quarles": 46, "Matt Akers": 51
-            },
-            "2025-08-22": {
-                "Mike Newell": 34, "Andrew Akers": 34, "James Adolfson": 40, "Cory Higgins": 25,
-                "Kevan Oyama": 46, "Bob Owlett": 41, "Brandon Itaoka": 27, "Jacob Emert": 43,
-                "Ryan Hohn": 52, "Zach Deines": 37, "Rob Small": 33, "Nick Zangardi": 36,
-                "Vikas Bhasin": 44, "Hisham Sayeedi": 31, "Daniel Passino": 46, "Kevin Newell": 37,
-                "Cory Micheel": 36, "AD Hoffman": 27, "Johnathn Resetar": 39, "Bryan Wolfe": 55,
-                "Paul Parker": 53, "Charlie Hildebrand": 49, "Will Quarles": 32, "Matt Akers": 43
-            },
-            "2025-08-23": {
-                "Mike Newell": 39, "Andrew Akers": 47, "James Adolfson": 36, "Cory Higgins": 46,
-                "Kevan Oyama": 53, "Bob Owlett": 30, "Brandon Itaoka": 38, "Jacob Emert": 40,
-                "Ryan Hohn": 34, "Zach Deines": 49, "Rob Small": 47, "Nick Zangardi": 25,
-                "Vikas Bhasin": 38, "Hisham Sayeedi": 51, "Daniel Passino": 31, "Kevin Newell": 47,
-                "Cory Micheel": 29, "AD Hoffman": 50, "Johnathn Resetar": 55, "Bryan Wolfe": 32,
-                "Paul Parker": 33, "Charlie Hildebrand": 35, "Will Quarles": 29, "Matt Akers": 42
-            },
-            "2025-08-24": {
-                "Mike Newell": 45, "Andrew Akers": 55, "James Adolfson": 55, "Cory Higgins": 44,
-                "Kevan Oyama": 38, "Bob Owlett": 51, "Brandon Itaoka": 50, "Jacob Emert": 26,
-                "Ryan Hohn": 49, "Zach Deines": 47, "Rob Small": 36, "Nick Zangardi": 55,
-                "Vikas Bhasin": 31, "Hisham Sayeedi": 26, "Daniel Passino": 52, "Kevin Newell": 36,
-                "Cory Micheel": 38, "AD Hoffman": 39, "Johnathn Resetar": 45, "Bryan Wolfe": 29,
-                "Paul Parker": 54, "Charlie Hildebrand": 43, "Will Quarles": 44, "Matt Akers": 30
-            }
-        };
         // Meal data
         const mealsData = {
             "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
@@ -767,7 +623,6 @@
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
         // Global variables
-        const caddySelectionsByPlayerRound = {};
         let dailyTeams = {};
         let dailyScores = {};
         const scoringDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
@@ -815,12 +670,6 @@
                 }
             }
             return data;
-        }
-
-        function parseCaddyWorkbookCSV() {
-            Object.keys(completeCaddyData).forEach(playerName => {
-                caddySelectionsByPlayerRound[playerName] = completeCaddyData[playerName];
-            });
         }
 
         function populatePlayerSelect(players) {
@@ -1134,128 +983,8 @@
             return teams;
         }
 
-        function populateScoringTable(date, teamsForDay, scoresForDay) {
-            const dateSuffix = date.substring(5).replace(/-/g, '-');
-            const scoringBody = document.getElementById(`scoring-body-${dateSuffix}`);
-            if (!scoringBody) return;
-            scoringBody.innerHTML = '';
-
-            const teamTotals = teamsForDay.map(team => team.reduce((sum, player) => sum + (scoresForDay[player.name] || 0), 0));
-            const winningTeamScore = Math.max(...teamTotals);
-
-            teamsForDay.forEach((team, teamIndex) => {
-                const teamTotalScore = teamTotals[teamIndex];
-                team.forEach((player, playerIndex) => {
-                    const playerScore = scoresForDay[player.name] || 'N/A';
-                    const tr = document.createElement('tr');
-                    if (teamTotalScore === winningTeamScore) {
-                        tr.classList.add('winning-team-highlight');
-                    }
-                    let rowHtml = '';
-                    if (playerIndex === 0) {
-                        rowHtml += `<td rowspan="${team.length}" class="px-4 py-2 team-header">Team ${teamIndex + 1}</td>`;
-                    }
-                    rowHtml += `
-                        <td class="px-4 py-2">${player.name}</td>
-                        <td class="px-4 py-2">${player.handicap.toFixed(1)}</td>
-                        <td class="px-4 py-2">${playerScore}</td>
-                    `;
-                    if (playerIndex === 0) {
-                        rowHtml += `<td rowspan="${team.length}" class="px-4 py-2 font-bold">${teamTotalScore}</td>`;
-                    }
-                    tr.innerHTML = rowHtml;
-                    scoringBody.appendChild(tr);
-                });
-            });
-        }
-
-        function populateDailyFlow(playerName) {
-            const header = document.getElementById('daily-flow-header');
-            const body = document.getElementById('daily-flow-body');
-            const dailyFlowTitle = document.querySelector('#content-daily-flow .card h2');
-            
-            header.innerHTML = '';
-            body.innerHTML = '';
-            
-            dailyFlowTitle.textContent = `Daily Flow - ${playerName}`;
-
-            const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
-            let headerRow = '<tr><th class="px-2 py-1">Time</th>';
-            dates.forEach(date => {
-                const d = new Date(date.replace(/-/g, '/'));
-                headerRow += `<th class="px-2 py-1">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
-            });
-            headerRow += '</tr>';
-            header.innerHTML = headerRow;
-
-            const playerTeeTimes = parseCSV(csvData).filter(row => row.Players.includes(playerName));
-
-            for (let hour = 7; hour <= 20; hour++) {
-                for (let minute = 0; minute < 60; minute += 15) {
-                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
-
-                    dates.forEach(date => {
-                        let cellContent = '';
-                        let cellClass = 'bg-gray-100';
-                        const now = new Date(`${date} ${time}`);
-
-                        if (date === '2025-08-20' && time === '20:30') {
-                            cellContent = 'Trails End Grill - Group Dinner';
-                            cellClass = 'bg-purple-200';
-                        } else {
-                            const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) =>
-                                 new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
-                            );
-
-                            let foundActivity = false;
-                            
-                            for(let i = 0; i < dailyTeeTimes.length; i++) {
-                                const tt = dailyTeeTimes[i];
-                                const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
-                                let durationHours = 4.5;
-                                if (tt.Course === "Bandon Preserve" || tt.Course === "Shorty's") {
-                                    durationHours = 2;
-                                }
-                                const endTime = new Date(startTime.getTime() + durationHours * 60 * 60 * 1000);
-                                                                
-                                if (now >= startTime && now < endTime) {
-                                    if(Math.abs(now - startTime) < 15 * 60 * 1000) {
-                                        cellContent = `${tt.Time} - ${tt.Course}`;
-                                    } else {
-                                        cellContent = tt.Course;
-                                    }
-                                    cellClass = 'bg-blue-200';
-                                    foundActivity = true;
-                                    break;
-                                }
-
-                                if (i + 1 < dailyTeeTimes.length) {
-                                    const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
-                                    if (now >= endTime && now < nextTeeTime) {
-                                        cellClass = 'bg-green-300';
-                                        cellContent = 'Free Time';
-                                        foundActivity = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!foundActivity) {
-                                cellContent = '';
-                                cellClass = 'bg-gray-100';
-                            }
-                        }
-                        rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
-                    });
-                    rowHtml += '</tr>';
-                    body.innerHTML += rowHtml;
-                }
-            }
-        }
-
         function initialize() {
             const allPlayers = Object.keys(handicaps);
-            parseCaddyWorkbookCSV();
             populatePlayerSelect(allPlayers);
             
             const initialPlayer = allPlayers.sort()[0];
@@ -1267,15 +996,6 @@
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
-
-            let previousDayScores = null;
-            scoringDates.forEach(date => {
-                const playersList = Object.keys(handicaps);
-                dailyScores[date] = allScoresData[date];
-                dailyTeams[date] = createDailyTeams(playersList, previousDayScores);
-                populateScoringTable(date, dailyTeams[date], dailyScores[date]);
-                previousDayScores = dailyScores[date];
-            });
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
