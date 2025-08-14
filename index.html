@@ -146,7 +146,7 @@
 
         <div id="content-summary" class="tab-content active">
             <div class="card mb-6">
-                <div class="mb-4 player-select-section w-full md:w-1/2">
+                <div class="mb-4 player-select-section w-full md:w-1\/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
                     <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                         </select>
@@ -540,7 +540,7 @@
             }
         };
 
-        // Rooming data - Rebuilt from the definitive roommate list image provided by the user.
+        // Rooming data - Rebuilt from the definitive "Sheet1.csv" and the last image provided.
         const roomingData = {
             "Matt Akers": { accommodation: "Golf Double", roommates: ["Andrew Akers"] },
             "Andrew Akers": { accommodation: "Golf Double", roommates: ["Matt Akers"] },
@@ -957,30 +957,88 @@
             });
         }
 
-        function createDailyTeams(players, previousDayScores) {
-            let playersWithRank = [];
-            const numTeams = 6;
-            const teams = Array.from({ length: numTeams }, () => []);
+        function populateDailyFlow(playerName) {
+            const header = document.getElementById('daily-flow-header');
+            const body = document.getElementById('daily-flow-body');
+            const dailyFlowTitle = document.querySelector('#content-daily-flow .card h2');
+            
+            header.innerHTML = '';
+            body.innerHTML = '';
+            
+            dailyFlowTitle.textContent = `Daily Flow - ${playerName}`;
 
-            if (!previousDayScores) {
-                playersWithRank = players.map(name => ({ name, handicap: handicaps[name], score: null }));
-                playersWithRank.sort((a, b) => a.handicap - b.handicap);
-            } else {
-                playersWithRank = players.map(name => ({ name, handicap: handicaps[name], score: previousDayScores[name] }));
-                playersWithRank.sort((a, b) => {
-                    if (b.score !== a.score) {
-                        return b.score - a.score;
-                    }
-                    return a.handicap - b.handicap;
-                });
-            }
+            const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
+            let headerRow = '<tr><th class="px-2 py-1">Time</th>';
+            dates.forEach(date => {
+                const d = new Date(date.replace(/-/g, '/'));
+                headerRow += `<th class="px-2 py-1">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
+            });
+            headerRow += '</tr>';
+            header.innerHTML = headerRow;
 
-            for (let i = 0; i < playersWithRank.length; i++) {
-                const player = playersWithRank[i];
-                const teamIndex = Math.floor(i / numTeams) % 2 === 0 ? i % numTeams : numTeams - 1 - (i % numTeams);
-                teams[teamIndex].push(player);
+            const playerTeeTimes = parseCSV(csvData).filter(row => row.Players.includes(playerName));
+
+            for (let hour = 7; hour <= 20; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
+
+                    dates.forEach(date => {
+                        let cellContent = '';
+                        let cellClass = 'bg-gray-100';
+                        const now = new Date(`${date} ${time}`);
+
+                        if (date === '2025-08-20' && time === '20:30') {
+                            cellContent = 'Trails End Grill - Group Dinner';
+                            cellClass = 'bg-purple-200';
+                        } else {
+                            const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) =>
+                                 new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
+                            );
+
+                            let foundActivity = false;
+                            
+                            for(let i = 0; i < dailyTeeTimes.length; i++) {
+                                const tt = dailyTeeTimes[i];
+                                const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
+                                let durationHours = 4.5;
+                                if (tt.Course === "Bandon Preserve" || tt.Course === "Shorty's") {
+                                    durationHours = 2;
+                                }
+                                const endTime = new Date(startTime.getTime() + durationHours * 60 * 60 * 1000);
+                                                                
+                                if (now >= startTime && now < endTime) {
+                                    if(Math.abs(now - startTime) < 15 * 60 * 1000) {
+                                        cellContent = `${tt.Time} - ${tt.Course}`;
+                                    } else {
+                                        cellContent = tt.Course;
+                                    }
+                                    cellClass = 'bg-blue-200';
+                                    foundActivity = true;
+                                    break;
+                                }
+
+                                if (i + 1 < dailyTeeTimes.length) {
+                                    const nextTeeTime = new Date(`${dailyTeeTimes[i+1].Date} ${dailyTeeTimes[i+1].Time.replace(/\./g, '')}`);
+                                    if (now >= endTime && now < nextTeeTime) {
+                                        cellClass = 'bg-green-300';
+                                        cellContent = 'Free Time';
+                                        foundActivity = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!foundActivity) {
+                                cellContent = '';
+                                cellClass = 'bg-gray-100';
+                            }
+                        }
+                        rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
+                    });
+                    rowHtml += '</tr>';
+                    body.innerHTML += rowHtml;
+                }
             }
-            return teams;
         }
 
         function initialize() {
