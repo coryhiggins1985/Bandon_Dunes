@@ -194,7 +194,7 @@
                     </table>
                 </div>
 
-                <div class="card flex-1 md:w-1/2">
+                <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
                     <table class="table-auto">
                         <thead>
@@ -345,6 +345,7 @@
 2025-08-22,7:30 a.m.,Bandon Trails,AD Hoffman,Bryan Wolfe,Bob Owlett,Cory Micheel,,
 2025-08-22,7:40 a.m.,Bandon Trails,Cory Higgins,Brandon Itaoka,Ryan Hohn,Paul Parker,,
 2025-08-22,7:50 a.m.,Bandon Trails,Mike Newell,Nick Zangardi,Kevin Newell,Rob Small,,
+2025-08-22,8:00 a.m.,Bandon Trails,Zach Deines,Johnathn Resetar,James Adolfson,Jacob Emert,,
 2025-08-22,8:10 a.m.,Bandon Trails,Vikas Bhasin,Daniel Passino,Hisham Sayeedi,Charlie Hildebrand,,
 2025-08-22,8:20 a.m.,Bandon Trails,Kevan Oyama,Matt Akers,Andrew Akers,Will Quarles,,
 2025-08-22,1:10 p.m.,Pacific Dunes,Cory Higgins,Vikas Bhasin,Cory Micheel,Mike Newell,,REPLAY
@@ -540,7 +541,7 @@
             }
         };
 
-        // Rooming data - Rebuilt from the definitive "Sheet1.csv" and the last image provided.
+        // Rooming data - Rebuilt from the definitive rooming list image provided by the user.
         const roomingData = {
             "Matt Akers": { accommodation: "Golf Double", roommates: ["Andrew Akers"] },
             "Andrew Akers": { accommodation: "Golf Double", roommates: ["Matt Akers"] },
@@ -568,33 +569,34 @@
             "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Daniel Passino"] }
         };
 
-        // Handicap data
+        // Handicap data - UPDATED with the final definitive list.
         const handicaps = {
             "Mike Newell": 0.0,
-            "Andrew Akers": 2,
-            "James Adolfson": 3,
-            "Cory Higgins": 3.3,
-            "Kevan Oyama": 5,
-            "Bob Owlett": 5,
-            "Jacob Emert": 5.5,
+            "Andrew Akers": 2.0,
+            "Cory Higgins": 2.8,
+            "James Adolfson": 3.0,
+            "Ryan Hohn": 4.3,
+            "Kevan Oyama": 4.8,
+            "Bob Owlett": 5.0,
+            "Jacob Emert": 5.8,
             "Brandon Itaoka": 6.8,
-            "Ryan Hohn": 7,
             "Zach Deines": 7.9,
-            "Rob Small": 9,
-            "Nick Zangardi": 8,
-            "Vikas Bhasin": 11,
-            "Daniel Passino": 11,
-            "Hisham Sayeedi": 11,
-            "Cory Micheel": 11,
-            "AD Hoffman": 11,
-            "Bryan Wolfe": 12,
+            "Rob Small": 9.0,
+            "Kevin Newell": 9.8,
+            "Nick Zangardi": 10.0,
+            "Vikas Bhasin": 10.5,
+            "Hisham Sayeedi": 11.0,
+            "Daniel Passino": 11.0,
+            "Cory Micheel": 11.2,
+            "AD Hoffman": 11.4,
+            "Bryan Wolfe": 12.0,
             "Johnathn Resetar": 12.7,
-            "Kevin Newell": 11.7,
-            "Paul Parker": 13,
-            "Will Quarles": 15,
-            "Charlie Hildebrand": 15,
+            "Paul Parker": 13.0,
+            "Charlie Hildebrand": 15.0,
+            "Will Quarles": 15.0,
             "Matt Akers": 16.2
         };
+
         // Meal data
         const mealsData = {
             "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
