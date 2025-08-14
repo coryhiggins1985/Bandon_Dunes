@@ -146,24 +146,33 @@
         <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
-        <div class="flex border-b border-gray-200 mb-6">
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-6 flex-wrap">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
             <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
-            <button id="tab-scoring" class="tab-button">8/20 - Team Scoring</button>
+            <button id="tab-scoring-8-20" class="tab-button">8/20 - Team Scoring</button>
+            <button id="tab-scoring-8-21" class="tab-button">8/21 - Team Scoring</button>
+            <button id="tab-scoring-8-22" class="tab-button">8/22 - Team Scoring</button>
+            <button id="tab-scoring-8-23" class="tab-button">8/23 - Team Scoring</button>
+            <button id="tab-scoring-8-24" class="tab-button">8/24 - Team Scoring</button>
         </div>
 
+        <!-- Tab Content: Trip Summary -->
         <div id="content-summary" class="tab-content active">
+            <!-- Player Selection -->
             <div class="card mb-6">
                 <div class="mb-4 player-select-section w-full md:w-1\/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
                     <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                        </select>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <!-- Stableford Points System -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
                     <table class="table-auto" id="stableford-table">
@@ -204,6 +213,7 @@
                     </table>
                 </div>
 
+                <!-- Notes Table -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
                     <table class="table-auto">
@@ -213,11 +223,13 @@
                             </tr>
                         </thead>
                         <tbody id="notes-table-body">
-                            </tbody>
+                            <!-- Notes will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Daily Group Gambling Table -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
                 <table class="table-auto">
@@ -240,6 +252,7 @@
                 </table>
             </div>
 
+            <!-- Tee Time Pairings -->
             <div class="card">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
                 <div id="tee-time-pairings-container" class="overflow-x-auto">
@@ -261,6 +274,7 @@
                 </div>
             </div>
 
+            <!-- Daily Pairings List -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
                 <div id="daily-pairings-container" class="overflow-x-auto">
@@ -275,12 +289,14 @@
                             </tr>
                         </thead>
                         <tbody id="daily-pairings-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Caddy Summary -->
         <div id="content-caddy" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
@@ -289,15 +305,18 @@
                         <thead>
                             <tr id="caddy-summary-header-row">
                                 <th class="px-4 py-2">Player</th>
-                                </tr>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
                         </thead>
                         <tbody id="caddy-summary-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Caddy Summary by Tee Time -->
         <div id="content-caddy-by-tee-time" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
@@ -313,12 +332,14 @@
                             </tr>
                         </thead>
                         <tbody id="caddy-tee-time-summary-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Daily Flow -->
         <div id="content-daily-flow" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
@@ -331,24 +352,12 @@
             </div>
         </div>
         
-        <div id="content-scoring" class="tab-content">
-            <div class="card">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
-                <div class="mb-4">
-                    <label for="team-select" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
-                    <select id="team-select" class="mt-1 block w-full md:w-1/4 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                        <option value="six">Six Teams</option>
-                        <option value="four">Four Teams</option>
-                    </select>
-                </div>
-
-                <div id="six-team-view">
-                    </div>
-
-                <div id="four-team-view" style="display: none;">
-                    </div>
-            </div>
-        </div>
+        <!-- Tab Content: Scoring -->
+        <div id="content-scoring-8-20" class="tab-content"></div>
+        <div id="content-scoring-8-21" class="tab-content"></div>
+        <div id="content-scoring-8-22" class="tab-content"></div>
+        <div id="content-scoring-8-23" class="tab-content"></div>
+        <div id="content-scoring-8-24" class="tab-content"></div>
 
     </div>
     <script>
@@ -672,11 +681,18 @@
             "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
         };
         
-        const scores820 = {};
+        const allScoresData = {
+            '8-20': {},
+            '8-21': {},
+            '8-22': {},
+            '8-23': {},
+            '8-24': {}
+        };
+
         Object.keys(handicaps).forEach(player => {
-            scores820[player] = 25; // Default score
+            allScoresData['8-20'][player] = 25; // Default score for 8/20
         });
-        scores820["Cory Higgins"] = 50; // Special case
+        allScoresData['8-20']["Cory Higgins"] = 50; // Special case for 8/20
 
         // All JavaScript functions follow...
         function parseCSV(csv) {
@@ -1105,22 +1121,57 @@
         function populateScoringTable(teamData, scores, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            container.innerHTML = ''; // Clear previous content
-
+            
+            let rankedTeams = [];
             for (const teamName in teamData) {
                 const players = teamData[teamName];
-                
                 let teamTotal = 0;
                 players.forEach(player => {
                     teamTotal += scores[player] || 0;
                 });
+                rankedTeams.push({ name: teamName, players: players, total: teamTotal });
+            }
 
-                let tableHtml = `
+            rankedTeams.sort((a, b) => b.total - a.total);
+
+            let rankingHtml = `
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Team Rankings</h3>
+                    <table class="table-auto w-full md:w-1/2">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Rank</th>
+                                <th class="px-4 py-2">Team</th>
+                                <th class="px-4 py-2">Total Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            rankedTeams.forEach((team, index) => {
+                rankingHtml += `
+                    <tr class="${index === 0 ? 'winning-team-highlight' : ''}">
+                        <td class="border px-4 py-2">${index + 1}</td>
+                        <td class="border px-4 py-2">${team.name}</td>
+                        <td class="border px-4 py-2">${team.total}</td>
+                    </tr>
+                `;
+            });
+            
+            rankingHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            let tablesHtml = '';
+            rankedTeams.forEach(team => {
+                tablesHtml += `
                     <div class="mb-6">
                         <table class="table-auto w-full">
                             <thead>
                                 <tr>
-                                    <th class="px-4 py-2 team-header" colspan="4">${teamName}</th>
+                                    <th class="px-4 py-2 team-header" colspan="4">${team.name}</th>
                                 </tr>
                                 <tr>
                                     <th class="px-4 py-2">Player</th>
@@ -1131,29 +1182,28 @@
                             </thead>
                             <tbody>
                 `;
-
-                players.forEach((player, index) => {
+                team.players.forEach((player, index) => {
                     const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
                     const score = scores[player] || 0;
-                    tableHtml += `
+                    tablesHtml += `
                         <tr>
                             <td class="border px-4 py-2">${player}</td>
                             <td class="border px-4 py-2">${handicap}</td>
                             <td class="border px-4 py-2">${score}</td>
                     `;
                     if (index === 0) {
-                        tableHtml += `<td class="border px-4 py-2 font-bold" rowspan="${players.length}">${teamTotal}</td>`;
+                        tablesHtml += `<td class="border px-4 py-2 font-bold" rowspan="${team.players.length}">${team.total}</td>`;
                     }
-                    tableHtml += `</tr>`;
+                    tablesHtml += `</tr>`;
                 });
-
-                tableHtml += `
+                tablesHtml += `
                             </tbody>
                         </table>
                     </div>
                 `;
-                container.innerHTML += tableHtml;
-            }
+            });
+
+            container.innerHTML = rankingHtml + tablesHtml;
         }
 
         function initialize() {
@@ -1169,8 +1219,40 @@
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
-            populateScoringTable(sixTeamData, scores820, 'six-team-view');
-            populateScoringTable(fourTeamData, scores820, 'four-team-view');
+
+            const scoringDates = ['8-20', '8-21', '8-22', '8-23', '8-24'];
+            scoringDates.forEach(date => {
+                const contentDiv = document.getElementById(`content-scoring-${date}`);
+                if (contentDiv) {
+                    const dateLabel = date.replace('-', '/');
+                    contentDiv.innerHTML = `
+                        <div class="card">
+                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (${dateLabel})</h2>
+                            <div class="mb-4">
+                                <label for="team-select-${date}" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
+                                <select id="team-select-${date}" class="mt-1 block w-full md:w-1/4 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                                    <option value="six">Six Teams</option>
+                                    <option value="four">Four Teams</option>
+                                </select>
+                            </div>
+                            <div id="six-team-view-${date}"></div>
+                            <div id="four-team-view-${date}" style="display: none;"></div>
+                        </div>
+                    `;
+                    populateScoringTable(sixTeamData, allScoresData[date] || {}, `six-team-view-${date}`);
+                    populateScoringTable(fourTeamData, allScoresData[date] || {}, `four-team-view-${date}`);
+
+                    document.getElementById(`team-select-${date}`).addEventListener('change', function() {
+                        if (this.value === 'six') {
+                            document.getElementById(`six-team-view-${date}`).style.display = 'block';
+                            document.getElementById(`four-team-view-${date}`).style.display = 'none';
+                        } else {
+                            document.getElementById(`six-team-view-${date}`).style.display = 'none';
+                            document.getElementById(`four-team-view-${date}`).style.display = 'block';
+                        }
+                    });
+                }
+            });
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
@@ -1184,18 +1266,9 @@
                     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                     button.classList.add('active');
-                    document.getElementById(button.id.replace('tab-', 'content-')).classList.add('active');
+                    const contentId = button.id.replace('tab-', 'content-');
+                    document.getElementById(contentId).classList.add('active');
                 });
-            });
-
-            document.getElementById('team-select').addEventListener('change', function() {
-                if (this.value === 'six') {
-                    document.getElementById('six-team-view').style.display = 'block';
-                    document.getElementById('four-team-view').style.display = 'none';
-                } else {
-                    document.getElementById('six-team-view').style.display = 'none';
-                    document.getElementById('four-team-view').style.display = 'block';
-                }
             });
         }
 
