@@ -40,22 +40,25 @@
             border-collapse: collapse;
             font-size: 0.875rem;
         }
-        .table-auto th, .table-auto td {
+        .table-fixed {
+            table-layout: fixed;
+        }
+        .table-auto th, .table-auto td, .table-fixed th, .table-fixed td {
             padding: 0.75rem;
             border-bottom: 1px solid #e2e8f0;
             text-align: left;
         }
-        .table-auto th {
+        .table-auto th, .table-fixed th {
             background-color: #f8fafc;
             font-weight: 600;
             color: #4a5568;
             text-transform: uppercase;
             font-size: 0.875rem;
         }
-        .table-auto tr:last-child td {
+        .table-auto tr:last-child td, .table-fixed tr:last-child td {
             border-bottom: none;
         }
-        .table-auto tbody tr:hover {
+        .table-auto tbody tr:hover, .table-fixed tbody tr:hover {
             background-color: #f0f4f8;
         }
         h1 {
@@ -1199,16 +1202,16 @@
             rankedTeams.forEach(team => {
                 tablesHtml += `
                     <div class="mb-6">
-                        <table class="table-auto w-full">
+                        <table class="table-fixed w-full">
                             <thead>
                                 <tr>
                                     <th class="px-4 py-2 team-header" colspan="4">${team.name}</th>
                                 </tr>
                                 <tr>
-                                    <th class="px-4 py-2">Player</th>
-                                    <th class="px-4 py-2">Handicap</th>
-                                    <th class="px-4 py-2">Score</th>
-                                    <th class="px-4 py-2">Team Total</th>
+                                    <th class="px-4 py-2 w-2/5">Player</th>
+                                    <th class="px-4 py-2 w-1/5">Handicap</th>
+                                    <th class="px-4 py-2 w-1/5">Score</th>
+                                    <th class="px-4 py-2 w-1/5">Team Total</th>
                                 </tr>
                             </thead>
                             <tbody>
