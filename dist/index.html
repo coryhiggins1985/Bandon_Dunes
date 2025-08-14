@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,7 +137,6 @@
     <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
-        <!-- Tabs Navigation -->
         <div class="flex border-b border-gray-200 mb-6">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
@@ -146,21 +144,17 @@
             <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
         </div>
 
-        <!-- Tab Content: Trip Summary -->
         <div id="content-summary" class="tab-content active">
-            <!-- Player Selection -->
             <div class="card mb-6">
                 <div class="mb-4 player-select-section w-full md:w-1/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
                     <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
+                        </select>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
-                <!-- Stableford Points System -->
-                <div class="card flex-1 md:w-1\/2">
+                <div class="card flex-1 md:w-1/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
                     <table class="table-auto" id="stableford-table">
                         <thead>
@@ -200,7 +194,6 @@
                     </table>
                 </div>
 
-                <!-- Notes Table -->
                 <div class="card flex-1 md:w-1/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
                     <table class="table-auto">
@@ -210,13 +203,11 @@
                             </tr>
                         </thead>
                         <tbody id="notes-table-body">
-                            <!-- Notes will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Daily Group Gambling Table -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
                 <table class="table-auto">
@@ -239,7 +230,6 @@
                 </table>
             </div>
 
-            <!-- Tee Time Pairings -->
             <div class="card">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
                 <div id="tee-time-pairings-container" class="overflow-x-auto">
@@ -261,7 +251,6 @@
                 </div>
             </div>
 
-            <!-- Daily Pairings List -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
                 <div id="daily-pairings-container" class="overflow-x-auto">
@@ -276,14 +265,12 @@
                             </tr>
                         </thead>
                         <tbody id="daily-pairings-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Caddy Summary -->
         <div id="content-caddy" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
@@ -292,18 +279,15 @@
                         <thead>
                             <tr id="caddy-summary-header-row">
                                 <th class="px-4 py-2">Player</th>
-                                <!-- Dynamic date/round headers will go here -->
-                            </tr>
+                                </tr>
                         </thead>
                         <tbody id="caddy-summary-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Caddy Summary by Tee Time -->
         <div id="content-caddy-by-tee-time" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
@@ -319,14 +303,12 @@
                             </tr>
                         </thead>
                         <tbody id="caddy-tee-time-summary-body">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content: Daily Flow -->
         <div id="content-daily-flow" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
@@ -339,7 +321,6 @@
             </div>
         </div>
 
-        <!-- Scoring Tables -->
         <div id="content-scoring-8-20" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
@@ -360,7 +341,6 @@
                 </div>
             </div>
         </div>
-
         <div id="content-scoring-8-21" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/21)</h2>
@@ -381,7 +361,6 @@
                 </div>
             </div>
         </div>
-
         <div id="content-scoring-8-22" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/22)</h2>
@@ -402,7 +381,6 @@
                 </div>
             </div>
         </div>
-
         <div id="content-scoring-8-23" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/23)</h2>
@@ -423,7 +401,6 @@
                 </div>
             </div>
         </div>
-
         <div id="content-scoring-8-24" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/24)</h2>
@@ -445,7 +422,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Raw CSV data for golf pairings - Updated with missing tee times from PDF
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Caddie?,Notes,Start time adjusted,Complete Estimate,Time adjustment,Course,Estimated play time,Col1,Col2,Col3,Col4,Col5,Col6,Col7,Col8,Col9
@@ -502,11 +478,10 @@
 2025-08-24,7:20 a.m.,Sheep Ranch,Cory Higgins,Bob Owlett,Mike Newell,Cory Micheel,,,,2025-08-24 07:20:00,2025-08-24 11:50:00,,440,,,,,,,,,1250,690
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,,2025-08-24 07:30:00,2025-08-24 12:00:00,,450,,,,,,,,,1260,700
 2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,,2025-08-24 07:40:00,2025-08-24 12:10:00,,460,,,,,,,,,1270,710`;
-
         // Complete caddy data based on ORIGINAL PDF (source of truth) with Excel form updates
         const completeCaddyData = {
             "AD Hoffman": {
-                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
                 "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
@@ -543,7 +518,7 @@
             "Charlie Hildebrand": {
                 "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Not Playing" },
+                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
                 "2025-08-24": { "AM": "Carry Caddy" }
             },
@@ -555,7 +530,7 @@
                 "2025-08-24": { "AM": "Carry Caddy" }
             },
             "Cory Micheel": {
-                "2025-08-20": { "PM": "Not Playing" },
+                "2025-08-20": { "PM": "No Caddy" },
                 "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
                 "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" },
                 "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
@@ -661,10 +636,10 @@
             },
             "Will Quarles": {
                 "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "Not Playing" },
+                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
+                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
                 "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
+                "2025-08-24": { "AM": "Not Playing" }
             },
             "Zach Deines": {
                 "2025-08-20": { "PM": "No Caddy" },
@@ -674,7 +649,6 @@
                 "2025-08-24": { "AM": "No Caddy" }
             }
         };
-
         // Handicap data
         const handicaps = {
             "Mike Newell": 0.0,
@@ -702,7 +676,6 @@
             "Charlie Hildebrand": 15,
             "Matt Akers": 16.2
         };
-
         // Actual scores for all days
         const allScoresData = {
             "2025-08-20": {
@@ -746,7 +719,6 @@
                 "Paul Parker": 54, "Charlie Hildebrand": 43, "Will Quarles": 44, "Matt Akers": 30
             }
         };
-
         // Meal data
         const mealsData = {
             "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
@@ -774,7 +746,6 @@
             "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
-
         // Global variables
         const caddySelectionsByPlayerRound = {};
         let dailyTeams = {};
@@ -908,7 +879,7 @@
 
             let playerTeeTimes = parsedData.filter(row => {
                 return (row['Player1'] === playerName || row['Player2'] === playerName || 
-                        row['Player3'] === playerName || row['Player4'] === playerName);
+                         row['Player3'] === playerName || row['Player4'] === playerName);
             });
 
             playerTeeTimes.sort((a, b) => {
@@ -1062,6 +1033,7 @@
                     const tr = document.createElement('tr');
                     const dateObj = new Date(row.Date.replace(/-/g, '/'));
                     let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
+
                     const players = [row.Player1, row.Player2, row.Player3, row.Player4];
                     const playersWithCaddies = players.filter(p => p && p !== 'TBD').map(p => {
                         let caddyChoice = 'No Caddy';
@@ -1070,18 +1042,20 @@
                         }
                         return `${p} - ${caddyChoice}`;
                     });
+
                     const caddyCounts = players.reduce((counts, player) => {
                         if (player && player !== 'TBD') {
                             let caddyChoice = 'No Caddy';
                             if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
                                 caddyChoice = completeCaddyData[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
                             }
-                            if (caddyChoice !== 'No Caddy') {
+                            if (caddyChoice !== 'No Caddy' && caddyChoice !== 'Not Playing') {
                                 counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
                             }
                         }
                         return counts;
                     }, {});
+
                     const summaryString = Object.keys(caddyCounts).map(type => `${type}: ${caddyCounts[type]}`).join(', ') || 'No Caddies';
                     
                     tr.innerHTML = `
@@ -1204,17 +1178,21 @@
                             cellContent = 'Trails End Grill - Group Dinner';
                             cellClass = 'bg-purple-200';
                         } else {
-                            const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) => 
-                                new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
+                            const dailyTeeTimes = playerTeeTimes.filter(tt => tt.Date === date).sort((a, b) =>
+                                 new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`)
                             );
 
                             let foundActivity = false;
-
+                            
                             for(let i = 0; i < dailyTeeTimes.length; i++) {
                                 const tt = dailyTeeTimes[i];
                                 const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
-                                const endTime = new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
-                                
+                                let durationHours = 4.5; // Default duration
+                                if (tt.Course === "Bandon Preserve" || tt.Course === "Shorty's") {
+                                    durationHours = 2;
+                                }
+                                const endTime = new Date(startTime.getTime() + durationHours * 60 * 60 * 1000);
+                                                                
                                 if (now >= startTime && now < endTime) {
                                     if(Math.abs(now - startTime) < 15 * 60 * 1000) {
                                         cellContent = `${tt.Time} - ${tt.Course}`;
