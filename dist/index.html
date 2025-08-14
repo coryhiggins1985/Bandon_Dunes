@@ -151,6 +151,7 @@
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
             <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
+            <button id="tab-scoring" class="tab-button">8/20 - Team Scoring</button>
         </div>
 
         <div id="content-summary" class="tab-content active">
@@ -329,6 +330,26 @@
                 </div>
             </div>
         </div>
+        
+        <div id="content-scoring" class="tab-content">
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (8/20)</h2>
+                <div class="mb-4">
+                    <label for="team-select" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
+                    <select id="team-select" class="mt-1 block w-full md:w-1/4 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                        <option value="six">Six Teams</option>
+                        <option value="four">Four Teams</option>
+                    </select>
+                </div>
+
+                <div id="six-team-view">
+                    </div>
+
+                <div id="four-team-view" style="display: none;">
+                    </div>
+            </div>
+        </div>
+
     </div>
     <script>
         // Raw CSV data for golf pairings - Corrected to match the latest official pairings file.
@@ -633,6 +654,24 @@
             "James Adolfson": { "Breakfast Buffet": 0, "Lunch Box": 0 },
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
+
+        // Team data for scoring tab
+        const sixTeamData = {
+            "Team 1": ["Mike Newell", "Rob Small", "Vikas Bhasin", "Matt Akers"],
+            "Team 2": ["Andrew Akers", "Nick Zangardi", "Daniel Passino", "Will Quarles"],
+            "Team 3": ["Cory Higgins", "Kevin Newell", "Hisham Sayeedi", "Charlie Hildebrand"],
+            "Team 4": ["James Adolfson", "Zach Deines", "Cory Micheel", "Paul Parker"],
+            "Team 5": ["Ryan Hohn", "Jacob Emert", "AD Hoffman", "Johnathn Resetar"],
+            "Team 6": ["Kevan Oyama", "Bob Owlett", "Brandon Itaoka", "Bryan Wolfe"]
+        };
+
+        const fourTeamData = {
+            "Team 1": ["Mike Newell", "Ryan Hohn", "Kevin Newell", "AD Hoffman", "Paul Parker", "Will Quarles"],
+            "Team 2": ["Andrew Akers", "Kevan Oyama", "Nick Zangardi", "Bryan Wolfe", "Charlie Hildebrand", "Matt Akers"],
+            "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
+            "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
+        };
+
         // All JavaScript functions follow...
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
@@ -1056,6 +1095,53 @@
                 }
             }
         }
+        
+        function populateScoringTable(teamData, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = ''; // Clear previous content
+
+            for (const teamName in teamData) {
+                const players = teamData[teamName];
+                let tableHtml = `
+                    <div class="mb-6">
+                        <table class="table-auto w-full">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 team-header" colspan="4">${teamName}</th>
+                                </tr>
+                                <tr>
+                                    <th class="px-4 py-2">Player</th>
+                                    <th class="px-4 py-2">Handicap</th>
+                                    <th class="px-4 py-2">Score</th>
+                                    <th class="px-4 py-2">Team Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                players.forEach((player, index) => {
+                    const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
+                    tableHtml += `
+                        <tr>
+                            <td class="border px-4 py-2">${player}</td>
+                            <td class="border px-4 py-2">${handicap}</td>
+                            <td class="border px-4 py-2"></td>
+                    `;
+                    if (index === 0) {
+                        tableHtml += `<td class="border px-4 py-2 font-bold" rowspan="${players.length}"></td>`;
+                    }
+                    tableHtml += `</tr>`;
+                });
+
+                tableHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.innerHTML += tableHtml;
+            }
+        }
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
@@ -1070,6 +1156,8 @@
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
+            populateScoringTable(sixTeamData, 'six-team-view');
+            populateScoringTable(fourTeamData, 'four-team-view');
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
@@ -1085,6 +1173,16 @@
                     button.classList.add('active');
                     document.getElementById(button.id.replace('tab-', 'content-')).classList.add('active');
                 });
+            });
+
+            document.getElementById('team-select').addEventListener('change', function() {
+                if (this.value === 'six') {
+                    document.getElementById('six-team-view').style.display = 'block';
+                    document.getElementById('four-team-view').style.display = 'none';
+                } else {
+                    document.getElementById('six-team-view').style.display = 'none';
+                    document.getElementById('four-team-view').style.display = 'block';
+                }
             });
         }
 
