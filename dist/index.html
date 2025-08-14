@@ -146,28 +146,29 @@
         <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
+        <!-- Tabs Navigation -->
         <div class="flex border-b border-gray-200 mb-6 flex-wrap">
             <button id="tab-summary" class="tab-button active">Trip Summary</button>
             <button id="tab-caddy" class="tab-button">Caddy Summary</button>
             <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
             <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
-            <button id="tab-scoring-8-20" class="tab-button">8/20 - Team Scoring</button>
-            <button id="tab-scoring-8-21" class="tab-button">8/21 - Team Scoring</button>
-            <button id="tab-scoring-8-22" class="tab-button">8/22 - Team Scoring</button>
-            <button id="tab-scoring-8-23" class="tab-button">8/23 - Team Scoring</button>
-            <button id="tab-scoring-8-24" class="tab-button">8/24 - Team Scoring</button>
+            <button id="tab-scoring" class="tab-button">Daily Scoring</button>
         </div>
 
+        <!-- Tab Content: Trip Summary -->
         <div id="content-summary" class="tab-content active">
+            <!-- Player Selection -->
             <div class="card mb-6">
                 <div class="mb-4 player-select-section w-full md:w-1\/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
                     <select id="player-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                        </select>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <!-- Stableford Points System -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Stableford Points System</h2>
                     <table class="table-auto" id="stableford-table">
@@ -208,6 +209,7 @@
                     </table>
                 </div>
 
+                <!-- Notes Table -->
                 <div class="card flex-1 md:w-1\/2">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notes</h2>
                     <table class="table-auto">
@@ -217,11 +219,13 @@
                             </tr>
                         </thead>
                         <tbody id="notes-table-body">
-                            </tbody>
+                            <!-- Notes will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Daily Group Gambling Table -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Group Gambling</h2>
                 <table class="table-auto">
@@ -244,6 +248,7 @@
                 </table>
             </div>
 
+            <!-- Tee Time Pairings -->
             <div class="card">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tee Time Pairings</h2>
                 <div id="tee-time-pairings-container" class="overflow-x-auto">
@@ -265,6 +270,7 @@
                 </div>
             </div>
 
+            <!-- Daily Pairings List -->
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Pairings</h2>
                 <div id="daily-pairings-container" class="overflow-x-auto">
@@ -279,12 +285,14 @@
                             </tr>
                         </thead>
                         <tbody id="daily-pairings-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Caddy Summary -->
         <div id="content-caddy" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Player and Round</h2>
@@ -293,15 +301,18 @@
                         <thead>
                             <tr id="caddy-summary-header-row">
                                 <th class="px-4 py-2">Player</th>
-                                </tr>
+                                <!-- Dynamic date/round headers will go here -->
+                            </tr>
                         </thead>
                         <tbody id="caddy-summary-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Caddy Summary by Tee Time -->
         <div id="content-caddy-by-tee-time" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Caddy Summary by Tee Time</h2>
@@ -317,12 +328,14 @@
                             </tr>
                         </thead>
                         <tbody id="caddy-tee-time-summary-body">
-                            </tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- Tab Content: Daily Flow -->
         <div id="content-daily-flow" class="tab-content">
             <div class="card mt-6">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Flow</h2>
@@ -335,11 +348,34 @@
             </div>
         </div>
         
-        <div id="content-scoring-8-20" class="tab-content"></div>
-        <div id="content-scoring-8-21" class="tab-content"></div>
-        <div id="content-scoring-8-22" class="tab-content"></div>
-        <div id="content-scoring-8-23" class="tab-content"></div>
-        <div id="content-scoring-8-24" class="tab-content"></div>
+        <!-- Tab Content: Scoring -->
+        <div id="content-scoring" class="tab-content">
+            <div class="card">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Team Scoring</h2>
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <!-- Date Selection Dropdown -->
+                    <div class="flex-grow">
+                        <label for="date-select" class="block text-lg font-medium text-gray-700 mb-2">Select Date:</label>
+                        <select id="date-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <!-- Team Format Selection Dropdown -->
+                    <div class="flex-grow">
+                        <label for="team-format-select" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
+                        <select id="team-format-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
+                            <option value="six">Six Teams</option>
+                            <option value="four">Four Teams</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Container for Rankings and Scoring Tables -->
+                <div id="scoring-display-area">
+                    <!-- Content will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
 
     </div>
     <script>
@@ -1102,10 +1138,17 @@
             }
         }
         
-        function populateScoringTable(teamData, scores, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        function populateScoringView() {
+            const selectedDate = document.getElementById('date-select').value;
+            const selectedFormat = document.getElementById('team-format-select').value;
+            const dataForDay = dailyData[selectedDate];
+            const container = document.getElementById('scoring-display-area');
             
+            if (!dataForDay || !container) return;
+
+            const teamData = selectedFormat === 'six' ? dataForDay.sixTeamData : dataForDay.fourTeamData;
+            const scores = dataForDay.scores || {};
+
             let rankedTeams = [];
             for (const teamName in teamData) {
                 const players = teamData[teamName];
@@ -1204,39 +1247,23 @@
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
 
-            const scoringDates = ['8-20', '8-21', '8-22', '8-23', '8-24'];
-            scoringDates.forEach(date => {
-                const contentDiv = document.getElementById(`content-scoring-${date}`);
-                if (contentDiv) {
-                    const dateLabel = date.replace('-', '/');
-                    contentDiv.innerHTML = `
-                        <div class="card">
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Daily Scoring (${dateLabel})</h2>
-                            <div class="mb-4">
-                                <label for="team-select-${date}" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
-                                <select id="team-select-${date}" class="mt-1 block w-full md:w-1/4 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                                    <option value="six">Six Teams</option>
-                                    <option value="four">Four Teams</option>
-                                </select>
-                            </div>
-                            <div id="six-team-view-${date}"></div>
-                            <div id="four-team-view-${date}" style="display: none;"></div>
-                        </div>
-                    `;
-                    populateScoringTable(dailyData[date].sixTeamData, dailyData[date].scores, `six-team-view-${date}`);
-                    populateScoringTable(dailyData[date].fourTeamData, dailyData[date].scores, `four-team-view-${date}`);
+            // Setup for the new consolidated scoring tab
+            const dateSelect = document.getElementById('date-select');
+            const teamFormatSelect = document.getElementById('team-format-select');
+            const scoringDates = Object.keys(dailyData);
 
-                    document.getElementById(`team-select-${date}`).addEventListener('change', function() {
-                        if (this.value === 'six') {
-                            document.getElementById(`six-team-view-${date}`).style.display = 'block';
-                            document.getElementById(`four-team-view-${date}`).style.display = 'none';
-                        } else {
-                            document.getElementById(`six-team-view-${date}`).style.display = 'none';
-                            document.getElementById(`four-team-view-${date}`).style.display = 'block';
-                        }
-                    });
-                }
+            scoringDates.forEach(date => {
+                const option = document.createElement('option');
+                option.value = date;
+                option.textContent = `${date.replace('-', '/')} - Scoring`;
+                dateSelect.appendChild(option);
             });
+
+            dateSelect.addEventListener('change', populateScoringView);
+            teamFormatSelect.addEventListener('change', populateScoringView);
+
+            // Initial population of the scoring tab
+            populateScoringView();
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
