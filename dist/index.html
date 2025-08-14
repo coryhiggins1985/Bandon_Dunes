@@ -591,8 +591,8 @@
             "Rob Small": { accommodation: "Golf Double", roommates: ["Nick Zangardi"] },
             "Zach Deines": { accommodation: "Golf Double", roommates: ["Jacob Emert"] },
             "Jacob Emert": { accommodation: "Golf Double", roommates: ["Zach Deines"] },
-            "Bryan Wolfe": { accommodation: "Chrome King", roommates: ["AD Hoffman"] },
-            "AD Hoffman": { accommodation: "Chrome King", roommates: ["Bryan Wolfe"] },
+            "Bryan Wolfe": { accommodation: "Golf Double", roommates: ["AD Hoffman"] },
+            "AD Hoffman": { accommodation: "Golf Double", roommates: ["Bryan Wolfe"] },
             "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Ryan Hohn", "Daniel Passino", "Vikas Bhasin"] },
             "Ryan Hohn": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Daniel Passino", "Vikas Bhasin"] },
             "Daniel Passino": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Ryan Hohn", "Vikas Bhasin"] },
@@ -671,6 +671,12 @@
             "Team 3": ["Cory Higgins", "Jacob Emert", "Daniel Passino", "Hisham Sayeedi", "Cory Micheel", "Johnathn Resetar"],
             "Team 4": ["James Adolfson", "Bob Owlett", "Brandon Itaoka", "Zach Deines", "Rob Small", "Vikas Bhasin"]
         };
+        
+        const scores820 = {};
+        Object.keys(handicaps).forEach(player => {
+            scores820[player] = 25; // Default score
+        });
+        scores820["Cory Higgins"] = 50; // Special case
 
         // All JavaScript functions follow...
         function parseCSV(csv) {
@@ -1096,13 +1102,19 @@
             }
         }
         
-        function populateScoringTable(teamData, containerId) {
+        function populateScoringTable(teamData, scores, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
             container.innerHTML = ''; // Clear previous content
 
             for (const teamName in teamData) {
                 const players = teamData[teamName];
+                
+                let teamTotal = 0;
+                players.forEach(player => {
+                    teamTotal += scores[player] || 0;
+                });
+
                 let tableHtml = `
                     <div class="mb-6">
                         <table class="table-auto w-full">
@@ -1122,14 +1134,15 @@
 
                 players.forEach((player, index) => {
                     const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
+                    const score = scores[player] || 0;
                     tableHtml += `
                         <tr>
                             <td class="border px-4 py-2">${player}</td>
                             <td class="border px-4 py-2">${handicap}</td>
-                            <td class="border px-4 py-2"></td>
+                            <td class="border px-4 py-2">${score}</td>
                     `;
                     if (index === 0) {
-                        tableHtml += `<td class="border px-4 py-2 font-bold" rowspan="${players.length}"></td>`;
+                        tableHtml += `<td class="border px-4 py-2 font-bold" rowspan="${players.length}">${teamTotal}</td>`;
                     }
                     tableHtml += `</tr>`;
                 });
@@ -1156,8 +1169,8 @@
             populateCaddySummary();
             populateCaddySummaryByTeeTime();
             populateDailyFlow(initialPlayer);
-            populateScoringTable(sixTeamData, 'six-team-view');
-            populateScoringTable(fourTeamData, 'four-team-view');
+            populateScoringTable(sixTeamData, scores820, 'six-team-view');
+            populateScoringTable(fourTeamData, scores820, 'four-team-view');
 
             document.getElementById('player-select').addEventListener('change', (event) => {
                 const selectedPlayer = event.target.value;
