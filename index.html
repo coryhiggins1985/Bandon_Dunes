@@ -340,13 +340,6 @@
                         <select id="date-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                             </select>
                     </div>
-                    <div class="flex-grow">
-                        <label for="team-format-select" class="block text-lg font-medium text-gray-700 mb-2">Select Team Format:</label>
-                        <select id="team-format-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                            <option value="six">Six Teams</option>
-                            <option value="four">Four Teams</option>
-                        </select>
-                    </div>
                 </div>
 
                 <div id="scoring-display-area">
@@ -1119,7 +1112,7 @@
         
         function populateScoringView() {
             const selectedDate = document.getElementById('date-select').value;
-            const selectedFormat = document.getElementById('team-format-select').value;
+            const selectedFormat = 'four'; // Hardcoded to 'four' teams
             const dataForDay = dailyData[selectedDate];
             const container = document.getElementById('scoring-display-area');
             
@@ -1262,7 +1255,6 @@
 
             // Setup for the new consolidated scoring tab
             const dateSelect = document.getElementById('date-select');
-            const teamFormatSelect = document.getElementById('team-format-select');
             const scoringDates = Object.keys(dailyData);
 
             scoringDates.forEach(date => {
@@ -1273,7 +1265,6 @@
             });
 
             dateSelect.addEventListener('change', populateScoringView);
-            teamFormatSelect.addEventListener('change', populateScoringView);
 
             // Initial population of the scoring tab
             populateScoringView();
