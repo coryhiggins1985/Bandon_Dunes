@@ -457,144 +457,86 @@
             "8-24": { sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] }, fourTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino","Andrew Akers","Bob Owlett"], "Team 2": ["Zach Deines","Hisham Sayeedi","Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 3": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi","Cory Higgins","Kevan Oyama"], "Team 4": ["Rob Small","Vikas Bhasin","James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"] }, scores: { "Mike Newell": 51, "Jacob Emert": 37, "Brandon Itaoka": 42, "Daniel Passino": 51, "Andrew Akers": 46, "Bob Owlett": 61, "Zach Deines": 46, "Hisham Sayeedi": 39, "Cory Higgins": 33, "Kevan Oyama": 33, "Rob Small": 63, "Vikas Bhasin": 26, "James Adolfson": 65, "Ryan Hohn": 36, "Kevin Newell": 30, "Nick Zangardi": 49, "Cory Micheel": 0, "AD Hoffman": 0, "Paul Parker": 0, "Will Quarles": 0, "Bryan Wolfe": 0, "Charlie Hildebrand": 0, "Johnathn Resetar": 0, "Matt Akers": 0 }, funBets: [ { bet: "Closest to the Pin #1", winner: "Ryan Hohn" }, { bet: "Closest to the Pin #2", winner: "Jacob Emert" }, { bet: "Long Drive - In Fairway", winner: "Will Quarles" } ] }
         };
 
-        // *** NEW: WEATHER FETCHING AND DISPLAY FUNCTIONS ***
+        // All JavaScript functions follow...
 
-        /**
-         * Provides a user-friendly description for a WMO weather code.
-         * @param {number} code - The WMO weather code.
-         * @returns {string} A description and emoji for the weather.
-         */
+        // *** NEW: WEATHER FETCHING AND DISPLAY FUNCTIONS ***
         function getWeatherDescription(code) {
             const descriptions = {
-                0: "☀️ Clear sky",
-                1: "🌤️ Mainly clear",
-                2: "🌥️ Partly cloudy",
-                3: "☁️ Overcast",
-                45: "🌫️ Fog",
-                48: "🌫️ Depositing rime fog",
-                51: "💧 Light drizzle",
-                53: "💧 Moderate drizzle",
-                55: "💧 Dense drizzle",
-                61: "🌦️ Slight rain",
-                63: "🌧️ Moderate rain",
-                65: "⛈️ Heavy rain",
-                80: "🌦️ Slight rain showers",
-                81: "🌧️ Moderate rain showers",
-                82: "⛈️ Violent rain showers",
+                0: "☀️ Clear sky", 1: "🌤️ Mainly clear", 2: "🌥️ Partly cloudy", 3: "☁️ Overcast",
+                45: "🌫️ Fog", 48: "🌫️ Depositing rime fog", 51: "💧 Light drizzle", 53: "💧 Moderate drizzle",
+                55: "💧 Dense drizzle", 61: "🌦️ Slight rain", 63: "🌧️ Moderate rain", 65: "⛈️ Heavy rain",
+                80: "🌦️ Slight rain showers", 81: "🌧️ Moderate rain showers", 82: "⛈️ Violent rain showers",
             };
             return descriptions[code] || "Weather data unavailable";
         }
         
-        /**
-         * Renders the fetched weather data into a table.
-         * @param {object} data - The weather data from the API.
-         */
         function displayWeather(data) {
             const container = document.getElementById('weather-container');
             if (!data || !data.daily || !data.daily.time) {
                 container.innerHTML = '<p>Could not retrieve weather forecast.</p>';
                 return;
             }
-
-            let tableHtml = `
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Conditions</th>
-                            <th class="px-4 py-2">High / Low</th>
-                            <th class="px-4 py-2">Max Wind</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
+            let tableHtml = `<table class="table-auto"><thead><tr>
+                <th class="px-4 py-2">Date</th><th class="px-4 py-2">Conditions</th>
+                <th class="px-4 py-2">High / Low</th><th class="px-4 py-2">Max Wind</th>
+                </tr></thead><tbody>`;
             data.daily.time.forEach((date, index) => {
-                const day = new Date(date + 'T00:00:00-07:00'); // Ensure correct timezone interpretation
+                const day = new Date(date + 'T00:00:00-07:00');
                 const dayFormatted = day.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' });
                 const weatherCode = data.daily.weathercode[index];
                 const tempMax = Math.round(data.daily.temperature_2m_max[index]);
                 const tempMin = Math.round(data.daily.temperature_2m_min[index]);
                 const windSpeed = Math.round(data.daily.wind_speed_10m_max[index]);
-
-                tableHtml += `
-                    <tr>
-                        <td class="border px-4 py-2">${dayFormatted}</td>
-                        <td class="border px-4 py-2">${getWeatherDescription(weatherCode)}</td>
-                        <td class="border px-4 py-2">${tempMax}°F / ${tempMin}°F</td>
-                        <td class="border px-4 py-2">${windSpeed} mph</td>
-                    </tr>
-                `;
+                tableHtml += `<tr>
+                    <td class="border px-4 py-2">${dayFormatted}</td>
+                    <td class="border px-4 py-2">${getWeatherDescription(weatherCode)}</td>
+                    <td class="border px-4 py-2">${tempMax}°F / ${tempMin}°F</td>
+                    <td class="border px-4 py-2">${windSpeed} mph</td>
+                    </tr>`;
             });
-
             tableHtml += '</tbody></table>';
             container.innerHTML = tableHtml;
         }
 
-        /**
-         * Fetches weather data from the Open-Meteo API for Bandon, OR.
-         */
         async function fetchWeather() {
-            // Coordinates for Bandon, OR
-            const lat = 43.12;
-            const lon = -124.41;
-            const startDate = '2025-08-20';
-            const endDate = '2025-08-24';
-            
+            const lat = 43.12, lon = -124.41, startDate = '2025-08-20', endDate = '2025-08-24';
             const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FLos_Angeles&start_date=${startDate}&end_date=${endDate}`;
-
             try {
                 const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
                 displayWeather(data);
             } catch (error) {
                 console.error("Failed to fetch weather:", error);
-                const container = document.getElementById('weather-container');
-                container.innerHTML = '<p>Error loading weather forecast. Please try again later.</p>';
+                document.getElementById('weather-container').innerHTML = '<p>Error loading weather forecast.</p>';
             }
         }
-
         // *** END OF NEW WEATHER FUNCTIONS ***
 
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
-
             const data = [];
             const headers = lines[0].split(',').map(h => h.trim());
-            const dateIndex = headers.indexOf('Date');
-            const timeIndex = headers.indexOf('Time');
-            const courseIndex = headers.indexOf('Course');
+            const dateIndex = headers.indexOf('Date'), timeIndex = headers.indexOf('Time'), courseIndex = headers.indexOf('Course');
             const playerIndices = [ headers.indexOf('Player1'), headers.indexOf('Player2'), headers.indexOf('Player3'), headers.indexOf('Player4'), headers.indexOf('Player5') ].filter(i => i !== -1);
-            const notesIndex = headers.indexOf('Notes');
-            const completeEstimateIndex = headers.indexOf('CompleteEstimate');
-
+            const notesIndex = headers.indexOf('Notes'), completeEstimateIndex = headers.indexOf('CompleteEstimate');
             for (let i = 1; i < lines.length; i++) {
-                const currentLine = lines[i].split(',');
-                const row = {};
-                row['Date'] = currentLine[dateIndex] ? currentLine[dateIndex].trim() : '';
-                row['Time'] = currentLine[timeIndex] ? currentLine[timeIndex].trim() : '';
-                row['Course'] = currentLine[courseIndex] ? currentLine[courseIndex].trim() : '';
+                const currentLine = lines[i].split(','), row = {};
+                row['Date'] = currentLine[dateIndex]?.trim() || '';
+                row['Time'] = currentLine[timeIndex]?.trim() || '';
+                row['Course'] = currentLine[courseIndex]?.trim() || '';
                 row['Notes'] = notesIndex > -1 && currentLine[notesIndex] ? currentLine[notesIndex].trim() : '';
                 row['CompleteEstimate'] = completeEstimateIndex > -1 && currentLine[completeEstimateIndex] ? currentLine[completeEstimateIndex].trim() : '';
-                
                 let players = [];
-                playerIndices.forEach((pIndex) => {
+                playerIndices.forEach(pIndex => {
                     if (pIndex < currentLine.length) {
-                        const playerName = currentLine[pIndex] ? currentLine[pIndex].trim() : '';
-                        if (playerName) {
-                            players.push(playerName);
-                        }
+                        const playerName = currentLine[pIndex]?.trim();
+                        if (playerName) players.push(playerName);
                     }
                 });
                 row['Players'] = players;
-
-                if (row['Date'] && row['Time'] && row['Course'] && players.length > 0) {
-                    data.push(row);
-                }
+                if (row['Date'] && row['Time'] && row['Course'] && players.length > 0) data.push(row);
             }
             return data;
         }
@@ -603,8 +545,7 @@
             const playerSelect = document.getElementById('player-select');
             if (playerSelect) {
                 playerSelect.innerHTML = '';
-                const sortedPlayers = [...players].sort();
-                sortedPlayers.forEach(player => {
+                [...players].sort().forEach(player => {
                     const option = document.createElement('option');
                     option.value = player;
                     option.textContent = player;
@@ -616,53 +557,31 @@
         function populateNotes(playerName) {
             const notesBody = document.getElementById('notes-table-body');
             notesBody.innerHTML = '';
-
-            const staticNotes = ["Welcome dinner at Trail's End 8:30 p.m."];
-            staticNotes.forEach(note => {
+            ["Welcome dinner at Trail's End 8:30 p.m."].forEach(note => {
                 const tr = document.createElement('tr');
-                const td = document.createElement('td');
-                td.className = 'border px-4 py-2';
-                td.textContent = note;
-                tr.appendChild(td);
+                tr.innerHTML = `<td class="border px-4 py-2">${note}</td>`;
                 notesBody.appendChild(tr);
             });
-
             const playerMeals = mealsData[playerName];
             if (playerMeals) {
                 const breakfastStatus = playerMeals["Breakfast Buffet"] === 1 ? "Yes" : "No";
                 const lunchStatus = playerMeals["Lunch Box"] === 1 ? "Yes" : "No";
                 let trBreakfast = document.createElement('tr');
-                let tdBreakfast = document.createElement('td');
-                tdBreakfast.className = 'border px-4 py-2';
-                tdBreakfast.textContent = `Breakfast: ${breakfastStatus}`;
-                trBreakfast.appendChild(tdBreakfast);
+                trBreakfast.innerHTML = `<td class="border px-4 py-2">Breakfast: ${breakfastStatus}</td>`;
                 notesBody.appendChild(trBreakfast);
                 let trLunch = document.createElement('tr');
-                let tdLunch = document.createElement('td');
-                tdLunch.className = 'border px-4 py-2';
-                tdLunch.textContent = `Lunch: ${lunchStatus}`;
-                trLunch.appendChild(tdLunch);
+                trLunch.innerHTML = `<td class="border px-4 py-2">Lunch: ${lunchStatus}</td>`;
                 notesBody.appendChild(trLunch);
             }
-
             const playerRoomingInfo = roomingData[playerName];
             if (playerRoomingInfo) {
                 let trAccommodations = document.createElement('tr');
-                let tdAccommodations = document.createElement('td');
-                tdAccommodations.className = 'border px-4 py-2';
-                tdAccommodations.textContent = `Accommodations: ${playerRoomingInfo.accommodation}`;
-                trAccommodations.appendChild(tdAccommodations);
+                trAccommodations.innerHTML = `<td class="border px-4 py-2">Accommodations: ${playerRoomingInfo.accommodation}</td>`;
                 notesBody.appendChild(trAccommodations);
                 let trRoommate = document.createElement('tr');
-                let tdRoommate = document.createElement('td');
-                tdRoommate.className = 'border px-4 py-2';
-                let roommateText = 'None';
-                if (playerRoomingInfo.roommates && playerRoomingInfo.roommates.length > 0) {
-                    roommateText = playerRoomingInfo.roommates.join(', ');
-                }
-                const roommateLabel = (playerRoomingInfo.roommates && playerRoomingInfo.roommates.length > 1) ? 'Roommates' : 'Roommate';
-                tdRoommate.textContent = `${roommateLabel}: ${roommateText}`;
-                trRoommate.appendChild(tdRoommate);
+                let roommateText = playerRoomingInfo.roommates?.join(', ') || 'None';
+                const roommateLabel = (playerRoomingInfo.roommates?.length > 1) ? 'Roommates' : 'Roommate';
+                trRoommate.innerHTML = `<td class="border px-4 py-2">${roommateLabel}: ${roommateText}</td>`;
                 notesBody.appendChild(trRoommate);
             }
         }
@@ -673,21 +592,15 @@
             const mainTripSummaryTitle = document.getElementById('main-trip-summary-title');
             const stablefordTableBody = document.querySelector('#stableford-table tbody');
             const parsedData = parseCSV(csvData);
-
             mainTripSummaryTitle.textContent = `${playerName} - Bandon Dunes Golf Trip Summary`;
             currentPlayerTitle.textContent = `${playerName}'s Tee Time Pairings`;
             pairingsBody.innerHTML = '';
-
-            const existingHandicapRow = stablefordTableBody.querySelector('.player-handicap-row');
-            if (existingHandicapRow) existingHandicapRow.remove();
-            const existingSpacingRow = stablefordTableBody.querySelector('.spacing-row');
-            if (existingSpacingRow) existingSpacingRow.remove();
-
+            stablefordTableBody.querySelector('.player-handicap-row')?.remove();
+            stablefordTableBody.querySelector('.spacing-row')?.remove();
             const spacingTr = document.createElement('tr');
             spacingTr.className = 'spacing-row';
             spacingTr.innerHTML = '<td colspan="4"></td>';
             stablefordTableBody.appendChild(spacingTr);
-
             const playerHandicap = handicaps[playerName];
             if (playerHandicap !== undefined) {
                 const tr = document.createElement('tr');
@@ -695,14 +608,8 @@
                 tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${playerName}'s Handicap</td><td class="border px-4 py-2 bg-white">${playerHandicap.toFixed(1)}</td><td class="border px-4 py-2 bg-white" colspan="2"></td>`;
                 stablefordTableBody.appendChild(tr);
             }
-
             let playerTeeTimes = parsedData.filter(row => row.Players.includes(playerName));
-            playerTeeTimes.sort((a, b) => {
-                const dateA = new Date(`${a['Date']} ${a['Time'].replace(/\./g, '')}`);
-                const dateB = new Date(`${b['Date']} ${b['Time'].replace(/\./g, '')}`);
-                return dateA - dateB;
-            });
-
+            playerTeeTimes.sort((a, b) => new Date(`${a['Date']} ${a['Time'].replace(/\./g, '')}`) - new Date(`${b['Date']} ${b['Time'].replace(/\./g, '')}`));
             playerTeeTimes.forEach(row => {
                 const tr = document.createElement('tr');
                 const dateObj = new Date(row['Date'].replace(/-/g, '/'));
@@ -717,12 +624,7 @@
                 const completeTimeTd = document.createElement('td');
                 completeTimeTd.className = 'px-4 py-2';
                 const fullDateTime = row['CompleteEstimate'];
-                if (fullDateTime && fullDateTime.includes(' ')) {
-                    const timeString = new Date(fullDateTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                    completeTimeTd.textContent = timeString;
-                } else {
-                    completeTimeTd.textContent = 'N/A';
-                }
+                completeTimeTd.textContent = (fullDateTime && fullDateTime.includes(' ')) ? new Date(fullDateTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A';
                 tr.appendChild(completeTimeTd);
                 const courseTd = document.createElement('td');
                 courseTd.className = 'px-4 py-2';
@@ -736,8 +638,7 @@
                 tr.appendChild(caddieTd);
                 const partnersTd = document.createElement('td');
                 partnersTd.className = 'px-4 py-2';
-                const partners = row.Players.filter(p => p && p !== playerName && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join(', ');
-                partnersTd.textContent = partners;
+                partnersTd.textContent = row.Players.filter(p => p && p !== playerName && p !== 'TBD').map(p => `${p} (${handicaps[p]?.toFixed(1) || 'N/A'})`).join(', ');
                 tr.appendChild(partnersTd);
                 pairingsBody.appendChild(tr);
             });
@@ -747,31 +648,21 @@
             const dailyPairingsBody = document.getElementById('daily-pairings-body');
             dailyPairingsBody.innerHTML = '';
             const parsedData = parseCSV(csvData);
-            const pairingsByDate = {};
-            parsedData.forEach(row => {
-                if (!pairingsByDate[row.Date]) pairingsByDate[row.Date] = [];
-                pairingsByDate[row.Date].push(row);
-            });
+            const pairingsByDate = parsedData.reduce((acc, row) => {
+                (acc[row.Date] = acc[row.Date] || []).push(row);
+                return acc;
+            }, {});
             Object.keys(pairingsByDate).sort().forEach(date => {
                 const dailyPairings = pairingsByDate[date].sort((a,b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
                 dailyPairings.forEach((row, index) => {
                     const tr = document.createElement('tr');
-                    if (index === dailyPairings.length - 1 && date !== '2025-08-24') {
-                        tr.className = 'last-tee-time-of-day';
-                    }
+                    if (index === dailyPairings.length - 1 && date !== '2025-08-24') tr.className = 'last-tee-time-of-day';
                     const dateObj = new Date(row.Date.replace(/-/g, '/'));
                     const fullDateTime = row['CompleteEstimate'];
-                    let completeTimeText = 'N/A';
-                    if (fullDateTime && fullDateTime.includes(' ')) {
-                        completeTimeText = new Date(fullDateTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-                    }
-                    tr.innerHTML = `
-                        <td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
-                        <td class="px-4 py-2">${row.Time}</td>
-                        <td class="px-4 py-2">${completeTimeText}</td>
-                        <td class="px-4 py-2">${row.Course}</td>
-                        <td class="px-4 py-2">${row.Players.filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
-                    `;
+                    let completeTimeText = (fullDateTime && fullDateTime.includes(' ')) ? new Date(fullDateTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A';
+                    tr.innerHTML = `<td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
+                        <td class="px-4 py-2">${row.Time}</td><td class="px-4 py-2">${completeTimeText}</td><td class="px-4 py-2">${row.Course}</td>
+                        <td class="px-4 py-2">${row.Players.filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p]?.toFixed(1) || 'N/A'})`).join('<br>')}</td>`;
                     dailyPairingsBody.appendChild(tr);
                 });
             });
@@ -784,7 +675,10 @@
             caddySummaryHeaderRow.innerHTML = '<th class="px-4 py-2">Player</th>';
             const players = Object.keys(handicaps).sort();
             const dateRounds = [
-                { date: '2025-08-20', round: 'PM', label: 'Wed 8/20 (PM)' }, { date: '2025-08-21', round: 'AM', label: 'Thu 8/21 (AM)' }, { date: '2025-08-21', round: 'PM', label: 'Thu 8/21 (PM)' }, { date: '2025-08-22', round: 'AM', label: 'Fri 8/22 (AM)' }, { date: '2025-08-22', round: 'PM', label: 'Fri 8/22 (PM)' }, { date: '2025-08-23', round: 'AM', label: 'Sat 8/23 (AM)' }, { date: '2025-08-23', round: 'PM', label: 'Sat 8/23 (PM)' }, { date: '2025-08-24', round: 'AM', label: 'Sun 8/24 (AM)' }
+                { date: '2025-08-20', round: 'PM', label: 'Wed 8/20 (PM)' }, { date: '2025-08-21', round: 'AM', label: 'Thu 8/21 (AM)' },
+                { date: '2025-08-21', round: 'PM', label: 'Thu 8/21 (PM)' }, { date: '2025-08-22', round: 'AM', label: 'Fri 8/22 (AM)' },
+                { date: '2025-08-22', round: 'PM', label: 'Fri 8/22 (PM)' }, { date: '2025-08-23', round: 'AM', label: 'Sat 8/23 (AM)' },
+                { date: '2025-08-23', round: 'PM', label: 'Sat 8/23 (PM)' }, { date: '2025-08-24', round: 'AM', label: 'Sun 8/24 (AM)' }
             ];
             dateRounds.forEach(dateRound => {
                 const th = document.createElement('th');
@@ -797,10 +691,7 @@
                 tr.innerHTML = `<td class="px-4 py-2 font-semibold">${player}</td>`;
                 dateRounds.forEach(dateRound => {
                     const caddyType = completeCaddyData[player]?.[dateRound.date]?.[dateRound.round] || 'N/A';
-                    const caddyTd = document.createElement('td');
-                    caddyTd.className = 'px-4 py-2';
-                    caddyTd.textContent = caddyType;
-                    tr.appendChild(caddyTd);
+                    tr.innerHTML += `<td class="px-4 py-2">${caddyType}</td>`;
                 });
                 caddySummaryBody.appendChild(tr);
             });
@@ -811,45 +702,31 @@
             if (!teeTimeSummaryBody) return;
             teeTimeSummaryBody.innerHTML = '';
             const parsedData = parseCSV(csvData);
-            const teeTimesByDate = {};
-            parsedData.forEach(row => {
-                if (!teeTimesByDate[row.Date]) teeTimesByDate[row.Date] = [];
-                teeTimesByDate[row.Date].push(row);
-            });
+            const teeTimesByDate = parsedData.reduce((acc, row) => {
+                (acc[row.Date] = acc[row.Date] || []).push(row);
+                return acc;
+            }, {});
             Object.keys(teeTimesByDate).sort().forEach(date => {
                 const dailyTeeTimes = teeTimesByDate[date].sort((a,b) => new Date(`${a.Date} ${a.Time.replace(/\./g, '')}`) - new Date(`${b.Date} ${b.Time.replace(/\./g, '')}`));
                 dailyTeeTimes.forEach((row, index) => {
                     const tr = document.createElement('tr');
                     const dateObj = new Date(row.Date.replace(/-/g, '/'));
                     let teeTimeAmPm = row['Time'].toLowerCase().includes('p.m.') ? 'PM' : 'AM';
-                    const players = row.Players;
-                    const playersWithCaddies = players.filter(p => p && p !== 'TBD').map(p => {
-                        let caddyChoice = 'No Caddy';
-                        if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
-                            caddyChoice = completeCaddyData[p]?.[date]?.[teeTimeAmPm] || 'No Caddy';
-                        }
+                    const playersWithCaddies = row.Players.filter(p => p && p !== 'TBD').map(p => {
+                        let caddyChoice = (row.Course.match(/Shorty's|Bandon Preserve/)) ? 'No Caddy' : (completeCaddyData[p]?.[date]?.[teeTimeAmPm] || 'No Caddy');
                         return `${p} - ${caddyChoice}`;
                     });
-                    const caddyCounts = players.reduce((counts, player) => {
-                        if (player && player !== 'TBD') {
-                            let caddyChoice = 'No Caddy';
-                            if (row.Course !== "Shorty's" && row.Course !== "Bandon Preserve") {
-                                caddyChoice = completeCaddyData[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
-                            }
-                            if (caddyChoice !== 'No Caddy' && caddyChoice !== 'Not Playing') {
-                                counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
-                            }
+                    const caddyCounts = row.Players.reduce((counts, player) => {
+                        if (player && p !== 'TBD' && !row.Course.match(/Shorty's|Bandon Preserve/)) {
+                            let caddyChoice = completeCaddyData[player]?.[date]?.[teeTimeAmPm] || 'No Caddy';
+                            if (caddyChoice.match(/Carry Caddy|Non-Carry Strategy Caddy/)) counts[caddyChoice] = (counts[caddyChoice] || 0) + 1;
                         }
                         return counts;
                     }, {});
                     const summaryString = Object.keys(caddyCounts).map(type => `${type}: ${caddyCounts[type]}`).join(', ') || 'No Caddies';
-                    tr.innerHTML = `
-                        <td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
-                        <td class="px-4 py-2">${row.Time}</td>
-                        <td class="px-4 py-2">${row.Course}</td>
-                        <td class="px-4 py-2">${playersWithCaddies.join('<br>')}</td>
-                        <td class="px-4 py-2">${summaryString}</td>
-                    `;
+                    tr.innerHTML = `<td class="px-4 py-2">${dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }).replace(',', ' -')}</td>
+                        <td class="px-4 py-2">${row.Time}</td><td class="px-4 py-2">${row.Course}</td>
+                        <td class="px-4 py-2">${playersWithCaddies.join('<br>')}</td><td class="px-4 py-2">${summaryString}</td>`;
                     teeTimeSummaryBody.appendChild(tr);
                     if (index === dailyTeeTimes.length - 1 && Object.keys(teeTimesByDate).sort().pop() !== date) {
                         const separatorTr = document.createElement('tr');
@@ -862,28 +739,21 @@
         }
 
         function populateDailyFlow(playerName) {
-            const header = document.getElementById('daily-flow-header');
-            const body = document.getElementById('daily-flow-body');
+            const header = document.getElementById('daily-flow-header'), body = document.getElementById('daily-flow-body');
             const dailyFlowTitle = document.querySelector('#content-daily-flow .card h2');
-            header.innerHTML = '';
-            body.innerHTML = '';
+            header.innerHTML = ''; body.innerHTML = '';
             dailyFlowTitle.textContent = `Daily Flow - ${playerName}`;
             const dates = [...new Set(parseCSV(csvData).map(row => row.Date))].sort();
             let headerRow = '<tr><th class="px-2 py-1">Time</th>';
-            dates.forEach(date => {
-                const d = new Date(date.replace(/-/g, '/'));
-                headerRow += `<th class="px-2 py-1">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`;
-            });
-            headerRow += '</tr>';
-            header.innerHTML = headerRow;
+            dates.forEach(date => headerRow += `<th class="px-2 py-1">${new Date(date.replace(/-/g, '/')).toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}</th>`);
+            header.innerHTML = headerRow + '</tr>';
             const playerTeeTimes = parseCSV(csvData).filter(row => row.Players.includes(playerName));
             for (let hour = 7; hour <= 20; hour++) {
                 for (let minute = 0; minute < 60; minute += 15) {
-                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
                     let rowHtml = `<tr><td class="px-2 py-1 font-mono text-xs">${time}</td>`;
                     dates.forEach(date => {
-                        let cellContent = '';
-                        let cellClass = 'bg-gray-100';
+                        let cellContent = '', cellClass = 'bg-gray-100';
                         const now = new Date(`${date} ${time}`);
                         if (date === '2025-08-20' && time === '20:30') {
                             cellContent = 'Trails End Grill - Group Dinner';
@@ -894,13 +764,9 @@
                             for(let i = 0; i < dailyTeeTimes.length; i++) {
                                 const tt = dailyTeeTimes[i];
                                 const startTime = new Date(`${tt.Date} ${tt.Time.replace(/\./g, '')}`);
-                                const endTime = tt['CompleteEstimate'] ? new Date(tt['CompleteEstimate']) : new Date(startTime.getTime() + 4.5 * 60 * 60 * 1000);
+                                const endTime = tt['CompleteEstimate'] ? new Date(tt['CompleteEstimate']) : new Date(startTime.getTime() + 4.5 * 3600000);
                                 if (now >= startTime && now < endTime) {
-                                    if(Math.abs(now - startTime) < 15 * 60 * 1000) {
-                                        cellContent = `${tt.Time} - ${tt.Course}`;
-                                    } else {
-                                        cellContent = tt.Course;
-                                    }
+                                    cellContent = (Math.abs(now - startTime) < 900000) ? `${tt.Time} - ${tt.Course}` : tt.Course;
                                     cellClass = 'bg-blue-200';
                                     foundActivity = true;
                                     break;
@@ -915,10 +781,6 @@
                                     }
                                 }
                             }
-                            if (!foundActivity) {
-                                cellContent = '';
-                                cellClass = 'bg-gray-100';
-                            }
                         }
                         rowHtml += `<td class="px-2 py-1 text-xs ${cellClass}">${cellContent}</td>`;
                     });
@@ -930,42 +792,40 @@
         
         function populateScoringView() {
             const selectedDate = document.getElementById('date-select').value;
-            const selectedFormat = 'four'; // Hardcoded to 'four' teams
             const dataForDay = dailyData[selectedDate];
             const container = document.getElementById('scoring-display-area');
             if (!dataForDay || !container) {
                 container.innerHTML = '<p>No data available for this day.</p>';
                 return;
             }
-            const teamData = selectedFormat === 'six' ? dataForDay.sixTeamData : dataForDay.fourTeamData;
+            const teamData = dataForDay.fourTeamData;
             const scores = dataForDay.scores || {};
             const funBets = dataForDay.funBets || [];
             let rankedTeams = [];
             for (const teamName in teamData) {
                 const players = teamData[teamName];
-                let teamTotal = 0;
-                players.forEach(player => { teamTotal += scores[player] || 0; });
+                let teamTotal = players.reduce((sum, player) => sum + (scores[player] || 0), 0);
                 rankedTeams.push({ name: teamName, players: players, total: teamTotal });
             }
             rankedTeams.sort((a, b) => b.total - a.total);
-            let funBetsHtml = `<div class="mb-8"><h3 class="text-xl font-semibold text-gray-800 mb-4">Fun Bets</h3><table class="table-auto w-full md:w-1\/2"><thead><tr><th class="px-4 py-2">Bet</th><th class="px-4 py-2">Winner</th></tr></thead><tbody>`;
+            let funBetsHtml = `<div class="mb-8"><h3 class="text-xl font-semibold text-gray-800 mb-4">Fun Bets</h3><table class="table-auto w-full md:w-1/2"><thead><tr><th class="px-4 py-2">Bet</th><th class="px-4 py-2">Winner</th></tr></thead><tbody>`;
             funBets.forEach(bet => { funBetsHtml += `<tr><td class="border px-4 py-2">${bet.bet}</td><td class="border px-4 py-2">${bet.winner}</td></tr>`; });
             funBetsHtml += `</tbody></table></div>`;
-            let rankingHtml = `<div class="mb-8"><h3 class="text-xl font-semibold text-gray-800 mb-4">Team Rankings</h3><table class="table-auto w-full md:w-1\/2"><thead><tr><th class="px-4 py-2">Rank</th><th class="px-4 py-2">Team</th><th class="px-4 py-2">Total Score</th></tr></thead><tbody>`;
+            let rankingHtml = `<div class="mb-8"><h3 class="text-xl font-semibold text-gray-800 mb-4">Team Rankings</h3><table class="table-auto w-full md:w-1/2"><thead><tr><th class="px-4 py-2">Rank</th><th class="px-4 py-2">Team</th><th class="px-4 py-2">Total Score</th></tr></thead><tbody>`;
             rankedTeams.forEach((team, index) => { rankingHtml += `<tr class="${index === 0 ? 'winning-team-highlight' : ''}"><td class="border px-4 py-2">${index + 1}</td><td class="border px-4 py-2">${team.name}</td><td class="border px-4 py-2">${team.total}</td></tr>`; });
             rankingHtml += `</tbody></table></div>`;
-            let tablesHtml = '';
-            rankedTeams.forEach(team => {
-                tablesHtml += `<div class="mb-6"><table class="table-fixed w-full"><thead><tr><th class="px-4 py-2 team-header" colspan="4">${team.name}</th></tr><tr><th class="px-4 py-2 w-2/5">Player</th><th class="px-4 py-2 w-1/5">Handicap</th><th class="px-4 py-2 w-1/5">Score</th><th class="px-4 py-2 w-1/5">Team Total</th></tr></thead><tbody>`;
-                team.players.forEach((player, index) => {
-                    const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
+            let tablesHtml = rankedTeams.map(team => {
+                let teamRows = team.players.map((player, index) => {
+                    const handicap = handicaps[player]?.toFixed(1) || 'N/A';
                     const score = scores[player] || 0;
-                    tablesHtml += `<tr><td class="border px-4 py-2">${player}</td><td class="border px-4 py-2">${handicap}</td><td class="border px-4 py-2">${score}</td>`;
-                    if (index === 0) { tablesHtml += `<td class="border px-4 py-2 font-bold" rowspan="${team.players.length}">${team.total}</td>`; }
-                    tablesHtml += `</tr>`;
-                });
-                tablesHtml += `</tbody></table></div>`;
-            });
+                    return `<tr><td class="border px-4 py-2">${player}</td><td class="border px-4 py-2">${handicap}</td><td class="border px-4 py-2">${score}</td>
+                        ${index === 0 ? `<td class="border px-4 py-2 font-bold" rowspan="${team.players.length}">${team.total}</td>` : ''}</tr>`;
+                }).join('');
+                return `<div class="mb-6"><table class="table-fixed w-full">
+                    <thead><tr><th class="px-4 py-2 team-header" colspan="4">${team.name}</th></tr>
+                    <tr><th class="px-4 py-2 w-2/5">Player</th><th class="px-4 py-2 w-1/5">Handicap</th><th class="px-4 py-2 w-1/5">Score</th><th class="px-4 py-2 w-1/5">Team Total</th></tr></thead>
+                    <tbody>${teamRows}</tbody></table></div>`;
+            }).join('');
             container.innerHTML = funBetsHtml + rankingHtml + tablesHtml;
         }
 
@@ -975,7 +835,6 @@
             const initialPlayer = allPlayers.sort()[0];
             document.getElementById('player-select').value = initialPlayer;
             
-            // Populate dynamic content
             fetchWeather(); // Fetch and display weather on page load
             populateTeeTimesForPlayer(initialPlayer);
             populateNotes(initialPlayer);
@@ -985,8 +844,7 @@
             populateDailyFlow(initialPlayer);
 
             const dateSelect = document.getElementById('date-select');
-            const scoringDates = Object.keys(dailyData);
-            scoringDates.forEach(date => {
+            Object.keys(dailyData).forEach(date => {
                 const option = document.createElement('option');
                 option.value = date;
                 option.textContent = `${date.replace('-', '/')} - Scoring`;
@@ -1004,11 +862,9 @@
 
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.querySelectorAll('.tab-button, .tab-content').forEach(el => el.classList.remove('active'));
                     button.classList.add('active');
-                    const contentId = button.id.replace('tab-', 'content-');
-                    document.getElementById(contentId).classList.add('active');
+                    document.getElementById(button.id.replace('tab-', 'content-')).classList.add('active');
                 });
             });
         }
