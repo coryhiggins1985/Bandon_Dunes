@@ -663,7 +663,7 @@
             "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Zach Deines", "Vikas Bhasin", "Brandon Itaoka"] },
             "Zach Deines": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Vikas Bhasin", "Brandon Itaoka"] },
             "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Brandon Itaoka"] },
-            "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Brandon Itaoka"] }
+            "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
         // Handicap data - UPDATED with the final definitive list.
@@ -734,7 +734,7 @@
                 sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
                 fourTeamData: { "Team 1": ["Mike Newell", "Jacob Emert", "Brandon Itaoka", "Daniel Passino", "Cory Micheel", "Matt Akers"], "Team 2": ["Andrew Akers", "Bob Owlett", "Zach Deines", "Hisham Sayeedi", "AD Hoffman", "Will Quarles"], "Team 3": ["Cory Higgins", "Kevan Oyama", "Rob Small", "Vikas Bhasin", "Bryan Wolfe", "Charlie Hildebrand"], "Team 4": ["James Adolfson", "Ryan Hohn", "Kevin Newell", "Nick Zangardi", "Johnathn Resetar", "Paul Parker"] },
                 scores: { "Mike Newell": 55, "Jacob Emert": 43, "Brandon Itaoka": 38, "Daniel Passino": 48, "Cory Micheel": 36, "Matt Akers": 39, "Andrew Akers": 46, "Bob Owlett": 36, "Zach Deines": 36, "Hisham Sayeedi": 47, "AD Hoffman": 28, "Will Quarles": 29, "Cory Higgins": 46, "Kevan Oyama": 39, "Rob Small": 28, "Vikas Bhasin": 36, "Bryan Wolfe": 30, "Charlie Hildebrand": 37, "James Adolfson": 37, "Ryan Hohn": 35, "Kevin Newell": 38, "Nick Zangardi": 37, "Johnathn Resetar": 30, "Paul Parker": 25 },
-                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Higgins" }, { bet: "Closest to the Pin #2", winner: "Rob Small" }, { bet: "Long Drive - In Fairway", winner: "Andrew Akers" } ]
+                funBets: [ { bet: "Closest to the Pin #1", winner: "Cory Micheel" }, { bet: "Closest to the Pin #2", winner: "Charlie Hildebrand" }, { bet: "Long Drive - In Fairway", winner: "Andrew Akers" } ]
             },
             "8-22": { 
                 sixTeamData: { "Team 1": ["Mike Newell","Jacob Emert","Brandon Itaoka","Daniel Passino"], "Team 2": ["Andrew Akers","Bob Owlett","Zach Deines","Hisham Sayeedi"], "Team 3": ["Cory Higgins","Kevan Oyama","Rob Small","Vikas Bhasin"], "Team 4": ["James Adolfson","Ryan Hohn","Kevin Newell","Nick Zangardi"], "Team 5": ["Cory Micheel","AD Hoffman","Paul Parker","Will Quarles"], "Team 6": ["Bryan Wolfe","Charlie Hildebrand","Johnathn Resetar","Matt Akers"] },
@@ -1326,10 +1326,12 @@
             const scoringDates = Object.keys(dailyData);
 
             scoringDates.forEach(date => {
-                const option = document.createElement('option');
-                option.value = date;
-                option.textContent = `${date.replace('-', '/')} - Scoring`;
-                dateSelect.appendChild(option);
+                if (date !== "8-20") { // This line hides the 8/20 option
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = `${date.replace('-', '/')} - Scoring`;
+                    dateSelect.appendChild(option);
+                }
             });
 
             dateSelect.addEventListener('change', populateScoringView);
