@@ -134,6 +134,9 @@
             background-color: #86efac;
             font-weight: bold;
         }
+        .side-bet-winner-highlight {
+             background-color: #fef08a; /* yellow-200 */
+        }
         .daily-flow-table td {
             padding: 0.25rem 0.5rem;
             font-size: 0.75rem;
@@ -361,6 +364,8 @@
                             </thead>
                         <tbody id="winners-summary-body">
                             </tbody>
+                        <tfoot id="winners-summary-footer">
+                            </tfoot>
                     </table>
                 </div>
             </div>
@@ -1325,10 +1330,12 @@
         function populateWinnersSummary() {
             const winnersBody = document.getElementById('winners-summary-body');
             const winnersHeader = document.querySelector('#content-winners table thead');
-            if (!winnersBody || !winnersHeader) return;
+            const winnersFooter = document.getElementById('winners-summary-footer');
+            if (!winnersBody || !winnersHeader || !winnersFooter) return;
 
             winnersBody.innerHTML = '';
             winnersHeader.innerHTML = '';
+            winnersFooter.innerHTML = '';
 
             const players = Object.keys(handicaps).sort();
             const dates = Object.keys(dailyData).filter(date => date !== "8-20" && date !== "8-24");
@@ -1337,16 +1344,22 @@
             dates.forEach(date => {
                 headerHTML += `<th class="px-4 py-2 text-center">${date.replace('-', '/')}</th>`;
             });
-            headerHTML += '</tr>';
+            headerHTML += '<th class="px-4 py-2 text-right">Total Winnings</th></tr>';
             winnersHeader.innerHTML = headerHTML;
+
+            let grandTotalWinnings = 0;
 
             players.forEach(player => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${player}</td>`;
+                let totalWinnings = 0;
 
                 dates.forEach(date => {
                     const dayData = dailyData[date];
-                    let tdHTML = '<td class="border px-4 py-2"></td>'; // Default empty cell
+                    let dailyWinnings = 0;
+                    let cellContentParts = [];
+                    let cellClass = '';
+                    let tdHTML = '<td class="border px-4 py-2"></td>';
 
                     if (dayData && dayData.fourTeamData && dayData.scores) {
                         const teamData = dayData.fourTeamData;
@@ -1360,36 +1373,57 @@
                             playersOnTeam.forEach(p => {
                                 teamTotal += scores[p] || 0;
                             });
-
                             if (teamTotal > maxScore) {
                                 maxScore = teamTotal;
                                 winningTeamName = teamName;
                             }
                         }
-
+                        
                         const winningPlayers = teamData[winningTeamName] || [];
                         
                         if (winningPlayers.includes(player)) {
-                            let cellContentParts = [`${winningTeamName} - Winner`];
-                            const funBets = dayData.funBets || [];
-                            funBets.forEach(bet => {
-                                if (bet.winner === player) {
-                                    if (bet.bet.includes("#1")) {
-                                        cellContentParts.push("KP1");
-                                    } else if (bet.bet.includes("#2")) {
-                                        cellContentParts.push("KP2");
-                                    } else if (bet.bet.includes("Long Drive")) {
-                                        cellContentParts.push("LD");
-                                    }
-                                }
-                            });
-                            tdHTML = `<td class="border px-4 py-2 winning-team-highlight text-center">${cellContentParts.join(' - ')}</td>`;
+                            cellContentParts.push(`${winningTeamName} - Winner`);
+                            cellClass = 'winning-team-highlight';
+                            dailyWinnings += 160;
+                        }
+
+                        const funBets = dayData.funBets || [];
+                        let betWins = [];
+                        funBets.forEach(bet => {
+                            if (bet.winner === player) {
+                                dailyWinnings += 80; // $80 per side bet
+                                if (!cellClass) cellClass = 'side-bet-winner-highlight';
+                                
+                                if (bet.bet.includes("#1")) betWins.push("KP1");
+                                else if (bet.bet.includes("#2")) betWins.push("KP2");
+                                else if (bet.bet.includes("Long Drive")) betWins.push("LD");
+                            }
+                        });
+
+                        if (betWins.length > 0) {
+                            cellContentParts.push(...betWins);
+                        }
+
+                        if (dailyWinnings > 0) {
+                            const finalCellContent = `${cellContentParts.join(' - ')} ($${dailyWinnings})`;
+                            tdHTML = `<td class="border px-4 py-2 text-center ${cellClass}">${finalCellContent}</td>`;
                         }
                     }
                     tr.innerHTML += tdHTML;
+                    totalWinnings += dailyWinnings;
                 });
+
+                tr.innerHTML += `<td class="border px-4 py-2 font-bold text-right">$${totalWinnings}</td>`;
                 winnersBody.appendChild(tr);
+                grandTotalWinnings += totalWinnings;
             });
+            
+            winnersFooter.innerHTML = `
+                <tr>
+                    <td colspan="${dates.length + 1}" class="px-4 py-2 text-right font-bold">Grand Total</td>
+                    <td class="px-4 py-2 font-bold text-right">$${grandTotalWinnings}</td>
+                </tr>
+            `;
         }
 
 
