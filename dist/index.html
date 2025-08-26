@@ -358,11 +358,9 @@
                 <div class="overflow-x-auto">
                     <table class="table-auto w-full">
                         <thead>
-                            <!-- Header will be populated by JavaScript -->
-                        </thead>
+                            </thead>
                         <tbody id="winners-summary-body">
-                            <!-- Body will be populated by JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -680,7 +678,7 @@
             "Cory Higgins": { accommodation: "Grove Cottage", roommates: ["Zach Deines", "Vikas Bhasin", "Brandon Itaoka"] },
             "Zach Deines": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Vikas Bhasin", "Brandon Itaoka"] },
             "Vikas Bhasin": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Brandon Itaoka"] },
-            "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Brandon Itaoka"] }
+            "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
         // Handicap data - UPDATED with the final definitive list.
@@ -1333,7 +1331,7 @@
             winnersHeader.innerHTML = '';
 
             const players = Object.keys(handicaps).sort();
-            const dates = Object.keys(dailyData).filter(date => date !== "8-20");
+            const dates = Object.keys(dailyData).filter(date => date !== "8-20" && date !== "8-24");
 
             let headerHTML = '<tr><th class="px-4 py-2">Player</th>';
             dates.forEach(date => {
@@ -1348,43 +1346,52 @@
 
                 dates.forEach(date => {
                     const dayData = dailyData[date];
-                    if (!dayData) {
-                        tr.innerHTML += `<td class="border px-4 py-2"></td>`;
-                        return;
-                    }
+                    let tdHTML = '<td class="border px-4 py-2"></td>'; // Default empty cell
 
-                    const teamData = dayData.fourTeamData;
-                    const scores = dayData.scores;
-                    let winningTeamName = '';
-                    let maxScore = -1;
+                    if (dayData && dayData.fourTeamData && dayData.scores) {
+                        const teamData = dayData.fourTeamData;
+                        const scores = dayData.scores;
+                        let winningTeamName = '';
+                        let maxScore = -1;
 
-                    for (const teamName in teamData) {
-                        const playersOnTeam = teamData[teamName];
-                        let teamTotal = 0;
-                        playersOnTeam.forEach(p => {
-                            teamTotal += scores[p] || 0;
-                        });
+                        for (const teamName in teamData) {
+                            const playersOnTeam = teamData[teamName];
+                            let teamTotal = 0;
+                            playersOnTeam.forEach(p => {
+                                teamTotal += scores[p] || 0;
+                            });
 
-                        if (teamTotal > maxScore) {
-                            maxScore = teamTotal;
-                            winningTeamName = teamName;
+                            if (teamTotal > maxScore) {
+                                maxScore = teamTotal;
+                                winningTeamName = teamName;
+                            }
+                        }
+
+                        const winningPlayers = teamData[winningTeamName] || [];
+                        
+                        if (winningPlayers.includes(player)) {
+                            let cellContentParts = [`${winningTeamName} - Winner`];
+                            const funBets = dayData.funBets || [];
+                            funBets.forEach(bet => {
+                                if (bet.winner === player) {
+                                    if (bet.bet.includes("#1")) {
+                                        cellContentParts.push("KP1");
+                                    } else if (bet.bet.includes("#2")) {
+                                        cellContentParts.push("KP2");
+                                    } else if (bet.bet.includes("Long Drive")) {
+                                        cellContentParts.push("LD");
+                                    }
+                                }
+                            });
+                            tdHTML = `<td class="border px-4 py-2 winning-team-highlight text-center">${cellContentParts.join(' - ')}</td>`;
                         }
                     }
-
-                    const winningPlayers = teamData[winningTeamName] || [];
-                    let cellContent = '';
-                    let cellClass = '';
-
-                    if (winningPlayers.includes(player)) {
-                        cellContent = `${winningTeamName} - Winner`;
-                        cellClass = 'winning-team-highlight text-center';
-                    }
-
-                    tr.innerHTML += `<td class="border px-4 py-2 ${cellClass}">${cellContent}</td>`;
+                    tr.innerHTML += tdHTML;
                 });
                 winnersBody.appendChild(tr);
             });
         }
+
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
