@@ -1347,6 +1347,8 @@
             headerHTML += '<th class="px-4 py-2 text-right">Total Winnings</th></tr>';
             winnersHeader.innerHTML = headerHTML;
 
+            let grandTotalWinnings = 0;
+
             players.forEach(player => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${player}</td>`;
@@ -1378,7 +1380,7 @@
                             const teamData = dayData.fourTeamData;
                             const scores = dayData.scores;
                             let winningTeamName = '';
-                            let maxScore = -1;
+                            let maxScore = -Infinity; // Initialize with a very low number
 
                             for (const teamName in teamData) {
                                 const playersOnTeam = teamData[teamName];
@@ -1416,7 +1418,16 @@
 
                 tr.innerHTML += `<td class="border px-4 py-2 font-bold text-right">$${totalWinnings}</td>`;
                 winnersBody.appendChild(tr);
+                grandTotalWinnings += totalWinnings;
             });
+            
+            winnersFooter.innerHTML = `
+                <tr>
+                    <td colspan="${dates.length}" class="px-4 py-2 text-right font-bold"></td>
+                    <td class="px-4 py-2 font-bold text-right">Grand Total</td>
+                    <td class="px-4 py-2 font-bold text-right">$${grandTotalWinnings}</td>
+                </tr>
+            `;
         }
 
 
