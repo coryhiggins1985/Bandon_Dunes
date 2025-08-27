@@ -1338,7 +1338,7 @@
             winnersFooter.innerHTML = '';
 
             const players = Object.keys(handicaps).sort();
-            const dates = Object.keys(dailyData).filter(date => date !== "8-20" && date !== "8-24");
+            const dates = Object.keys(dailyData).filter(date => date !== "8-20");
 
             let headerHTML = '<tr><th class="px-4 py-2">Player</th>';
             dates.forEach(date => {
@@ -1361,47 +1361,65 @@
                     let cellClass = '';
                     let tdHTML = '<td class="border px-4 py-2"></td>';
 
-                    if (dayData && dayData.fourTeamData && dayData.scores) {
-                        const teamData = dayData.fourTeamData;
-                        const scores = dayData.scores;
-                        let winningTeamName = '';
-                        let maxScore = -1;
-
-                        for (const teamName in teamData) {
-                            const playersOnTeam = teamData[teamName];
-                            let teamTotal = 0;
-                            playersOnTeam.forEach(p => {
-                                teamTotal += scores[p] || 0;
+                    if (dayData && dayData.scores) {
+                        // Special logic for 8/24 - only show side bets
+                        if (date === "8-24") {
+                            const funBets = dayData.funBets || [];
+                            funBets.forEach(bet => {
+                                if (bet.winner === player) {
+                                    dailyWinnings += 80;
+                                    if (bet.bet.includes("#1")) cellContentParts.push("KP1");
+                                    else if (bet.bet.includes("#2")) cellContentParts.push("KP2");
+                                    else if (bet.bet.includes("Long Drive")) cellContentParts.push("LD");
+                                }
                             });
-                            if (teamTotal > maxScore) {
-                                maxScore = teamTotal;
-                                winningTeamName = teamName;
+                            if (dailyWinnings > 0) {
+                                cellClass = 'side-bet-winner-highlight text-center';
                             }
-                        }
-                        
-                        const winningPlayers = teamData[winningTeamName] || [];
-                        
-                        if (winningPlayers.includes(player)) {
-                            cellContentParts.push(`${winningTeamName} - Winner`);
-                            cellClass = 'winning-team-highlight';
-                            dailyWinnings += 160;
-                        }
+                        } 
+                        // Existing logic for other days
+                        else if (dayData.fourTeamData) {
+                            const teamData = dayData.fourTeamData;
+                            const scores = dayData.scores;
+                            let winningTeamName = '';
+                            let maxScore = -1;
 
-                        const funBets = dayData.funBets || [];
-                        let betWins = [];
-                        funBets.forEach(bet => {
-                            if (bet.winner === player) {
-                                dailyWinnings += 80; // $80 per side bet
-                                if (!cellClass) cellClass = 'side-bet-winner-highlight';
-                                
-                                if (bet.bet.includes("#1")) betWins.push("KP1");
-                                else if (bet.bet.includes("#2")) betWins.push("KP2");
-                                else if (bet.bet.includes("Long Drive")) betWins.push("LD");
+                            for (const teamName in teamData) {
+                                const playersOnTeam = teamData[teamName];
+                                let teamTotal = 0;
+                                playersOnTeam.forEach(p => {
+                                    teamTotal += scores[p] || 0;
+                                });
+                                if (teamTotal > maxScore) {
+                                    maxScore = teamTotal;
+                                    winningTeamName = teamName;
+                                }
                             }
-                        });
+                            
+                            const winningPlayers = teamData[winningTeamName] || [];
+                            
+                            if (winningPlayers.includes(player)) {
+                                cellContentParts.push(`${winningTeamName} - Winner`);
+                                cellClass = 'winning-team-highlight';
+                                dailyWinnings += 160;
+                            }
 
-                        if (betWins.length > 0) {
-                            cellContentParts.push(...betWins);
+                            const funBets = dayData.funBets || [];
+                            let betWins = [];
+                            funBets.forEach(bet => {
+                                if (bet.winner === player) {
+                                    dailyWinnings += 80;
+                                    if (!cellClass) cellClass = 'side-bet-winner-highlight';
+                                    
+                                    if (bet.bet.includes("#1")) betWins.push("KP1");
+                                    else if (bet.bet.includes("#2")) betWins.push("KP2");
+                                    else if (bet.bet.includes("Long Drive")) betWins.push("LD");
+                                }
+                            });
+
+                            if (betWins.length > 0) {
+                                cellContentParts.push(...betWins);
+                            }
                         }
 
                         if (dailyWinnings > 0) {
