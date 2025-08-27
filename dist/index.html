@@ -1347,8 +1347,6 @@
             headerHTML += '<th class="px-4 py-2 text-right">Total Winnings</th></tr>';
             winnersHeader.innerHTML = headerHTML;
 
-            let grandTotalWinnings = 0;
-
             players.forEach(player => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${player}</td>`;
@@ -1362,23 +1360,21 @@
                     let tdHTML = '<td class="border px-4 py-2"></td>';
 
                     if (dayData && dayData.scores) {
-                        // Special logic for 8/24 - only show side bets
-                        if (date === "8-24") {
-                            const funBets = dayData.funBets || [];
-                            funBets.forEach(bet => {
-                                if (bet.winner === player) {
-                                    dailyWinnings += 80;
-                                    if (bet.bet.includes("#1")) cellContentParts.push("KP1");
-                                    else if (bet.bet.includes("#2")) cellContentParts.push("KP2");
-                                    else if (bet.bet.includes("Long Drive")) cellContentParts.push("LD");
-                                }
-                            });
-                            if (dailyWinnings > 0) {
-                                cellClass = 'side-bet-winner-highlight text-center';
+                        const funBets = dayData.funBets || [];
+                        let betWins = [];
+                        
+                        funBets.forEach(bet => {
+                            if (bet.winner === player) {
+                                dailyWinnings += 80;
+                                if (!cellClass) cellClass = 'side-bet-winner-highlight';
+                                
+                                if (bet.bet.includes("#1")) betWins.push("KP1");
+                                else if (bet.bet.includes("#2")) betWins.push("KP2");
+                                else if (bet.bet.includes("Long Drive")) betWins.push("LD");
                             }
-                        } 
-                        // Existing logic for other days
-                        else if (dayData.fourTeamData) {
+                        });
+                        
+                        if (date !== "8-24" && dayData.fourTeamData) {
                             const teamData = dayData.fourTeamData;
                             const scores = dayData.scores;
                             let winningTeamName = '';
@@ -1403,23 +1399,10 @@
                                 cellClass = 'winning-team-highlight';
                                 dailyWinnings += 160;
                             }
+                        }
 
-                            const funBets = dayData.funBets || [];
-                            let betWins = [];
-                            funBets.forEach(bet => {
-                                if (bet.winner === player) {
-                                    dailyWinnings += 80;
-                                    if (!cellClass) cellClass = 'side-bet-winner-highlight';
-                                    
-                                    if (bet.bet.includes("#1")) betWins.push("KP1");
-                                    else if (bet.bet.includes("#2")) betWins.push("KP2");
-                                    else if (bet.bet.includes("Long Drive")) betWins.push("LD");
-                                }
-                            });
-
-                            if (betWins.length > 0) {
-                                cellContentParts.push(...betWins);
-                            }
+                        if (betWins.length > 0) {
+                             cellContentParts.push(...betWins);
                         }
 
                         if (dailyWinnings > 0) {
@@ -1433,15 +1416,7 @@
 
                 tr.innerHTML += `<td class="border px-4 py-2 font-bold text-right">$${totalWinnings}</td>`;
                 winnersBody.appendChild(tr);
-                grandTotalWinnings += totalWinnings;
             });
-            
-            winnersFooter.innerHTML = `
-                <tr>
-                    <td colspan="${dates.length + 1}" class="px-4 py-2 text-right font-bold">Grand Total</td>
-                    <td class="px-4 py-2 font-bold text-right">$${grandTotalWinnings}</td>
-                </tr>
-            `;
         }
 
 
