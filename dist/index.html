@@ -148,26 +148,19 @@
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10 mt-8">
-        
-        <!-- NEW DESTINATION SELECTOR -->
-        <div class="flex justify-center items-center mb-10 space-x-2 bg-gray-100 p-2 rounded-lg w-max mx-auto relative z-10">
-            <button id="dest-bandon" class="px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800">Bandon Dunes</button>
-            <button id="dest-gamble" class="px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800">Gamble Sands</button>
-        </div>
-
+    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
         <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
         <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
 
         <div class="flex border-b border-gray-200 mb-6 flex-wrap">
-            <button id="tab-summary" class="tab-button bandon-tab active">Trip Summary</button>
-            <button id="tab-caddy" class="tab-button bandon-tab">Caddy Summary</button>
-            <button id="tab-caddy-by-tee-time" class="tab-button bandon-tab">Caddy Summary by Tee Time</button>
-            <button id="tab-daily-flow" class="tab-button bandon-tab">Daily Flow</button>
-            <button id="tab-scoring" class="tab-button bandon-tab">Daily Scoring</button>
-            <button id="tab-winners" class="tab-button bandon-tab">Winners Summary</button>
-            <button id="tab-group-info" class="tab-button bandon-tab">Group Information</button>
-            <button id="tab-gamblesands" class="tab-button gamble-tab" style="display:none;">2026 Gamble Sands</button>
+            <button id="tab-summary" class="tab-button active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
+            <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
+            <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
+            <button id="tab-scoring" class="tab-button">Daily Scoring</button>
+            <button id="tab-winners" class="tab-button">Winners Summary</button>
+            <button id="tab-group-info" class="tab-button">Group Information</button>
+            <button id="tab-gamblesands" class="tab-button">2026 Gamble Sands</button>
         </div>
 
         <div id="content-summary" class="tab-content active">
@@ -1569,42 +1562,6 @@
             `;
         }
 
-        // --- NEW DESTINATION TOGGLE LOGIC ---
-        function setDestination(destination) {
-            const bandonTabs = document.querySelectorAll('.bandon-tab');
-            const gambleTabs = document.querySelectorAll('.gamble-tab');
-            const logo = document.getElementById('trip-logo');
-            const title = document.getElementById('main-trip-summary-title');
-            
-            const btnBandon = document.getElementById('dest-bandon');
-            const btnGamble = document.getElementById('dest-gamble');
-
-            if (destination === 'bandon') {
-                btnBandon.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800";
-                btnGamble.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800";
-                
-                logo.style.display = 'block';
-                title.style.display = 'block';
-                
-                bandonTabs.forEach(tab => tab.style.display = 'block');
-                gambleTabs.forEach(tab => tab.style.display = 'none');
-                
-                document.getElementById('tab-summary').click();
-            } else {
-                btnGamble.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800";
-                btnBandon.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800";
-                
-                // Hide Bandon branding for the GS tab 
-                logo.style.display = 'none';
-                title.style.display = 'none'; 
-                
-                bandonTabs.forEach(tab => tab.style.display = 'none');
-                gambleTabs.forEach(tab => tab.style.display = 'block');
-                
-                document.getElementById('tab-gamblesands').click();
-            }
-        }
-
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
@@ -1655,13 +1612,6 @@
                     document.getElementById(contentId).classList.add('active');
                 });
             });
-
-            // Initialize DestToggle Listeners
-            document.getElementById('dest-bandon').addEventListener('click', () => setDestination('bandon'));
-            document.getElementById('dest-gamble').addEventListener('click', () => setDestination('gamble'));
-            
-            // Set Default View
-            setDestination('bandon');
         }
 
         window.onload = initialize;
