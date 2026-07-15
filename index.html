@@ -702,9 +702,9 @@
         const handicaps = {
             "Cory Higgins": 1.4,
             "Greg Resnick": 8.4,        
-            "Ian Cochran": 7.3,
+            "Ian Cochran": 18.0,        // Updated from 7.3
             "Jacob Emert": 3.2,
-            "Jake Williams": -0.9,
+            "Jake Williams": 18.0,      // Updated from 7.3
             "Johnathn Resetar": 10.9,
             "Paul Parker": 12.3,
             "Pranav Shah": 4.9,
@@ -1575,15 +1575,15 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Realigned rosters matching latest trades and re-sorted strictly by updated index (low to high)
+        // Rebalanced rosters achieving a perfectly even 0.2 handicap point difference (55.8 vs 55.6)
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
+                players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
             },
             teamB: { 
                 name: 'Team Blue', 
-                players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
             },
             results: {},
             labels: {},
@@ -1830,11 +1830,11 @@
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
+                        players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
-                        players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                        players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
                     },
                     results: {},
                     labels: {},
@@ -1854,8 +1854,8 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        // Cache break signature verifies if the new trades (Jake to Red, Cory to Blue) are active
-                        const isUpToDate = saved.teamA.players.includes("Jake Williams") && saved.teamB.players.includes("Cory Higgins");
+                        // Verifies signature structure sync matches latest rebalancing check
+                        const isUpToDate = saved.teamA.players.includes("Jacob Emert") && handicaps["Jake Williams"] === 18.0;
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
