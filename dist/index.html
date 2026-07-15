@@ -701,7 +701,7 @@
 
         const handicaps = {
             "Cory Higgins": 1.9,
-            "Greg Resnick": 8.4,        // Updated from null
+            "Greg Resnick": 8.4,        
             "Ian Cochran": 7.3,
             "Jacob Emert": 3.1,
             "Jake Williams": null,
@@ -1684,6 +1684,25 @@
                 const holder = document.getElementById('gs-players-' + side);
                 const team = side === 'a' ? gsState.teamA : gsState.teamB;
                 holder.innerHTML = '';
+                
+                function updateAvg() {
+                    let sum = 0;
+                    let count = 0;
+                    team.players.forEach(p => {
+                        if (p && p.trim() !== '') {
+                            const hc = handicaps[p.trim()];
+                            if (hc !== undefined && hc !== null && !isNaN(hc)) {
+                                sum += hc;
+                                count++;
+                            }
+                        }
+                    });
+                    const avgEl = document.getElementById('gs-avg-' + side);
+                    if (avgEl) {
+                        avgEl.textContent = count > 0 ? (sum / count).toFixed(1) : '—';
+                    }
+                }
+
                 for (let i = 0; i < 6; i++) {
                     const row = document.createElement('div');
                     row.className = 'flex items-center justify-between mb-1.5';
@@ -1708,6 +1727,7 @@
                         const targetTeam = (side === 'a' ? gsState.teamA : gsState.teamB);
                         targetTeam.players[i] = inp.value;
                         hcSpan.textContent = getHandicapLabel(inp.value);
+                        updateAvg();
                         gsSave();
                     });
                     
@@ -1715,6 +1735,16 @@
                     row.appendChild(hcSpan);
                     holder.appendChild(row);
                 }
+                
+                // Average Handicap Footer Row
+                const avgRow = document.createElement('div');
+                avgRow.className = 'flex items-center justify-between mt-2 pt-2 border-t border-gray-300/50';
+                avgRow.innerHTML = '<span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Average Handicap</span>' +
+                                   '<span id="gs-avg-' + side + '" class="text-xs font-mono bg-gray-300 text-gray-800 px-2 py-0.5 rounded ml-2 min-w-[36px] text-center font-bold">—</span>';
+                holder.appendChild(avgRow);
+                
+                // Initial Average Calculation
+                updateAvg();
             });
             const nameA = document.getElementById('gs-teamname-a');
             const nameB = document.getElementById('gs-teamname-b');
@@ -1825,7 +1855,6 @@
 
             gsLoad().then(function (saved) {
                 if (saved) {
-                    // Smart update migration: Ensure changes upgrade automatically in existing cache
                     if (saved.teamA && saved.teamA.players) {
                         const isUpToDate = saved.teamA.players.includes("Greg Resnick") && saved.teamA.players[4] === "Greg Resnick";
                         if (isUpToDate) {
