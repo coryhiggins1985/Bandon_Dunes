@@ -699,7 +699,6 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
-        // Complete up-to-date definitive global handicap dictionary
         const handicaps = {
             "Cory Higgins": 1.4,
             "Greg Resnick": 8.4,        
@@ -1576,15 +1575,15 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Realigned rosters matching exact user specifications, oriented low-to-high by index
+        // Realigned rosters matching latest trades and re-sorted strictly by updated index (low to high)
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Zach Deines', 'Paul Parker'] 
+                players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
             },
             teamB: { 
                 name: 'Team Blue', 
-                players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Ryne Baerlocher', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
             },
             results: {},
             labels: {},
@@ -1831,11 +1830,11 @@
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Zach Deines', 'Paul Parker'] 
+                        players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
-                        players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Ryne Baerlocher', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                        players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
                     },
                     results: {},
                     labels: {},
@@ -1855,8 +1854,8 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        // Cache break signature verifies if the new framework (e.g. Jake Williams at -0.9) is active
-                        const isUpToDate = saved.teamA.players.includes("Zach Deines") && saved.teamB.players.includes("Jake Williams");
+                        // Cache break signature verifies if the new trades (Jake to Red, Cory to Blue) are active
+                        const isUpToDate = saved.teamA.players.includes("Jake Williams") && saved.teamB.players.includes("Cory Higgins");
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
