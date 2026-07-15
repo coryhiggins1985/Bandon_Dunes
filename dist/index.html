@@ -469,7 +469,7 @@
                 #content-gamblesands .gs-btn-ghost { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: #F3EFDF; font-family: Georgia, serif; font-size: 13px; cursor: pointer; }
                 #content-gamblesands .gs-save-note { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #CDE3D5; min-width: 44px; }
                 
-                /* ALIGNED PERMANENT ROSTER CONTAINER */
+                /* PERMANENT ROSTER CONTAINER */
                 #content-gamblesands .gs-rosters { background: #FBFAF6; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); display: block; }
                 #content-gamblesands .gs-roster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
                 #content-gamblesands .gs-input { width: 100%; border: none; border-bottom: 1px solid #E3E0D5; background: transparent; padding: 6px 2px; font-family: Georgia, serif; font-size: 13.5px; color: #17251F; outline: none; box-sizing: border-box; border-radius: 0; }
@@ -699,18 +699,19 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
+        // Complete up-to-date definitive global handicap dictionary
         const handicaps = {
-            "Cory Higgins": 1.9,
+            "Cory Higgins": 1.4,
             "Greg Resnick": 8.4,        
             "Ian Cochran": 7.3,
-            "Jacob Emert": 3.1,
-            "Jake Williams": null,
+            "Jacob Emert": 3.2,
+            "Jake Williams": -0.9,
             "Johnathn Resetar": 10.9,
             "Paul Parker": 12.3,
             "Pranav Shah": 4.9,
             "Ryan Hohn": 5.7,
             "Ryne Baerlocher": 7.3,
-            "Todd Waldenberg": null,
+            "Todd Waldenberg": 12.0,
             "Zach Deines": 9.3,
             
             "Mike Newell": 0.0,
@@ -1575,15 +1576,15 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Team Red re-oriented ascending by handicap with Greg Resnick at 8.4
+        // Realigned rosters matching exact user specifications, oriented low-to-high by index
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Paul Parker'] 
+                players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Zach Deines', 'Paul Parker'] 
             },
             teamB: { 
                 name: 'Team Blue', 
-                players: ['Jacob Emert', 'Ryne Baerlocher', 'Zach Deines', 'Johnathn Resetar', 'Jake Williams', 'Todd Waldenberg'] 
+                players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Ryne Baerlocher', 'Johnathn Resetar', 'Todd Waldenberg'] 
             },
             results: {},
             labels: {},
@@ -1736,14 +1737,12 @@
                     holder.appendChild(row);
                 }
                 
-                // Average Handicap Footer Row
                 const avgRow = document.createElement('div');
                 avgRow.className = 'flex items-center justify-between mt-2 pt-2 border-t border-gray-300/50';
                 avgRow.innerHTML = '<span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Average Handicap</span>' +
                                    '<span id="gs-avg-' + side + '" class="text-xs font-mono bg-gray-300 text-gray-800 px-2 py-0.5 rounded ml-2 min-w-[36px] text-center font-bold">—</span>';
                 holder.appendChild(avgRow);
                 
-                // Initial Average Calculation
                 updateAvg();
             });
             const nameA = document.getElementById('gs-teamname-a');
@@ -1832,11 +1831,11 @@
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Paul Parker'] 
+                        players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Zach Deines', 'Paul Parker'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
-                        players: ['Jacob Emert', 'Ryne Baerlocher', 'Zach Deines', 'Johnathn Resetar', 'Jake Williams', 'Todd Waldenberg'] 
+                        players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Ryne Baerlocher', 'Johnathn Resetar', 'Todd Waldenberg'] 
                     },
                     results: {},
                     labels: {},
@@ -1856,7 +1855,8 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        const isUpToDate = saved.teamA.players.includes("Greg Resnick") && saved.teamA.players[4] === "Greg Resnick";
+                        // Cache break signature verifies if the new framework (e.g. Jake Williams at -0.9) is active
+                        const isUpToDate = saved.teamA.players.includes("Zach Deines") && saved.teamB.players.includes("Jake Williams");
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
