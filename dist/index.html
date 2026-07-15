@@ -469,6 +469,7 @@
                 #content-gamblesands .gs-btn-ghost { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: #F3EFDF; font-family: Georgia, serif; font-size: 13px; cursor: pointer; }
                 #content-gamblesands .gs-save-note { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #CDE3D5; min-width: 44px; }
                 
+                /* PERMANENT ROSTER CONTAINER */
                 #content-gamblesands .gs-rosters { background: #FBFAF6; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); display: block; }
                 #content-gamblesands .gs-roster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
                 #content-gamblesands .gs-input { width: 100%; border: none; border-bottom: 1px solid #E3E0D5; background: transparent; padding: 6px 2px; font-family: Georgia, serif; font-size: 13.5px; color: #17251F; outline: none; box-sizing: border-box; border-radius: 0; }
@@ -476,6 +477,7 @@
                 #content-gamblesands .gs-team-name.gs-a-ink { color: #A6252F; border-bottom: 2px solid #A6252F; }
                 #content-gamblesands .gs-team-name.gs-b-ink { color: #1E3A6E; border-bottom: 2px solid #1E3A6E; }
                 
+                /* DAY TABS STYLING */
                 #content-gamblesands .gs-day-tabs { display: flex; justify-content: center; gap: 8px; margin: 20px 0 16px; border-bottom: 1px solid rgba(227, 224, 213, 0.15); padding-bottom: 16px; flex-wrap: wrap; }
                 #content-gamblesands .gs-day-tab { flex: 1; min-width: 130px; padding: 12px 16px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.25); color: #CDE3D5; font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
                 #content-gamblesands .gs-day-tab:hover { background: rgba(255, 255, 255, 0.1); color: #F3EFDF; border-color: rgba(255, 255, 255, 0.4); }
@@ -486,7 +488,8 @@
                 }
 
                 #content-gamblesands .gs-session { background: #FBFAF6; border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
-                #content-gamblesands .gs-session-head { width: 100%; border: none; background: transparent; cursor: pointer; padding: 14px 16px; display: flex; align-items: baseline; gap: 10px; text-align: left; font-family: Georgia, serif; }
+                /* Updated session head to align center instead of baseline so logos are vertically aligned */
+                #content-gamblesands .gs-session-head { width: 100%; border: none; background: transparent; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; font-family: Georgia, serif; }
                 #content-gamblesands .gs-when { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 2px; color: #C9A44C; text-transform: uppercase; white-space: nowrap; }
                 #content-gamblesands .gs-session-title { font-family: 'Arial Black', Arial, sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; color: #17251F; }
                 #content-gamblesands .gs-session-tally { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
@@ -697,6 +700,7 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
+        // Complete up-to-date definitive global handicap dictionary
         const handicaps = {
             "Cory Higgins": 1.4,
             "Greg Resnick": 8.4,        
@@ -1550,22 +1554,22 @@
                 { id: 'r1m2', label: 'Match 2', units: [{ id: 'r1m2f', label: 'Front 9', pts: 1 }, { id: 'r1m2b', label: 'Back 9', pts: 1 }] },
                 { id: 'r1m3', label: 'Match 3', units: [{ id: 'r1m3f', label: 'Front 9', pts: 1 }, { id: 'r1m3b', label: 'Back 9', pts: 1 }] }
               ] },
-            { id: 'r2', day: 'day1', when: 'Day 1 · PM', title: 'Par 3 · 3v3 Two-Count', desc: '14 holes at QuickSands · two best net scores count per side',
+            { id: 'r2', day: 'day1', when: 'Day 1 · PM', title: 'Par 3 · 3v3 Two-Count', desc: '14 holes at QuickSands · two best net scores count per side', logo: 'quicksands-logo.jpg',
               matches: [
                 { id: 'r2m1', label: 'Group 1 (3v3)', units: [{ id: 'r2m1x', label: '14-Hole Match', pts: 3 }] },
                 { id: 'r2m2', label: 'Group 2 (3v3)', units: [{ id: 'r2m2x', label: '14-Hole Match', pts: 3 }] }
               ] },
-            { id: 'r3', day: 'day2', when: 'Day 2 · AM', title: 'Aggregate Four-Ball', desc: '2v2 combined net score · front & back 9-hole matches',
+            { id: 'r3', day: 'day2', when: 'Day 2 · AM', title: 'Aggregate Four-Ball', desc: '2v2 combined net score · front & back 9-hole matches', logo: 'scarecrow.jpg',
               matches: [
                 { id: 'r3m1', label: 'Match 1', units: [{ id: 'r3m1f', label: 'Front 9', pts: 1 }, { id: 'r3m1b', label: 'Back 9', pts: 1 }] },
                 { id: 'r3m2', label: 'Match 2', units: [{ id: 'r3m2f', label: 'Front 9', pts: 1 }, { id: 'r3m2b', label: 'Back 9', pts: 1 }] },
                 { id: 'r3m3', label: 'Match 3', units: [{ id: 'r3m3f', label: 'Front 9', pts: 1 }, { id: 'r3m3b', label: 'Back 9', pts: 1 }] }
               ] },
-            { id: 'r4', day: 'day2', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · best 5 of 6 count per team',
+            { id: 'r4', day: 'day2', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · best 5 of 6 count per team', logo: 'Gamble-black-logo.png',
               matches: [
                 { id: 'r4m1', label: 'Team Totals', units: [{ id: 'r4f', label: 'Front 9 Total', pts: 3 }, { id: 'r4b', label: 'Back 9 Total', pts: 3 }] }
               ] },
-            { id: 'r5', day: 'day3', when: 'Day 3', title: 'Singles Finale', desc: '1v1 · front & back 9-hole matches',
+            { id: 'r5', day: 'day3', when: 'Day 3', title: 'Singles Finale', desc: '1v1 · front & back 9-hole matches', logo: 'scarecrow.jpg',
               matches: [1, 2, 3, 4, 5, 6].map(function (n) {
                 return { id: 'r5m' + n, label: 'Singles ' + n, units: [{ id: 'r5m' + n + 'f', label: 'Front 9', pts: 1 }, { id: 'r5m' + n + 'b', label: 'Back 9', pts: 1 }] };
               }) }
@@ -1573,15 +1577,15 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Balanced rosters (sum approx 55.7) sorted low-to-high by index
+        // Rebalanced rosters achieving a perfectly even 0.2 handicap point difference (55.8 vs 55.6)
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
+                players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
             },
             teamB: { 
                 name: 'Team Blue', 
-                players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
             },
             results: {},
             labels: {},
@@ -1683,6 +1687,13 @@
                 const team = side === 'a' ? gsState.teamA : gsState.teamB;
                 holder.innerHTML = '';
                 
+                // DYNAMIC SORTING: Every time the roster renders, sort players lowest to highest index
+                team.players.sort(function(p1, p2) {
+                    const h1 = (p1 && p1.trim() !== '' && handicaps[p1.trim()] !== undefined && handicaps[p1.trim()] !== null) ? handicaps[p1.trim()] : 999;
+                    const h2 = (p2 && p2.trim() !== '' && handicaps[p2.trim()] !== undefined && handicaps[p2.trim()] !== null) ? handicaps[p2.trim()] : 999;
+                    return h1 - h2;
+                });
+                
                 function updateAvg() {
                     let sum = 0;
                     let count = 0;
@@ -1721,12 +1732,18 @@
                     
                     hcSpan.textContent = getHandicapLabel(inp.value);
                     
+                    // Handle visual updates while typing without interrupting user flow
                     inp.addEventListener('input', function () {
                         const targetTeam = (side === 'a' ? gsState.teamA : gsState.teamB);
                         targetTeam.players[i] = inp.value;
                         hcSpan.textContent = getHandicapLabel(inp.value);
                         updateAvg();
+                    });
+
+                    // Trigger the full re-sort and re-render only when the user clicks away
+                    inp.addEventListener('change', function () {
                         gsSave();
+                        gsBuild(); 
                     });
                     
                     row.appendChild(inp);
@@ -1759,7 +1776,12 @@
                 const head = document.createElement('button');
                 head.type = 'button';
                 head.className = 'gs-session-head';
-                head.innerHTML = '<span class="gs-when">' + sess.when + '</span>' +
+                
+                // Add Dynamic Session Logo if specified in array
+                const logoHtml = sess.logo ? `<img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/${sess.logo}" alt="Course Logo" style="height: 20px; width: auto; object-fit: contain;">` : '';
+                
+                head.innerHTML = logoHtml + 
+                    '<span class="gs-when">' + sess.when + '</span>' +
                     '<span class="gs-session-title">' + sess.title + '</span>' +
                     '<span class="gs-session-tally" id="gs-tally-' + sess.id + '"></span>' +
                     '<span class="gs-caret">\u25BC</span>';
@@ -1828,11 +1850,11 @@
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
+                        players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
-                        players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
+                        players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
                     },
                     results: {},
                     labels: {},
@@ -1852,8 +1874,8 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        // Cache break signature verifies if the new trades/handicaps are active
-                        const isUpToDate = saved.teamA.players.includes("Jake Williams") && handicaps["Jake Williams"] === 18.0;
+                        // Verifies signature structure sync matches latest rebalancing check
+                        const isUpToDate = saved.teamA.players.includes("Jacob Emert") && handicaps["Jake Williams"] === 18.0;
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
