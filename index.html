@@ -468,8 +468,9 @@
                 #content-gamblesands .gs-controls { display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
                 #content-gamblesands .gs-btn-ghost { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: #F3EFDF; font-family: Georgia, serif; font-size: 13px; cursor: pointer; }
                 #content-gamblesands .gs-save-note { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #CDE3D5; min-width: 44px; }
-                #content-gamblesands .gs-rosters { background: #FBFAF6; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); display: none; }
-                #content-gamblesands .gs-rosters.open { display: block; }
+                
+                /* ALIGNED PERMANENT ROSTER CONTAINER */
+                #content-gamblesands .gs-rosters { background: #FBFAF6; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); display: block; }
                 #content-gamblesands .gs-roster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
                 #content-gamblesands .gs-input { width: 100%; border: none; border-bottom: 1px solid #E3E0D5; background: transparent; padding: 6px 2px; font-family: Georgia, serif; font-size: 13.5px; color: #17251F; outline: none; box-sizing: border-box; border-radius: 0; }
                 #content-gamblesands .gs-team-name { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; margin-bottom: 8px; }
@@ -554,12 +555,7 @@
                         </div>
                     </div>
 
-                    <div class="gs-controls">
-                        <button class="gs-btn-ghost" id="gs-roster-btn" type="button">Edit teams &amp; rosters</button>
-                        <button class="gs-btn-ghost" id="gs-reset-btn" type="button">Reset board</button>
-                        <span class="gs-save-note" id="gs-save-note"></span>
-                    </div>
-
+                    <!-- TEAMS POSITIONED DIRECTLY BELOW LEADERBOARD -->
                     <div class="gs-rosters" id="gs-rosters">
                         <div class="gs-roster-grid">
                             <div>
@@ -571,6 +567,11 @@
                                 <div id="gs-players-b"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="gs-controls">
+                        <button class="gs-btn-ghost" id="gs-reset-btn" type="button">Reset board</button>
+                        <span class="gs-save-note" id="gs-save-note"></span>
                     </div>
 
                     <!-- DAY NAVIGATION TABS -->
@@ -698,10 +699,9 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
-        // Complete dictionary containing all official handicap index numbers
         const handicaps = {
             "Cory Higgins": 1.9,
-            "Greg Resnick": null,
+            "Greg Resnick": 8.4,        // Updated from null
             "Ian Cochran": 7.3,
             "Jacob Emert": 3.1,
             "Jake Williams": null,
@@ -713,7 +713,6 @@
             "Todd Waldenberg": null,
             "Zach Deines": 9.3,
             
-            // Backup compatibility for Bandon elements
             "Mike Newell": 0.0,
             "Andrew Akers": 2.0,
             "James Adolfson": 3.0,
@@ -1576,11 +1575,11 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // baseline rosters matching exact sheet data oriented strictly by handicap (low -> high)
+        // Team Red re-oriented ascending by handicap with Greg Resnick at 8.4
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Paul Parker', 'Greg Resnick'] 
+                players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Paul Parker'] 
             },
             teamB: { 
                 name: 'Team Blue', 
@@ -1686,7 +1685,6 @@
                 const team = side === 'a' ? gsState.teamA : gsState.teamB;
                 holder.innerHTML = '';
                 for (let i = 0; i < 6; i++) {
-                    // Flex wrap row container to clean layout with handicap indicator
                     const row = document.createElement('div');
                     row.className = 'flex items-center justify-between mb-1.5';
                     
@@ -1799,18 +1797,12 @@
         }
 
         function gsInit() {
-            document.getElementById('gs-roster-btn').addEventListener('click', function () {
-                const r = document.getElementById('gs-rosters');
-                r.classList.toggle('open');
-                this.textContent = r.classList.contains('open') ? 'Hide rosters' : 'Edit teams & rosters';
-            });
-            
             document.getElementById('gs-reset-btn').addEventListener('click', function () {
                 if (!confirm('Wipe the whole Trip Cup board? This clears every result, roster, and pairing.')) return;
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Paul Parker', 'Greg Resnick'] 
+                        players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Greg Resnick', 'Paul Parker'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
@@ -1833,11 +1825,10 @@
 
             gsLoad().then(function (saved) {
                 if (saved) {
-                    // Check if the saved model contains the updated roster configuration (Pranav/Ryne).
-                    // If outdated/different, force reload the fresh sorting framework silently.
+                    // Smart update migration: Ensure changes upgrade automatically in existing cache
                     if (saved.teamA && saved.teamA.players) {
-                        const hasNewRosterSignature = saved.teamA.players.includes("Pranav Shah") || saved.teamB.players.includes("Ryne Baerlocher");
-                        if (hasNewRosterSignature) {
+                        const isUpToDate = saved.teamA.players.includes("Greg Resnick") && saved.teamA.players[4] === "Greg Resnick";
+                        if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
                         }
