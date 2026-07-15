@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandon Dunes Golf Trip Summary</title>
+    <title>2026 Gamble Sands Trip Cup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -19,7 +19,7 @@
             background-color: #fff;
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative; /* Added for logo positioning */
+            position: relative;
         }
         #trip-logo {
             position: absolute;
@@ -135,7 +135,7 @@
             font-weight: bold;
         }
         .side-bet-winner-highlight {
-             background-color: #fef08a; /* yellow-200 */
+             background-color: #fef08a;
         }
         .daily-flow-table td {
             padding: 0.25rem 0.5rem;
@@ -148,22 +148,29 @@
     </style>
 </head>
 <body class="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10">
-        <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" />
-        <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title">Bandon Dunes Golf Trip Summary</h1>
-
-        <div class="flex border-b border-gray-200 mb-6 flex-wrap">
-            <button id="tab-summary" class="tab-button active">Trip Summary</button>
-            <button id="tab-caddy" class="tab-button">Caddy Summary</button>
-            <button id="tab-caddy-by-tee-time" class="tab-button">Caddy Summary by Tee Time</button>
-            <button id="tab-daily-flow" class="tab-button">Daily Flow</button>
-            <button id="tab-scoring" class="tab-button">Daily Scoring</button>
-            <button id="tab-winners" class="tab-button">Winners Summary</button>
-            <button id="tab-group-info" class="tab-button">Group Information</button>
-            <button id="tab-gamblesands" class="tab-button">2026 Gamble Sands</button>
+    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 lg:p-10 mt-8">
+        
+        <!-- DESTINATION SELECTOR (HIDDEN TO SUPPRESS BANDON VISUALS) -->
+        <div id="dest-selector-wrap" class="flex justify-center items-center mb-10 space-x-2 bg-gray-100 p-2 rounded-lg w-max mx-auto relative z-10" style="display: none;">
+            <button id="dest-bandon" class="px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800">Bandon Dunes</button>
+            <button id="dest-gamble" class="px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800">Gamble Sands</button>
         </div>
 
-        <div id="content-summary" class="tab-content active">
+        <img id="trip-logo" src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/logo.png" alt="Trip Logo" style="display: none;" />
+        <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-8 text-left" id="main-trip-summary-title" style="display: none;">Bandon Dunes Golf Trip Summary</h1>
+
+        <div id="main-tab-bar" class="flex border-b border-gray-200 mb-6 flex-wrap" style="display: none;">
+            <button id="tab-summary" class="tab-button bandon-tab active">Trip Summary</button>
+            <button id="tab-caddy" class="tab-button bandon-tab">Caddy Summary</button>
+            <button id="tab-caddy-by-tee-time" class="tab-button bandon-tab">Caddy Summary by Tee Time</button>
+            <button id="tab-daily-flow" class="tab-button bandon-tab">Daily Flow</button>
+            <button id="tab-scoring" class="tab-button bandon-tab">Daily Scoring</button>
+            <button id="tab-winners" class="tab-button bandon-tab">Winners Summary</button>
+            <button id="tab-group-info" class="tab-button bandon-tab">Group Information</button>
+            <button id="tab-gamblesands" class="tab-button gamble-tab" style="display:none;">2026 Gamble Sands</button>
+        </div>
+
+        <div id="content-summary" class="tab-content">
             <div class="card mb-6">
                 <div class="mb-4 player-select-section w-full md:w-1\/2">
                     <label for="player-select" class="block text-lg font-medium text-red-600 mb-2">Select Player:</label>
@@ -431,7 +438,7 @@
         </div>
 
 
-        <div id="content-gamblesands" class="tab-content">
+        <div id="content-gamblesands" class="tab-content active">
             <style>
                 #content-gamblesands .gs-wrap { background: linear-gradient(180deg, #0F3D2E, #0A2C21); border-radius: 0.75rem; padding: 20px 12px 40px; font-family: Georgia, 'Times New Roman', serif; color: #17251F; }
                 #content-gamblesands .gs-inner { max-width: 760px; margin: 0 auto; }
@@ -468,6 +475,17 @@
                 #content-gamblesands .gs-team-name { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; margin-bottom: 8px; }
                 #content-gamblesands .gs-team-name.gs-a-ink { color: #A6252F; border-bottom: 2px solid #A6252F; }
                 #content-gamblesands .gs-team-name.gs-b-ink { color: #1E3A6E; border-bottom: 2px solid #1E3A6E; }
+                
+                /* DAY TABS STYLING */
+                #content-gamblesands .gs-day-tabs { display: flex; justify-content: center; gap: 8px; margin: 20px 0 16px; border-bottom: 1px solid rgba(227, 224, 213, 0.15); padding-bottom: 16px; flex-wrap: wrap; }
+                #content-gamblesands .gs-day-tab { flex: 1; min-width: 130px; padding: 12px 16px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.25); color: #CDE3D5; font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+                #content-gamblesands .gs-day-tab:hover { background: rgba(255, 255, 255, 0.1); color: #F3EFDF; border-color: rgba(255, 255, 255, 0.4); }
+                #content-gamblesands .gs-day-tab.active { background: #C9A44C; border-color: #C9A44C; color: #10241B; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35); }
+                #content-gamblesands .gs-day-sub { font-size: 11px; font-weight: 400; opacity: 0.85; margin-left: 6px; font-family: Georgia, serif; font-style: italic; text-transform: none; letter-spacing: 0; }
+                @media (max-width: 500px) {
+                    #content-gamblesands .gs-day-sub { display: block; margin-left: 0; margin-top: 2px; }
+                }
+
                 #content-gamblesands .gs-session { background: #FBFAF6; border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
                 #content-gamblesands .gs-session-head { width: 100%; border: none; background: transparent; cursor: pointer; padding: 14px 16px; display: flex; align-items: baseline; gap: 10px; text-align: left; font-family: Georgia, serif; }
                 #content-gamblesands .gs-when { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 2px; color: #C9A44C; text-transform: uppercase; white-space: nowrap; }
@@ -506,6 +524,7 @@
                         <div class="gs-sub">Three days &middot; five rounds &middot; twelve players</div>
                     </div>
 
+                    <!-- SCOREBOARD TOTALS (ALWAYS VISIBLE ABOVE DAY TABS) -->
                     <div class="gs-board">
                         <div class="gs-board-grid">
                             <div class="gs-side gs-a">
@@ -554,6 +573,14 @@
                         </div>
                     </div>
 
+                    <!-- DAY NAVIGATION TABS -->
+                    <div class="gs-day-tabs" id="gs-day-tabs">
+                        <button type="button" class="gs-day-tab active" data-day="day1">Day 1 <span class="gs-day-sub">(Rounds 1 &amp; 2)</span></button>
+                        <button type="button" class="gs-day-tab" data-day="day2">Day 2 <span class="gs-day-sub">(Rounds 3 &amp; 4)</span></button>
+                        <button type="button" class="gs-day-tab" data-day="day3">Day 3 <span class="gs-day-sub">(Singles)</span></button>
+                    </div>
+
+                    <!-- SESSIONS DISPLAY AREA -->
                     <div id="gs-sessions"></div>
 
                     <div class="gs-footer">Tap a result again to clear it &middot; board auto-saves in this browser</div>
@@ -790,7 +817,7 @@
             }
         };
 
-        // Rooming data - Corrected 8/15/25
+        // Rooming data
         const roomingData = {
             "James Adolfson": { accommodation: "Forest Double Queen", roommates: ["Will Quarles"] },
             "Will Quarles": { accommodation: "Forest Double Queen", roommates: ["James Adolfson"] },
@@ -818,7 +845,7 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
-        // Handicap data - UPDATED with the final definitive list.
+        // Handicap data
         const handicaps = {
             "Mike Newell": 0.0,
             "Andrew Akers": 2.0,
@@ -874,7 +901,7 @@
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
         
-        // This is the new centralized data object for daily teams and scores.
+        // Daily team and score data
         const dailyData = {
             "8-20": {
                 sixTeamData: { "Team 1": ["Mike Newell","Rob Small","Vikas Bhasin","Matt Akers"], "Team 2": ["Andrew Akers","Nick Zangardi","Daniel Passino","Will Quarles"], "Team 3": ["Cory Higgins","Kevin Newell","Hisham Sayeedi","Charlie Hildebrand"], "Team 4": ["James Adolfson","Zach Deines","Cory Micheel","Paul Parker"], "Team 5": ["Ryan Hohn","Jacob Emert","AD Hoffman","Johnathn Resetar"], "Team 6": ["Kevan Oyama","Bob Owlett","Brandon Itaoka","Bryan Wolfe"] },
@@ -908,7 +935,6 @@
             }
         };
 
-        // All JavaScript functions follow...
         function parseCSV(csv) {
             const lines = csv.split('\n').filter(line => line.trim() !== '');
             if (lines.length < 2) return [];
@@ -1334,7 +1360,7 @@
         
         function populateScoringView() {
             const selectedDate = document.getElementById('date-select').value;
-            const selectedFormat = 'four'; // Hardcoded to 'four' teams
+            const selectedFormat = 'four';
             const dataForDay = dailyData[selectedDate];
             const container = document.getElementById('scoring-display-area');
             
@@ -1512,7 +1538,7 @@
                             const teamData = dayData.fourTeamData;
                             const scores = dayData.scores;
                             let winningTeamName = '';
-                            let maxScore = -Infinity; // Initialize with a very low number
+                            let maxScore = -Infinity;
 
                             for (const teamName in teamData) {
                                 const playersOnTeam = teamData[teamName];
@@ -1562,6 +1588,47 @@
             `;
         }
 
+        // DESTINATION TOGGLE LOGIC
+        function setDestination(destination) {
+            const bandonTabs = document.querySelectorAll('.bandon-tab');
+            const gambleTabs = document.querySelectorAll('.gamble-tab');
+            const logo = document.getElementById('trip-logo');
+            const title = document.getElementById('main-trip-summary-title');
+            const destWrap = document.getElementById('dest-selector-wrap');
+            const mainTabBar = document.getElementById('main-tab-bar');
+            
+            const btnBandon = document.getElementById('dest-bandon');
+            const btnGamble = document.getElementById('dest-gamble');
+
+            if (destination === 'bandon') {
+                if (btnBandon) btnBandon.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800";
+                if (btnGamble) btnGamble.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800";
+                
+                if (destWrap) destWrap.style.display = 'flex';
+                if (mainTabBar) mainTabBar.style.display = 'flex';
+                if (logo) logo.style.display = 'block';
+                if (title) title.style.display = 'block';
+                
+                bandonTabs.forEach(tab => tab.style.display = 'block');
+                gambleTabs.forEach(tab => tab.style.display = 'none');
+                
+                document.getElementById('tab-summary').click();
+            } else {
+                if (btnGamble) btnGamble.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800";
+                if (btnBandon) btnBandon.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800";
+                
+                // Suppress Bandon Dunes visual branding and navigation bars
+                if (destWrap) destWrap.style.display = 'none';
+                if (mainTabBar) mainTabBar.style.display = 'none';
+                if (logo) logo.style.display = 'none';
+                if (title) title.style.display = 'none'; 
+                
+                bandonTabs.forEach(tab => tab.style.display = 'none');
+                gambleTabs.forEach(tab => tab.style.display = 'none');
+                
+                document.getElementById('tab-gamblesands').click();
+            }
+        }
 
         function initialize() {
             const allPlayers = Object.keys(handicaps);
@@ -1578,12 +1645,11 @@
             populateDailyFlow(initialPlayer);
             populateWinnersSummary();
 
-            // Setup for the new consolidated scoring tab
             const dateSelect = document.getElementById('date-select');
             const scoringDates = Object.keys(dailyData);
 
             scoringDates.forEach(date => {
-                if (date !== "8-20") { // This line hides the 8/20 option
+                if (date !== "8-20") {
                     const option = document.createElement('option');
                     option.value = date;
                     option.textContent = `${date.replace('-', '/')} - Scoring`;
@@ -1592,8 +1658,6 @@
             });
 
             dateSelect.addEventListener('change', populateScoringView);
-
-            // Initial population of the scoring tab
             populateScoringView();
 
             document.getElementById('player-select').addEventListener('change', (event) => {
@@ -1612,6 +1676,12 @@
                     document.getElementById(contentId).classList.add('active');
                 });
             });
+
+            document.getElementById('dest-bandon').addEventListener('click', () => setDestination('bandon'));
+            document.getElementById('dest-gamble').addEventListener('click', () => setDestination('gamble'));
+            
+            // Default directly to Gamble Sands view while suppressing Bandon visuals
+            setDestination('gamble');
         }
 
         window.onload = initialize;
@@ -1621,28 +1691,28 @@
     // ===================== 2026 GAMBLE SANDS TRIP CUP =====================
     (function () {
         const GS_SESSIONS = [
-            { id: 'r1', when: 'Day 1 · AM', title: 'Four-Ball', desc: '2v2 best ball · front & back 9-hole matches',
+            { id: 'r1', day: 'day1', when: 'Day 1 · AM', title: 'Four-Ball', desc: '2v2 best ball · front & back 9-hole matches',
               matches: [
                 { id: 'r1m1', label: 'Match 1', units: [{ id: 'r1m1f', label: 'Front 9', pts: 1 }, { id: 'r1m1b', label: 'Back 9', pts: 1 }] },
                 { id: 'r1m2', label: 'Match 2', units: [{ id: 'r1m2f', label: 'Front 9', pts: 1 }, { id: 'r1m2b', label: 'Back 9', pts: 1 }] },
                 { id: 'r1m3', label: 'Match 3', units: [{ id: 'r1m3f', label: 'Front 9', pts: 1 }, { id: 'r1m3b', label: 'Back 9', pts: 1 }] }
               ] },
-            { id: 'r2', when: 'Day 1 · PM', title: 'Par 3 · 3v3 Two-Count', desc: '14 holes at QuickSands · two best net scores count per side',
+            { id: 'r2', day: 'day1', when: 'Day 1 · PM', title: 'Par 3 · 3v3 Two-Count', desc: '14 holes at QuickSands · two best net scores count per side',
               matches: [
                 { id: 'r2m1', label: 'Group 1 (3v3)', units: [{ id: 'r2m1x', label: '14-Hole Match', pts: 3 }] },
                 { id: 'r2m2', label: 'Group 2 (3v3)', units: [{ id: 'r2m2x', label: '14-Hole Match', pts: 3 }] }
               ] },
-            { id: 'r3', when: 'Day 2 · AM', title: 'Aggregate Four-Ball', desc: '2v2 combined net score · front & back 9-hole matches',
+            { id: 'r3', day: 'day2', when: 'Day 2 · AM', title: 'Aggregate Four-Ball', desc: '2v2 combined net score · front & back 9-hole matches',
               matches: [
                 { id: 'r3m1', label: 'Match 1', units: [{ id: 'r3m1f', label: 'Front 9', pts: 1 }, { id: 'r3m1b', label: 'Back 9', pts: 1 }] },
                 { id: 'r3m2', label: 'Match 2', units: [{ id: 'r3m2f', label: 'Front 9', pts: 1 }, { id: 'r3m2b', label: 'Back 9', pts: 1 }] },
                 { id: 'r3m3', label: 'Match 3', units: [{ id: 'r3m3f', label: 'Front 9', pts: 1 }, { id: 'r3m3b', label: 'Back 9', pts: 1 }] }
               ] },
-            { id: 'r4', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · best 5 of 6 count per team',
+            { id: 'r4', day: 'day2', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · best 5 of 6 count per team',
               matches: [
                 { id: 'r4m1', label: 'Team Totals', units: [{ id: 'r4f', label: 'Front 9 Total', pts: 3 }, { id: 'r4b', label: 'Back 9 Total', pts: 3 }] }
               ] },
-            { id: 'r5', when: 'Day 3', title: 'Singles Finale', desc: '1v1 · front & back 9-hole matches',
+            { id: 'r5', day: 'day3', when: 'Day 3', title: 'Singles Finale', desc: '1v1 · front & back 9-hole matches',
               matches: [1, 2, 3, 4, 5, 6].map(function (n) {
                 return { id: 'r5m' + n, label: 'Singles ' + n, units: [{ id: 'r5m' + n + 'f', label: 'Front 9', pts: 1 }, { id: 'r5m' + n + 'b', label: 'Back 9', pts: 1 }] };
               }) }
@@ -1654,21 +1724,21 @@
             teamA: { name: 'Team Red', players: ['', '', '', '', '', ''] },
             teamB: { name: 'Team Blue', players: ['', '', '', '', '', ''] },
             results: {},
-            labels: {}
+            labels: {},
+            activeDay: 'day1'
         };
 
-        // Storage shim: claude.ai artifact storage if present, else localStorage, else memory-only
         async function gsLoad() {
             try {
                 if (window.storage && window.storage.get) {
                     const r = await window.storage.get(GS_KEY);
                     if (r && r.value) return JSON.parse(r.value);
                 }
-            } catch (e) { /* fall through */ }
+            } catch (e) { }
             try {
                 const v = localStorage.getItem(GS_KEY);
                 if (v) return JSON.parse(v);
-            } catch (e) { /* fall through */ }
+            } catch (e) { }
             return null;
         }
         let gsSaveTimer = null;
@@ -1681,9 +1751,9 @@
                         await window.storage.set(GS_KEY, JSON.stringify(gsState));
                         ok = true;
                     }
-                } catch (e) { /* fall through */ }
+                } catch (e) { }
                 if (!ok) {
-                    try { localStorage.setItem(GS_KEY, JSON.stringify(gsState)); ok = true; } catch (e) { /* memory only */ }
+                    try { localStorage.setItem(GS_KEY, JSON.stringify(gsState)); ok = true; } catch (e) { }
                 }
                 const note = document.getElementById('gs-save-note');
                 if (note) {
@@ -1737,8 +1807,18 @@
             document.querySelectorAll('#content-gamblesands .gs-toggle[data-val="B"]').forEach(function (el) { el.textContent = b; });
         }
 
+        // FILTER VIEW BY SELECTED DAY TAB
+        function gsFilterDays(activeDay) {
+            gsState.activeDay = activeDay;
+            document.querySelectorAll('#content-gamblesands .gs-day-tab').forEach(function (btn) {
+                btn.classList.toggle('active', btn.dataset.day === activeDay);
+            });
+            document.querySelectorAll('#content-gamblesands .gs-session').forEach(function (card) {
+                card.style.display = (card.dataset.day === activeDay) ? 'block' : 'none';
+            });
+        }
+
         function gsBuild() {
-            // Rosters
             ['a', 'b'].forEach(function (side) {
                 const holder = document.getElementById('gs-players-' + side);
                 const team = side === 'a' ? gsState.teamA : gsState.teamB;
@@ -1763,12 +1843,12 @@
             nameA.addEventListener('input', function () { gsState.teamA.name = nameA.value; gsTeamNamesToButtons(); gsSave(); });
             nameB.addEventListener('input', function () { gsState.teamB.name = nameB.value; gsTeamNamesToButtons(); gsSave(); });
 
-            // Sessions
             const wrap = document.getElementById('gs-sessions');
             wrap.innerHTML = '';
-            GS_SESSIONS.forEach(function (sess, idx) {
+            GS_SESSIONS.forEach(function (sess) {
                 const card = document.createElement('div');
-                card.className = 'gs-session' + (idx === 0 ? ' open' : '');
+                card.className = 'gs-session open';
+                card.dataset.day = sess.day;
 
                 const head = document.createElement('button');
                 head.type = 'button';
@@ -1833,6 +1913,7 @@
 
             gsTeamNamesToButtons();
             gsTally();
+            gsFilterDays(gsState.activeDay || 'day1');
         }
 
         function gsInit() {
@@ -1841,16 +1922,25 @@
                 r.classList.toggle('open');
                 this.textContent = r.classList.contains('open') ? 'Hide rosters' : 'Edit teams & rosters';
             });
+            
             document.getElementById('gs-reset-btn').addEventListener('click', function () {
                 if (!confirm('Wipe the whole Trip Cup board? This clears every result, roster, and pairing.')) return;
                 gsState = {
                     teamA: { name: 'Team Red', players: ['', '', '', '', '', ''] },
                     teamB: { name: 'Team Blue', players: ['', '', '', '', '', ''] },
                     results: {},
-                    labels: {}
+                    labels: {},
+                    activeDay: 'day1'
                 };
                 gsBuild();
                 gsSave();
+            });
+
+            document.querySelectorAll('#content-gamblesands .gs-day-tab').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    gsFilterDays(this.dataset.day);
+                    gsSave();
+                });
             });
 
             gsLoad().then(function (saved) {
@@ -1859,6 +1949,7 @@
                     gsState.teamB = Object.assign(gsState.teamB, saved.teamB || {});
                     gsState.results = saved.results || {};
                     gsState.labels = saved.labels || {};
+                    if (saved.activeDay) gsState.activeDay = saved.activeDay;
                 }
                 gsBuild();
             });
