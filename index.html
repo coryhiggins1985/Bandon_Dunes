@@ -469,7 +469,6 @@
                 #content-gamblesands .gs-btn-ghost { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: #F3EFDF; font-family: Georgia, serif; font-size: 13px; cursor: pointer; }
                 #content-gamblesands .gs-save-note { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #CDE3D5; min-width: 44px; }
                 
-                /* PERMANENT ROSTER CONTAINER */
                 #content-gamblesands .gs-rosters { background: #FBFAF6; border-radius: 12px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); display: block; }
                 #content-gamblesands .gs-roster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
                 #content-gamblesands .gs-input { width: 100%; border: none; border-bottom: 1px solid #E3E0D5; background: transparent; padding: 6px 2px; font-family: Georgia, serif; font-size: 13.5px; color: #17251F; outline: none; box-sizing: border-box; border-radius: 0; }
@@ -477,7 +476,6 @@
                 #content-gamblesands .gs-team-name.gs-a-ink { color: #A6252F; border-bottom: 2px solid #A6252F; }
                 #content-gamblesands .gs-team-name.gs-b-ink { color: #1E3A6E; border-bottom: 2px solid #1E3A6E; }
                 
-                /* DAY TABS STYLING */
                 #content-gamblesands .gs-day-tabs { display: flex; justify-content: center; gap: 8px; margin: 20px 0 16px; border-bottom: 1px solid rgba(227, 224, 213, 0.15); padding-bottom: 16px; flex-wrap: wrap; }
                 #content-gamblesands .gs-day-tab { flex: 1; min-width: 130px; padding: 12px 16px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.25); color: #CDE3D5; font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
                 #content-gamblesands .gs-day-tab:hover { background: rgba(255, 255, 255, 0.1); color: #F3EFDF; border-color: rgba(255, 255, 255, 0.4); }
@@ -702,9 +700,9 @@
         const handicaps = {
             "Cory Higgins": 1.4,
             "Greg Resnick": 8.4,        
-            "Ian Cochran": 18.0,        // Updated from 7.3
+            "Ian Cochran": 18.0,
             "Jacob Emert": 3.2,
-            "Jake Williams": 18.0,      // Updated from 7.3
+            "Jake Williams": 18.0,
             "Johnathn Resetar": 10.9,
             "Paul Parker": 12.3,
             "Pranav Shah": 4.9,
@@ -1575,15 +1573,15 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Rebalanced rosters achieving a perfectly even 0.2 handicap point difference (55.8 vs 55.6)
+        // Balanced rosters (sum approx 55.7) sorted low-to-high by index
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
-                players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
+                players: ['Cory Higgins', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
             },
             teamB: { 
                 name: 'Team Blue', 
-                players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
+                players: ['Jake Williams', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
             },
             results: {},
             labels: {},
@@ -1830,11 +1828,11 @@
                 gsState = {
                     teamA: { 
                         name: 'Team Red', 
-                        players: ['Jacob Emert', 'Ryan Hohn', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker', 'Jake Williams'] 
+                        players: ['Jake Williams', 'Ryan Hohn', 'Ian Cochran', 'Ryne Baerlocher', 'Zach Deines', 'Paul Parker'] 
                     },
                     teamB: { 
                         name: 'Team Blue', 
-                        players: ['Cory Higgins', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg', 'Ian Cochran'] 
+                        players: ['Cory Higgins', 'Jacob Emert', 'Pranav Shah', 'Greg Resnick', 'Johnathn Resetar', 'Todd Waldenberg'] 
                     },
                     results: {},
                     labels: {},
@@ -1854,8 +1852,8 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        // Verifies signature structure sync matches latest rebalancing check
-                        const isUpToDate = saved.teamA.players.includes("Jacob Emert") && handicaps["Jake Williams"] === 18.0;
+                        // Cache break signature verifies if the new trades/handicaps are active
+                        const isUpToDate = saved.teamA.players.includes("Jake Williams") && handicaps["Jake Williams"] === 18.0;
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
                             gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
