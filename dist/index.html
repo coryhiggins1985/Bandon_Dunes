@@ -524,7 +524,7 @@
                         <div class="gs-sub">Three days &middot; five rounds &middot; twelve players</div>
                     </div>
 
-                    <!-- SCOREBOARD TOTALS (ALWAYS VISIBLE ABOVE DAY TABS) -->
+                    <!-- SCOREBOARD TOTALS -->
                     <div class="gs-board">
                         <div class="gs-board-grid">
                             <div class="gs-side gs-a">
@@ -590,7 +590,6 @@
 
     </div>
     <script>
-        // Raw CSV data for golf pairings - Corrected to match the latest official pairings file.
         const csvData = `Date,Time,Course,Player1,Player2,Player3,Player4,Player5,Notes,CompleteEstimate
 2025-08-20,3:15 p.m.,Shorty's,Brandon Itaoka,Cory Micheel,AD Hoffman,Will Quarles,,,2025-08-20 16:15:00
 2025-08-20,2:40 p.m.,Bandon Dunes,Cory Higgins,Kevin Newell,Mike Newell,Rob Small,,,2025-08-20 19:10:00
@@ -645,179 +644,33 @@
 2025-08-24,7:30 a.m.,Sheep Ranch,Zach Deines,Johnathn Resetar,Jacob Emert,Brandon Itaoka,,,2025-08-24 12:00:00
 2025-08-24,7:40 a.m.,Sheep Ranch,James Adolfson,Ryan Hohn,Nick Zangardi,Paul Parker,,,2025-08-24 12:10:00`;
         
-        // Caddy data
         const completeCaddyData = {
-            "AD Hoffman": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
-            },
-            "Andrew Akers": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Not Playing" }
-            },
-            "Bob Owlett": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Brandon Itaoka": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Bryan Wolfe": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Not Playing" }
-            },
-            "Charlie Hildebrand": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Cory Higgins": {
-                "2025-08-20": { "PM": "Carry Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Cory Micheel": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" },
-                "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Daniel Passino": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Hisham Sayeedi": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Jacob Emert": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "James Adolfson": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Johnathn Resetar": {
-                "2025-08-20": { "PM": "Carry Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Kevan Oyama": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Kevin Newell": {
-                "2025-08-20": { "PM": "Carry Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Matt Akers": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Mike Newell": {
-                "2025-08-20": { "PM": "Carry Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Nick Zangardi": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Paul Parker": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Non-Carry Strategy Caddy" }
-            },
-            "Rob Small": {
-                "2025-08-20": { "PM": "Carry Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Ryan Hohn": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            },
-            "Vikas Bhasin": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" },
-                "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Carry Caddy" }
-            },
-            "Will Quarles": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "Not Playing" }
-            },
-            "Zach Deines": {
-                "2025-08-20": { "PM": "No Caddy" },
-                "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" },
-                "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" },
-                "2025-08-24": { "AM": "No Caddy" }
-            }
+            "AD Hoffman": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Non-Carry Strategy Caddy" } },
+            "Andrew Akers": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
+            "Bob Owlett": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Brandon Itaoka": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Bryan Wolfe": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
+            "Charlie Hildebrand": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Cory Higgins": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Cory Micheel": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Non-Carry Strategy Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Non-Carry Strategy Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Daniel Passino": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Hisham Sayeedi": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Jacob Emert": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "James Adolfson": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Johnathn Resetar": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Kevan Oyama": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Kevin Newell": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Matt Akers": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Mike Newell": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Nick Zangardi": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Paul Parker": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Non-Carry Strategy Caddy" } },
+            "Rob Small": { "2025-08-20": { "PM": "Carry Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Ryan Hohn": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } },
+            "Vikas Bhasin": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "Carry Caddy" }, "2025-08-22": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Carry Caddy" } },
+            "Will Quarles": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "Carry Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "Not Playing" } },
+            "Zach Deines": { "2025-08-20": { "PM": "No Caddy" }, "2025-08-21": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-22": { "AM": "Not Playing", "PM": "No Caddy" }, "2025-08-23": { "AM": "No Caddy", "PM": "No Caddy" }, "2025-08-24": { "AM": "No Caddy" } }
         };
 
-        // Rooming data
         const roomingData = {
             "James Adolfson": { accommodation: "Forest Double Queen", roommates: ["Will Quarles"] },
             "Will Quarles": { accommodation: "Forest Double Queen", roommates: ["James Adolfson"] },
@@ -845,18 +698,28 @@
             "Brandon Itaoka": { accommodation: "Grove Cottage", roommates: ["Cory Higgins", "Zach Deines", "Vikas Bhasin"] }
         };
 
-        // Handicap data
+        // Complete dictionary containing all official handicap index numbers
         const handicaps = {
+            "Cory Higgins": 1.9,
+            "Greg Resnick": null,
+            "Ian Cochran": 7.3,
+            "Jacob Emert": 3.1,
+            "Jake Williams": null,
+            "Johnathn Resetar": 10.9,
+            "Paul Parker": 12.3,
+            "Pranav Shah": 4.9,
+            "Ryan Hohn": 5.7,
+            "Ryne Baerlocher": 7.3,
+            "Todd Waldenberg": null,
+            "Zach Deines": 9.3,
+            
+            // Backup compatibility for Bandon elements
             "Mike Newell": 0.0,
             "Andrew Akers": 2.0,
-            "Cory Higgins": 2.8,
             "James Adolfson": 3.0,
-            "Ryan Hohn": 4.3,
             "Kevan Oyama": 4.0,
             "Bob Owlett": 4.9,
-            "Jacob Emert": 5.8,
             "Brandon Itaoka": 6.8,
-            "Zach Deines": 7.9,
             "Rob Small": 9.1,
             "Kevin Newell": 9.8,
             "Nick Zangardi": 10.0,
@@ -866,14 +729,11 @@
             "Cory Micheel": 11.0,
             "AD Hoffman": 11.4,
             "Bryan Wolfe": 11.9,
-            "Johnathn Resetar": 12.7,
-            "Paul Parker": 13.0,
             "Charlie Hildebrand": 15.0,
             "Will Quarles": 16.8,
             "Matt Akers": 16.2
         };
 
-        // Meal data
         const mealsData = {
             "Kevin Newell": { "Breakfast Buffet": 1, "Lunch Box": 1 },
             "Ryan Hohn": { "Breakfast Buffet": 1, "Lunch Box": 1 },
@@ -901,7 +761,6 @@
             "Will Quarles": { "Breakfast Buffet": 0, "Lunch Box": 0 }
         };
         
-        // Daily team and score data
         const dailyData = {
             "8-20": {
                 sixTeamData: { "Team 1": ["Mike Newell","Rob Small","Vikas Bhasin","Matt Akers"], "Team 2": ["Andrew Akers","Nick Zangardi","Daniel Passino","Will Quarles"], "Team 3": ["Cory Higgins","Kevin Newell","Hisham Sayeedi","Charlie Hildebrand"], "Team 4": ["James Adolfson","Zach Deines","Cory Micheel","Paul Parker"], "Team 5": ["Ryan Hohn","Jacob Emert","AD Hoffman","Johnathn Resetar"], "Team 6": ["Kevan Oyama","Bob Owlett","Brandon Itaoka","Bryan Wolfe"] },
@@ -1074,7 +933,7 @@
             stablefordTableBody.appendChild(spacingTr);
 
             const playerHandicap = handicaps[playerName];
-            if (playerHandicap !== undefined) {
+            if (playerHandicap !== undefined && playerHandicap !== null) {
                 const tr = document.createElement('tr');
                 tr.className = 'player-handicap-row';
                 tr.innerHTML = `<td class="border px-4 py-2 font-semibold">${playerName}'s Handicap</td><td class="border px-4 py-2 bg-white">${playerHandicap.toFixed(1)}</td><td class="border px-4 py-2 bg-white" colspan="2"></td>`;
@@ -1129,7 +988,7 @@
                 partnersTd.className = 'px-4 py-2';
                 const partners = row.Players
                     .filter(p => p && p !== playerName && p !== 'TBD')
-                    .map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`)
+                    .map(p => `${p} (${handicaps[p] !== undefined && handicaps[p] !== null ? handicaps[p].toFixed(1) : 'N/A'})`)
                     .join(', ');
                 partnersTd.textContent = partners;
                 tr.appendChild(partnersTd);
@@ -1168,7 +1027,7 @@
                         <td class="px-4 py-2">${row.Time}</td>
                         <td class="px-4 py-2">${completeTimeText}</td>
                         <td class="px-4 py-2">${row.Course}</td>
-                        <td class="px-4 py-2">${row.Players.filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
+                        <td class="px-4 py-2">${row.Players.filter(p => p && p !== 'TBD').map(p => `${p} (${handicaps[p] !== undefined && handicaps[p] !== null ? handicaps[p].toFixed(1) : 'N/A'})`).join('<br>')}</td>
                     `;
                     dailyPairingsBody.appendChild(tr);
                 });
@@ -1462,7 +1321,7 @@
                             <tbody>
                 `;
                 team.players.forEach((player, index) => {
-                    const handicap = handicaps[player] ? handicaps[player].toFixed(1) : 'N/A';
+                    const handicap = handicaps[player] !== undefined && handicaps[player] !== null ? handicaps[player].toFixed(1) : 'N/A';
                     const score = scores[player] || 0;
                     tablesHtml += `
                         <tr>
@@ -1588,7 +1447,6 @@
             `;
         }
 
-        // DESTINATION TOGGLE LOGIC
         function setDestination(destination) {
             const bandonTabs = document.querySelectorAll('.bandon-tab');
             const gambleTabs = document.querySelectorAll('.gamble-tab');
@@ -1617,7 +1475,6 @@
                 if (btnGamble) btnGamble.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 bg-white shadow text-green-800";
                 if (btnBandon) btnBandon.className = "px-6 py-2 rounded-md font-semibold text-sm transition-colors duration-200 text-gray-500 hover:text-green-800";
                 
-                // Suppress Bandon Dunes visual branding and navigation bars
                 if (destWrap) destWrap.style.display = 'none';
                 if (mainTabBar) mainTabBar.style.display = 'none';
                 if (logo) logo.style.display = 'none';
@@ -1680,7 +1537,6 @@
             document.getElementById('dest-bandon').addEventListener('click', () => setDestination('bandon'));
             document.getElementById('dest-gamble').addEventListener('click', () => setDestination('gamble'));
             
-            // Default directly to Gamble Sands view while suppressing Bandon visuals
             setDestination('gamble');
         }
 
@@ -1720,9 +1576,16 @@
         const GS_TOTAL = 36, GS_TO_WIN = 18.5;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
+        // baseline rosters matching exact sheet data oriented strictly by handicap (low -> high)
         let gsState = {
-            teamA: { name: 'Team Red', players: ['', '', '', '', '', ''] },
-            teamB: { name: 'Team Blue', players: ['', '', '', '', '', ''] },
+            teamA: { 
+                name: 'Team Red', 
+                players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Paul Parker', 'Greg Resnick'] 
+            },
+            teamB: { 
+                name: 'Team Blue', 
+                players: ['Jacob Emert', 'Ryne Baerlocher', 'Zach Deines', 'Johnathn Resetar', 'Jake Williams', 'Todd Waldenberg'] 
+            },
             results: {},
             labels: {},
             activeDay: 'day1'
@@ -1807,7 +1670,6 @@
             document.querySelectorAll('#content-gamblesands .gs-toggle[data-val="B"]').forEach(function (el) { el.textContent = b; });
         }
 
-        // FILTER VIEW BY SELECTED DAY TAB
         function gsFilterDays(activeDay) {
             gsState.activeDay = activeDay;
             document.querySelectorAll('#content-gamblesands .gs-day-tab').forEach(function (btn) {
@@ -1824,16 +1686,36 @@
                 const team = side === 'a' ? gsState.teamA : gsState.teamB;
                 holder.innerHTML = '';
                 for (let i = 0; i < 6; i++) {
+                    // Flex wrap row container to clean layout with handicap indicator
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between mb-1.5';
+                    
                     const inp = document.createElement('input');
-                    inp.className = 'gs-input';
+                    inp.className = 'gs-input flex-1';
                     inp.placeholder = 'Player ' + (i + 1);
                     inp.value = team.players[i] || '';
-                    inp.style.marginBottom = '6px';
+                    
+                    const hcSpan = document.createElement('span');
+                    hcSpan.className = 'text-xs font-mono bg-gray-200 text-gray-700 px-2 py-0.5 rounded ml-2 min-w-[36px] text-center';
+                    
+                    function getHandicapLabel(name) {
+                        if (!name) return '—';
+                        const hc = handicaps[name.trim()];
+                        return (hc !== undefined && hc !== null) ? hc.toFixed(1) : '—';
+                    }
+                    
+                    hcSpan.textContent = getHandicapLabel(inp.value);
+                    
                     inp.addEventListener('input', function () {
-                        (side === 'a' ? gsState.teamA : gsState.teamB).players[i] = inp.value;
+                        const targetTeam = (side === 'a' ? gsState.teamA : gsState.teamB);
+                        targetTeam.players[i] = inp.value;
+                        hcSpan.textContent = getHandicapLabel(inp.value);
                         gsSave();
                     });
-                    holder.appendChild(inp);
+                    
+                    row.appendChild(inp);
+                    row.appendChild(hcSpan);
+                    holder.appendChild(row);
                 }
             });
             const nameA = document.getElementById('gs-teamname-a');
@@ -1926,8 +1808,14 @@
             document.getElementById('gs-reset-btn').addEventListener('click', function () {
                 if (!confirm('Wipe the whole Trip Cup board? This clears every result, roster, and pairing.')) return;
                 gsState = {
-                    teamA: { name: 'Team Red', players: ['', '', '', '', '', ''] },
-                    teamB: { name: 'Team Blue', players: ['', '', '', '', '', ''] },
+                    teamA: { 
+                        name: 'Team Red', 
+                        players: ['Cory Higgins', 'Pranav Shah', 'Ryan Hohn', 'Ian Cochran', 'Paul Parker', 'Greg Resnick'] 
+                    },
+                    teamB: { 
+                        name: 'Team Blue', 
+                        players: ['Jacob Emert', 'Ryne Baerlocher', 'Zach Deines', 'Johnathn Resetar', 'Jake Williams', 'Todd Waldenberg'] 
+                    },
                     results: {},
                     labels: {},
                     activeDay: 'day1'
@@ -1945,8 +1833,15 @@
 
             gsLoad().then(function (saved) {
                 if (saved) {
-                    gsState.teamA = Object.assign(gsState.teamA, saved.teamA || {});
-                    gsState.teamB = Object.assign(gsState.teamB, saved.teamB || {});
+                    // Check if the saved model contains the updated roster configuration (Pranav/Ryne).
+                    // If outdated/different, force reload the fresh sorting framework silently.
+                    if (saved.teamA && saved.teamA.players) {
+                        const hasNewRosterSignature = saved.teamA.players.includes("Pranav Shah") || saved.teamB.players.includes("Ryne Baerlocher");
+                        if (hasNewRosterSignature) {
+                            gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
+                            gsState.teamB = Object.assign(gsState.teamB, saved.teamB);
+                        }
+                    }
                     gsState.results = saved.results || {};
                     gsState.labels = saved.labels || {};
                     if (saved.activeDay) gsState.activeDay = saved.activeDay;
