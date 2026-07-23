@@ -493,7 +493,6 @@
                 }
 
                 #content-gamblesands .gs-session { background: #FBFAF6; border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
-                /* Updated session head to align center instead of baseline so logos are vertically aligned */
                 #content-gamblesands .gs-session-head { width: 100%; border: none; background: transparent; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 10px; text-align: left; font-family: Georgia, serif; }
                 #content-gamblesands .gs-when { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 2px; color: #C9A44C; text-transform: uppercase; white-space: nowrap; }
                 #content-gamblesands .gs-session-title { font-family: 'Arial Black', Arial, sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; flex: 1; color: #17251F; }
@@ -517,6 +516,27 @@
                 #content-gamblesands .gs-toggle.on[data-val="A"] { background: #A6252F; border-color: #A6252F; color: #fff; font-weight: 700; }
                 #content-gamblesands .gs-toggle.on[data-val="H"] { background: #8A8F87; border-color: #8A8F87; color: #fff; font-weight: 700; }
                 #content-gamblesands .gs-toggle.on[data-val="B"] { background: #1E3A6E; border-color: #1E3A6E; color: #fff; font-weight: 700; }
+                
+                /* STABLEFORD CUSTOM STYLING */
+                #content-gamblesands .gs-st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+                @media (max-width: 640px) {
+                    #content-gamblesands .gs-st-grid { grid-template-columns: 1fr; }
+                }
+                #content-gamblesands .gs-st-team { background: rgba(0,0,0,0.03); border-radius: 8px; padding: 12px; border: 1px solid #E3E0D5; }
+                #content-gamblesands .gs-st-team-title { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; text-transform: uppercase; margin-bottom: 8px; border-bottom: 2px solid #ccc; padding-bottom: 4px; }
+                #content-gamblesands .gs-st-team.card-a .gs-st-team-title { color: #A6252F; border-color: #A6252F; }
+                #content-gamblesands .gs-st-team.card-b .gs-st-team-title { color: #1E3A6E; border-color: #1E3A6E; }
+                #content-gamblesands .gs-st-table { width: 100%; border-collapse: collapse; font-family: Georgia, serif; color: #17251F; }
+                #content-gamblesands .gs-st-table th { font-family: ui-monospace, Menlo, monospace; font-size: 10px; text-transform: uppercase; color: #6B7A72; padding: 4px 2px; border-bottom: 1px solid #D8D5C9; }
+                #content-gamblesands .gs-st-input { width: 100%; max-width: 50px; text-align: center; border: 1px solid #D8D5C9; border-radius: 4px; padding: 4px 2px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #fff; outline: none; }
+                #content-gamblesands .gs-st-input:focus { border-color: #C9A44C; box-shadow: 0 0 0 2px rgba(201,164,76,0.2); }
+                #content-gamblesands .gs-st-banners { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+                #content-gamblesands .gs-st-banner { padding: 8px 12px; border-radius: 6px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; transition: all 0.2s; }
+                #content-gamblesands .gs-st-banner.dim { background: #EEEFEA; color: #6B7A72; border: 1px dashed #D8D5C9; }
+                #content-gamblesands .gs-st-banner.win-a { background: #A6252F; color: #fff; box-shadow: 0 2px 8px rgba(166,37,47,0.3); }
+                #content-gamblesands .gs-st-banner.win-b { background: #1E3A6E; color: #fff; box-shadow: 0 2px 8px rgba(30,58,110,0.3); }
+                #content-gamblesands .gs-st-banner.tie { background: #8A8F87; color: #fff; }
+                
                 #content-gamblesands .gs-footer { text-align: center; font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; letter-spacing: 1.5px; color: #9FBFAC; margin-top: 20px; text-transform: uppercase; }
                 @media (max-width: 640px) {
                     #content-gamblesands .gs-roster-grid { grid-template-columns: 1fr; }
@@ -525,7 +545,7 @@
             </style>
             <div class="gs-wrap">
                 <div class="gs-inner">
-                    <!-- NEW LOGO ROW ADDED HERE -->
+                    <!-- LOGO ROW -->
                     <div class="gs-top-logos">
                         <img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/desert%20canyon%20logo.webp" alt="Desert Canyon">
                         <img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/scarecrow.jpg" alt="Scarecrow">
@@ -534,7 +554,7 @@
                     </div>
 
                     <div class="gs-masthead">
-                        <div class="gs-eyebrow">36 points &middot; 18&frac12; to win</div>
+                        <div class="gs-eyebrow">33 points &middot; 17 to win</div>
                         <h1 class="gs-title">2026 Gamble Sands Trip Cup</h1>
                         <div class="gs-sub">Three days &middot; five rounds &middot; twelve players</div>
                     </div>
@@ -549,7 +569,7 @@
                             </div>
                             <div class="gs-mid">
                                 <div class="gs-mid-label">REMAINING</div>
-                                <div class="gs-mid-num" id="gs-remaining">36</div>
+                                <div class="gs-mid-num" id="gs-remaining">33</div>
                             </div>
                             <div class="gs-side gs-b">
                                 <div class="gs-side-label gs-name-b">Team Blue</div>
@@ -561,11 +581,11 @@
                             <div class="gs-bar">
                                 <div class="gs-bar-a" id="gs-bar-a"></div>
                                 <div class="gs-bar-b" id="gs-bar-b"></div>
-                                <div class="gs-clinchline" style="left: 51.39%;"></div>
-                                <div class="gs-clinchline" style="left: 48.61%;"></div>
+                                <div class="gs-clinchline" style="left: 51.52%;"></div>
+                                <div class="gs-clinchline" style="left: 48.48%;"></div>
                             </div>
-                            <div class="gs-bar-caption"><span>0</span><span>gold lines = 18&frac12; clinch</span><span>36</span></div>
-                            <div class="gs-tied" id="gs-tied">18&ndash;18 &middot; TO THE PLAYOFF</div>
+                            <div class="gs-bar-caption"><span>0</span><span>gold lines = 17 clinch</span><span>33</span></div>
+                            <div class="gs-tied" id="gs-tied">16&frac12;&ndash;16&frac12; &middot; TO THE PLAYOFF</div>
                         </div>
                     </div>
 
@@ -1578,19 +1598,19 @@
                 { id: 'r3m2', label: 'Match 2', units: [{ id: 'r3m2f', label: 'Front 9', pts: 1 }, { id: 'r3m2b', label: 'Back 9', pts: 1 }] },
                 { id: 'r3m3', label: 'Match 3', units: [{ id: 'r3m3f', label: 'Front 9', pts: 1 }, { id: 'r3m3b', label: 'Back 9', pts: 1 }] }
               ] },
-            { id: 'r4', day: 'day2', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · best 5 of 6 count per team', logo: 'Gamble-black-logo.png',
+            { id: 'r4', day: 'day2', when: 'Day 2 · PM', title: 'Team Stableford', desc: 'Individual net stableford · all 6 point totals count per team · automatic 18-hole calculation', logo: 'Gamble-black-logo.png',
               matches: [
-                { id: 'r4m1', label: 'Team Totals', units: [{ id: 'r4f', label: 'Front 9 Total', pts: 3 }, { id: 'r4b', label: 'Back 9 Total', pts: 3 }] }
+                { id: 'r4m1', label: 'Team Total', units: [{ id: 'r4tot', label: '18-Hole Team Total', pts: 3 }] }
               ] },
             { id: 'r5', day: 'day3', when: 'Day 3', title: 'Singles Finale', desc: '1v1 · front & back 9-hole matches', logo: 'scarecrow.jpg',
               matches: [1, 2, 3, 4, 5, 6].map(function (n) {
                 return { id: 'r5m' + n, label: 'Singles ' + n, units: [{ id: 'r5m' + n + 'f', label: 'Front 9', pts: 1 }, { id: 'r5m' + n + 'b', label: 'Back 9', pts: 1 }] };
               }) }
         ];
-        const GS_TOTAL = 36, GS_TO_WIN = 18.5;
+        const GS_TOTAL = 33, GS_TO_WIN = 17;
         const GS_KEY = 'gamble-sands-2026-scoreboard';
 
-        // Rebalanced rosters achieving a perfectly even 0.2 handicap point difference (55.8 vs 55.6)
+        // Rebalanced rosters with Todd on Red and Paul on Blue
         let gsState = {
             teamA: { 
                 name: 'Team Red', 
@@ -1602,6 +1622,10 @@
             },
             results: {},
             labels: {},
+            stableford: {
+                A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
+                B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+            },
             activeDay: 'day1'
         };
 
@@ -1672,7 +1696,72 @@
             document.getElementById('gs-bar-b').style.width = (ptsB / GS_TOTAL * 100) + '%';
             document.getElementById('gs-clinch-a').style.display = ptsA >= GS_TO_WIN ? 'block' : 'none';
             document.getElementById('gs-clinch-b').style.display = ptsB >= GS_TO_WIN ? 'block' : 'none';
-            document.getElementById('gs-tied').style.display = (ptsA === 18 && ptsB === 18) ? 'block' : 'none';
+            document.getElementById('gs-tied').style.display = (ptsA === 16.5 && ptsB === 16.5) ? 'block' : 'none';
+        }
+
+        function gsRecalcStableford() {
+            if (!gsState.stableford) return;
+            let sumA_f9 = 0, sumA_b9 = 0;
+            let sumB_f9 = 0, sumB_b9 = 0;
+            let hasScores = false;
+
+            for (let i = 0; i < 6; i++) {
+                const afStr = gsState.stableford.A.f9[i];
+                const abStr = gsState.stableford.A.b9[i];
+                const bfStr = gsState.stableford.B.f9[i];
+                const bbStr = gsState.stableford.B.b9[i];
+
+                if (afStr !== '' && afStr !== null || abStr !== '' && abStr !== null || bfStr !== '' && bfStr !== null || bbStr !== '' && bbStr !== null) {
+                    hasScores = true;
+                }
+
+                const af = parseFloat(afStr) || 0;
+                const ab = parseFloat(abStr) || 0;
+                const bf = parseFloat(bfStr) || 0;
+                const bb = parseFloat(bbStr) || 0;
+
+                sumA_f9 += af;
+                sumA_b9 += ab;
+                sumB_f9 += bf;
+                sumB_b9 += bb;
+            }
+
+            const sumA_tot = sumA_f9 + sumA_b9;
+            const sumB_tot = sumB_f9 + sumB_b9;
+
+            const elAf = document.getElementById('gs-st-af9'); if (elAf) elAf.textContent = sumA_f9;
+            const elAb = document.getElementById('gs-st-ab9'); if (elAb) elAb.textContent = sumA_b9;
+            const elAt = document.getElementById('gs-st-atot'); if (elAt) elAt.textContent = sumA_tot;
+
+            const elBf = document.getElementById('gs-st-bf9'); if (elBf) elBf.textContent = sumB_f9;
+            const elBb = document.getElementById('gs-st-bb9'); if (elBb) elBb.textContent = sumB_b9;
+            const elBt = document.getElementById('gs-st-btot'); if (elBt) elBt.textContent = sumB_tot;
+
+            // Automatically determine winner and assign the 3 points to r4tot
+            if (hasScores) {
+                if (sumA_tot > sumB_tot) gsState.results['r4tot'] = 'A';
+                else if (sumB_tot > sumA_tot) gsState.results['r4tot'] = 'B';
+                else gsState.results['r4tot'] = 'H';
+            } else {
+                gsState.results['r4tot'] = null;
+            }
+
+            const elStatus = document.getElementById('gs-st-status-tot');
+            if (elStatus) {
+                if (!hasScores) {
+                    elStatus.textContent = '18-Hole Total (3 pts): Waiting for scores...';
+                    elStatus.className = 'gs-st-banner dim';
+                } else if (sumA_tot > sumB_tot) {
+                    elStatus.textContent = `18-Hole Winner: ${gsState.teamA.name} (${sumA_tot} to ${sumB_tot}) → Auto-awarding 3 pts`;
+                    elStatus.className = 'gs-st-banner win-a';
+                } else if (sumB_tot > sumA_tot) {
+                    elStatus.textContent = `18-Hole Winner: ${gsState.teamB.name} (${sumB_tot} to ${sumA_tot}) → Auto-awarding 3 pts`;
+                    elStatus.className = 'gs-st-banner win-b';
+                } else {
+                    elStatus.textContent = `18-Hole Tied (${sumA_tot} to ${sumB_tot}) → 1½ pts each`;
+                    elStatus.className = 'gs-st-banner tie';
+                }
+            }
         }
 
         function gsTeamNamesToButtons() {
@@ -1745,7 +1834,6 @@
                     
                     hcSpan.textContent = getHandicapLabel(inp.value);
                     
-                    // Handle visual updates while typing without interrupting user flow
                     inp.addEventListener('input', function () {
                         const targetTeam = (side === 'a' ? gsState.teamA : gsState.teamB);
                         targetTeam.players[i] = inp.value;
@@ -1753,7 +1841,6 @@
                         updateAvg();
                     });
 
-                    // Trigger the full re-sort and re-render only when the user clicks away
                     inp.addEventListener('change', function () {
                         gsSave();
                         gsBuild(); 
@@ -1790,7 +1877,6 @@
                 head.type = 'button';
                 head.className = 'gs-session-head';
                 
-                // Add Dynamic Session Logo if specified in array
                 const logoHtml = sess.logo ? `<img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/${sess.logo}" alt="Course Logo" style="height: 20px; width: auto; object-fit: contain;">` : '';
                 
                 head.innerHTML = logoHtml + 
@@ -1805,54 +1891,150 @@
                 body.className = 'gs-session-body';
                 body.innerHTML = '<div class="gs-desc">' + sess.desc + '</div>';
 
-                sess.matches.forEach(function (m) {
-                    const mDiv = document.createElement('div');
-                    mDiv.className = 'gs-match';
+                if (sess.id === 'r4') {
+                    // Render Custom Dynamic Stableford Scorecard
+                    const stWrap = document.createElement('div');
+                    stWrap.className = 'gs-st-wrap';
 
-                    const lab = document.createElement('input');
-                    lab.className = 'gs-input gs-match-label';
-                    lab.placeholder = m.label + ' \u2014 add pairings\u2026';
-                    lab.value = gsState.labels[m.id] || '';
-                    lab.addEventListener('input', function () { gsState.labels[m.id] = lab.value; gsSave(); });
-                    mDiv.appendChild(lab);
+                    const bannersDiv = document.createElement('div');
+                    bannersDiv.className = 'gs-st-banners';
+                    bannersDiv.innerHTML = `
+                        <div id="gs-st-status-tot" class="gs-st-banner dim">18-Hole Total (3 pts): Waiting for scores...</div>
+                    `;
+                    stWrap.appendChild(bannersDiv);
 
-                    m.units.forEach(function (u) {
-                        const row = document.createElement('div');
-                        row.className = 'gs-unit';
-                        const ul = document.createElement('span');
-                        ul.className = 'gs-unit-label';
-                        ul.textContent = u.label + ' \u00B7 ' + u.pts + (u.pts > 1 ? ' pts' : ' pt');
-                        row.appendChild(ul);
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'gs-st-grid';
 
-                        const tg = document.createElement('div');
-                        tg.className = 'gs-toggles';
-                        [['A', ''], ['H', 'Halved'], ['B', '']].forEach(function (pair) {
-                            const val = pair[0];
-                            const btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.className = 'gs-toggle' + (gsState.results[u.id] === val ? ' on' : '');
-                            btn.dataset.val = val;
-                            btn.textContent = pair[1] || (val === 'A' ? 'Red' : 'Blue');
-                            btn.addEventListener('click', function () {
-                                gsState.results[u.id] = (gsState.results[u.id] === val) ? null : val;
-                                tg.querySelectorAll('.gs-toggle').forEach(function (b2) {
-                                    b2.classList.toggle('on', gsState.results[u.id] === b2.dataset.val);
-                                });
-                                gsTally();
-                                gsSave();
-                            });
-                            tg.appendChild(btn);
-                        });
-                        row.appendChild(tg);
-                        mDiv.appendChild(row);
+                    ['A', 'B'].forEach(function(sideKey) {
+                        const teamObj = sideKey === 'A' ? gsState.teamA : gsState.teamB;
+                        const sideDiv = document.createElement('div');
+                        sideDiv.className = 'gs-st-team card-' + sideKey.toLowerCase();
+                        
+                        let html = `<div class="gs-st-team-title">${teamObj.name || (sideKey === 'A' ? 'Team Red' : 'Team Blue')}</div>`;
+                        html += `<table class="gs-st-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">Player</th>
+                                            <th class="w-14 text-center">F9</th>
+                                            <th class="w-14 text-center">B9</th>
+                                            <th class="w-14 text-center">Tot</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+                        
+                        for (let i = 0; i < 6; i++) {
+                            const pName = teamObj.players[i] || `Player ${i+1}`;
+                            const fVal = (gsState.stableford && gsState.stableford[sideKey] && gsState.stableford[sideKey].f9[i]) !== undefined ? gsState.stableford[sideKey].f9[i] : '';
+                            const bVal = (gsState.stableford && gsState.stableford[sideKey] && gsState.stableford[sideKey].b9[i]) !== undefined ? gsState.stableford[sideKey].b9[i] : '';
+                            const fNum = parseFloat(fVal) || 0;
+                            const bNum = parseFloat(bVal) || 0;
+                            const totNum = (fVal !== '' || bVal !== '') ? (fNum + bNum) : '—';
+
+                            html += `<tr>
+                                        <td class="font-medium text-xs py-1.5 truncate max-w-[110px]">${pName}</td>
+                                        <td class="py-1.5 text-center"><input type="number" step="1" class="gs-st-input" data-side="${sideKey}" data-half="f9" data-idx="${i}" value="${fVal}" placeholder="0" /></td>
+                                        <td class="py-1.5 text-center"><input type="number" step="1" class="gs-st-input" data-side="${sideKey}" data-half="b9" data-idx="${i}" value="${bVal}" placeholder="0" /></td>
+                                        <td class="py-1.5 text-center font-bold text-xs" id="gs-st-ptot-${sideKey}-${i}">${totNum}</td>
+                                     </tr>`;
+                        }
+
+                        html += `</tbody>
+                                    <tfoot>
+                                        <tr class="border-t-2 border-gray-400 font-bold">
+                                            <td class="pt-2 text-xs uppercase tracking-wider">Team Total</td>
+                                            <td class="pt-2 text-center text-sm" id="gs-st-${sideKey.toLowerCase()}f9">0</td>
+                                            <td class="pt-2 text-center text-sm" id="gs-st-${sideKey.toLowerCase()}b9">0</td>
+                                            <td class="pt-2 text-center text-base" id="gs-st-${sideKey.toLowerCase()}tot">0</td>
+                                        </tr>
+                                    </tfoot>
+                                 </table>`;
+                        
+                        sideDiv.innerHTML = html;
+                        gridDiv.appendChild(sideDiv);
                     });
-                    body.appendChild(mDiv);
-                });
+
+                    stWrap.appendChild(gridDiv);
+                    body.appendChild(stWrap);
+
+                    body.querySelectorAll('.gs-st-input').forEach(function(inp) {
+                        inp.addEventListener('input', function() {
+                            if (!gsState.stableford) {
+                                gsState.stableford = {
+                                    A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
+                                    B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+                                };
+                            }
+                            const s = inp.dataset.side;
+                            const h = inp.dataset.half;
+                            const idx = parseInt(inp.dataset.idx, 10);
+                            gsState.stableford[s][h][idx] = inp.value;
+
+                            const fVal = gsState.stableford[s].f9[idx];
+                            const bVal = gsState.stableford[s].b9[idx];
+                            const rowTotEl = document.getElementById(`gs-st-ptot-${s}-${idx}`);
+                            if (rowTotEl) {
+                                rowTotEl.textContent = (fVal !== '' || bVal !== '') ? ((parseFloat(fVal) || 0) + (parseFloat(bVal) || 0)) : '—';
+                            }
+
+                            gsRecalcStableford();
+                            gsTally();
+                            gsSave();
+                        });
+                    });
+
+                } else {
+                    // Standard Match Toggle Buttons for all other sessions
+                    sess.matches.forEach(function (m) {
+                        const mDiv = document.createElement('div');
+                        mDiv.className = 'gs-match';
+
+                        const lab = document.createElement('input');
+                        lab.className = 'gs-input gs-match-label';
+                        lab.placeholder = m.label + ' \u2014 add pairings\u2026';
+                        lab.value = gsState.labels[m.id] || '';
+                        lab.addEventListener('input', function () { gsState.labels[m.id] = lab.value; gsSave(); });
+                        mDiv.appendChild(lab);
+
+                        m.units.forEach(function (u) {
+                            const row = document.createElement('div');
+                            row.className = 'gs-unit';
+                            const ul = document.createElement('span');
+                            ul.className = 'gs-unit-label';
+                            ul.textContent = u.label + ' \u00B7 ' + u.pts + (u.pts > 1 ? ' pts' : ' pt');
+                            row.appendChild(ul);
+
+                            const tg = document.createElement('div');
+                            tg.className = 'gs-toggles';
+                            [['A', ''], ['H', 'Halved'], ['B', '']].forEach(function (pair) {
+                                const val = pair[0];
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'gs-toggle' + (gsState.results[u.id] === val ? ' on' : '');
+                                btn.dataset.val = val;
+                                btn.textContent = pair[1] || (val === 'A' ? 'Red' : 'Blue');
+                                btn.addEventListener('click', function () {
+                                    gsState.results[u.id] = (gsState.results[u.id] === val) ? null : val;
+                                    tg.querySelectorAll('.gs-toggle').forEach(function (b2) {
+                                        b2.classList.toggle('on', gsState.results[u.id] === b2.dataset.val);
+                                    });
+                                    gsTally();
+                                    gsSave();
+                                });
+                                tg.appendChild(btn);
+                            });
+                            row.appendChild(tg);
+                            mDiv.appendChild(row);
+                        });
+                        body.appendChild(mDiv);
+                    });
+                }
                 card.appendChild(body);
                 wrap.appendChild(card);
             });
 
             gsTeamNamesToButtons();
+            gsRecalcStableford();
             gsTally();
             gsFilterDays(gsState.activeDay || 'day1');
         }
@@ -1871,6 +2053,10 @@
                     },
                     results: {},
                     labels: {},
+                    stableford: {
+                        A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
+                        B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+                    },
                     activeDay: 'day1'
                 };
                 gsBuild();
@@ -1887,7 +2073,6 @@
             gsLoad().then(function (saved) {
                 if (saved) {
                     if (saved.teamA && saved.teamA.players) {
-                        // Verifies signature structure sync matches latest rebalancing check
                         const isUpToDate = saved.teamA.players.includes("Jacob Emert") && handicaps["Jake Williams"] === 18.0;
                         if (isUpToDate) {
                             gsState.teamA = Object.assign(gsState.teamA, saved.teamA);
@@ -1896,6 +2081,7 @@
                     }
                     gsState.results = saved.results || {};
                     gsState.labels = saved.labels || {};
+                    if (saved.stableford) gsState.stableford = saved.stableford;
                     if (saved.activeDay) gsState.activeDay = saved.activeDay;
                 }
                 gsBuild();
