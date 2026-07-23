@@ -441,12 +441,15 @@
             <style>
                 #content-gamblesands .gs-wrap { background: linear-gradient(180deg, #0F3D2E, #0A2C21); border-radius: 0.75rem; padding: 20px 12px 40px; font-family: Georgia, 'Times New Roman', serif; color: #17251F; }
                 #content-gamblesands .gs-inner { max-width: 760px; margin: 0 auto; }
-                #content-gamblesands .gs-top-logos { display: flex; justify-space-between; align-items: center; background: #FBFAF6; padding: 12px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
-                #content-gamblesands .gs-top-logos img { max-height: 45px; width: auto; object-fit: contain; }
+                
+                /* UPDATED LOGO ROW STYLING FOR EVEN CENTERING */
+                #content-gamblesands .gs-top-logos { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px; background: #FBFAF6; padding: 16px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+                #content-gamblesands .gs-top-logos img { max-height: 50px; width: auto; object-fit: contain; }
                 @media (max-width: 640px) {
-                    #content-gamblesands .gs-top-logos { flex-wrap: wrap; justify-content: center; gap: 16px; padding: 16px; }
-                    #content-gamblesands .gs-top-logos img { max-height: 35px; }
+                    #content-gamblesands .gs-top-logos { justify-content: center; gap: 16px; padding: 16px; }
+                    #content-gamblesands .gs-top-logos img { max-height: 38px; }
                 }
+                
                 #content-gamblesands .gs-masthead { text-align: center; color: #F3EFDF; margin-bottom: 14px; }
                 #content-gamblesands .gs-eyebrow { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #C9A44C; }
                 #content-gamblesands .gs-title { font-family: 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-size: 26px; letter-spacing: 1px; margin: 6px 0 0; text-transform: uppercase; color: #F3EFDF; }
@@ -545,7 +548,7 @@
             </style>
             <div class="gs-wrap">
                 <div class="gs-inner">
-                    <!-- LOGO ROW -->
+                    <!-- EVENLY CENTERED LOGO ROW -->
                     <div class="gs-top-logos">
                         <img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/desert%20canyon%20logo.webp" alt="Desert Canyon">
                         <img src="https://raw.githubusercontent.com/coryhiggins1985/Bandon_Dunes/main/scarecrow.jpg" alt="Scarecrow">
