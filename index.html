@@ -441,7 +441,7 @@
             <style>
                 #content-gamblesands .gs-wrap { background: linear-gradient(180deg, #0F3D2E, #0A2C21); border-radius: 0.75rem; padding: 20px 12px 40px; font-family: Georgia, 'Times New Roman', serif; color: #17251F; }
                 #content-gamblesands .gs-inner { max-width: 760px; margin: 0 auto; }
-                #content-gamblesands .gs-top-logos { display: flex; justify-content: space-between; align-items: center; background: #FBFAF6; padding: 12px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+                #content-gamblesands .gs-top-logos { display: flex; justify-space-between; align-items: center; background: #FBFAF6; padding: 12px 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
                 #content-gamblesands .gs-top-logos img { max-height: 45px; width: auto; object-fit: contain; }
                 @media (max-width: 640px) {
                     #content-gamblesands .gs-top-logos { flex-wrap: wrap; justify-content: center; gap: 16px; padding: 16px; }
@@ -528,7 +528,7 @@
                 #content-gamblesands .gs-st-team.card-b .gs-st-team-title { color: #1E3A6E; border-color: #1E3A6E; }
                 #content-gamblesands .gs-st-table { width: 100%; border-collapse: collapse; font-family: Georgia, serif; color: #17251F; }
                 #content-gamblesands .gs-st-table th { font-family: ui-monospace, Menlo, monospace; font-size: 10px; text-transform: uppercase; color: #6B7A72; padding: 4px 2px; border-bottom: 1px solid #D8D5C9; }
-                #content-gamblesands .gs-st-input { width: 100%; max-width: 50px; text-align: center; border: 1px solid #D8D5C9; border-radius: 4px; padding: 4px 2px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; background: #fff; outline: none; }
+                #content-gamblesands .gs-st-input { width: 100%; max-width: 65px; text-align: center; border: 1px solid #D8D5C9; border-radius: 4px; padding: 4px 2px; font-family: ui-monospace, Menlo, monospace; font-size: 13px; background: #fff; outline: none; }
                 #content-gamblesands .gs-st-input:focus { border-color: #C9A44C; box-shadow: 0 0 0 2px rgba(201,164,76,0.2); }
                 #content-gamblesands .gs-st-banners { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
                 #content-gamblesands .gs-st-banner { padding: 8px 12px; border-radius: 6px; font-family: ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; transition: all 0.2s; }
@@ -1623,8 +1623,8 @@
             results: {},
             labels: {},
             stableford: {
-                A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
-                B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+                A: ['', '', '', '', '', ''],
+                B: ['', '', '', '', '', '']
             },
             activeDay: 'day1'
         };
@@ -1700,41 +1700,24 @@
         }
 
         function gsRecalcStableford() {
-            if (!gsState.stableford) return;
-            let sumA_f9 = 0, sumA_b9 = 0;
-            let sumB_f9 = 0, sumB_b9 = 0;
+            if (!gsState.stableford || !Array.isArray(gsState.stableford.A)) return;
+            let sumA_tot = 0;
+            let sumB_tot = 0;
             let hasScores = false;
 
             for (let i = 0; i < 6; i++) {
-                const afStr = gsState.stableford.A.f9[i];
-                const abStr = gsState.stableford.A.b9[i];
-                const bfStr = gsState.stableford.B.f9[i];
-                const bbStr = gsState.stableford.B.b9[i];
+                const aStr = gsState.stableford.A[i];
+                const bStr = gsState.stableford.B[i];
 
-                if (afStr !== '' && afStr !== null || abStr !== '' && abStr !== null || bfStr !== '' && bfStr !== null || bbStr !== '' && bbStr !== null) {
+                if ((aStr !== '' && aStr !== null) || (bStr !== '' && bStr !== null)) {
                     hasScores = true;
                 }
 
-                const af = parseFloat(afStr) || 0;
-                const ab = parseFloat(abStr) || 0;
-                const bf = parseFloat(bfStr) || 0;
-                const bb = parseFloat(bbStr) || 0;
-
-                sumA_f9 += af;
-                sumA_b9 += ab;
-                sumB_f9 += bf;
-                sumB_b9 += bb;
+                sumA_tot += parseFloat(aStr) || 0;
+                sumB_tot += parseFloat(bStr) || 0;
             }
 
-            const sumA_tot = sumA_f9 + sumA_b9;
-            const sumB_tot = sumB_f9 + sumB_b9;
-
-            const elAf = document.getElementById('gs-st-af9'); if (elAf) elAf.textContent = sumA_f9;
-            const elAb = document.getElementById('gs-st-ab9'); if (elAb) elAb.textContent = sumA_b9;
             const elAt = document.getElementById('gs-st-atot'); if (elAt) elAt.textContent = sumA_tot;
-
-            const elBf = document.getElementById('gs-st-bf9'); if (elBf) elBf.textContent = sumB_f9;
-            const elBb = document.getElementById('gs-st-bb9'); if (elBb) elBb.textContent = sumB_b9;
             const elBt = document.getElementById('gs-st-btot'); if (elBt) elBt.textContent = sumB_tot;
 
             // Automatically determine winner and assign the 3 points to r4tot
@@ -1892,7 +1875,7 @@
                 body.innerHTML = '<div class="gs-desc">' + sess.desc + '</div>';
 
                 if (sess.id === 'r4') {
-                    // Render Custom Dynamic Stableford Scorecard
+                    // Render Custom Dynamic 18-Hole Stableford Scorecard
                     const stWrap = document.createElement('div');
                     stWrap.className = 'gs-st-wrap';
 
@@ -1915,27 +1898,19 @@
                         html += `<table class="gs-st-table">
                                     <thead>
                                         <tr>
-                                            <th class="text-left">Player</th>
-                                            <th class="w-14 text-center">F9</th>
-                                            <th class="w-14 text-center">B9</th>
-                                            <th class="w-14 text-center">Tot</th>
+                                            <th class="text-left py-1">Player</th>
+                                            <th class="w-24 text-center py-1">18-Hole Pts</th>
                                         </tr>
                                     </thead>
                                     <tbody>`;
                         
                         for (let i = 0; i < 6; i++) {
                             const pName = teamObj.players[i] || `Player ${i+1}`;
-                            const fVal = (gsState.stableford && gsState.stableford[sideKey] && gsState.stableford[sideKey].f9[i]) !== undefined ? gsState.stableford[sideKey].f9[i] : '';
-                            const bVal = (gsState.stableford && gsState.stableford[sideKey] && gsState.stableford[sideKey].b9[i]) !== undefined ? gsState.stableford[sideKey].b9[i] : '';
-                            const fNum = parseFloat(fVal) || 0;
-                            const bNum = parseFloat(bVal) || 0;
-                            const totNum = (fVal !== '' || bVal !== '') ? (fNum + bNum) : '—';
+                            const val = (gsState.stableford && gsState.stableford[sideKey] && gsState.stableford[sideKey][i]) !== undefined ? gsState.stableford[sideKey][i] : '';
 
                             html += `<tr>
-                                        <td class="font-medium text-xs py-1.5 truncate max-w-[110px]">${pName}</td>
-                                        <td class="py-1.5 text-center"><input type="number" step="1" class="gs-st-input" data-side="${sideKey}" data-half="f9" data-idx="${i}" value="${fVal}" placeholder="0" /></td>
-                                        <td class="py-1.5 text-center"><input type="number" step="1" class="gs-st-input" data-side="${sideKey}" data-half="b9" data-idx="${i}" value="${bVal}" placeholder="0" /></td>
-                                        <td class="py-1.5 text-center font-bold text-xs" id="gs-st-ptot-${sideKey}-${i}">${totNum}</td>
+                                        <td class="font-medium text-xs py-1.5 truncate max-w-[130px]">${pName}</td>
+                                        <td class="py-1.5 text-center"><input type="number" step="1" class="gs-st-input" data-side="${sideKey}" data-idx="${i}" value="${val}" placeholder="0" /></td>
                                      </tr>`;
                         }
 
@@ -1943,8 +1918,6 @@
                                     <tfoot>
                                         <tr class="border-t-2 border-gray-400 font-bold">
                                             <td class="pt-2 text-xs uppercase tracking-wider">Team Total</td>
-                                            <td class="pt-2 text-center text-sm" id="gs-st-${sideKey.toLowerCase()}f9">0</td>
-                                            <td class="pt-2 text-center text-sm" id="gs-st-${sideKey.toLowerCase()}b9">0</td>
                                             <td class="pt-2 text-center text-base" id="gs-st-${sideKey.toLowerCase()}tot">0</td>
                                         </tr>
                                     </tfoot>
@@ -1959,23 +1932,15 @@
 
                     body.querySelectorAll('.gs-st-input').forEach(function(inp) {
                         inp.addEventListener('input', function() {
-                            if (!gsState.stableford) {
+                            if (!gsState.stableford || !Array.isArray(gsState.stableford.A)) {
                                 gsState.stableford = {
-                                    A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
-                                    B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+                                    A: ['', '', '', '', '', ''],
+                                    B: ['', '', '', '', '', '']
                                 };
                             }
                             const s = inp.dataset.side;
-                            const h = inp.dataset.half;
                             const idx = parseInt(inp.dataset.idx, 10);
-                            gsState.stableford[s][h][idx] = inp.value;
-
-                            const fVal = gsState.stableford[s].f9[idx];
-                            const bVal = gsState.stableford[s].b9[idx];
-                            const rowTotEl = document.getElementById(`gs-st-ptot-${s}-${idx}`);
-                            if (rowTotEl) {
-                                rowTotEl.textContent = (fVal !== '' || bVal !== '') ? ((parseFloat(fVal) || 0) + (parseFloat(bVal) || 0)) : '—';
-                            }
+                            gsState.stableford[s][idx] = inp.value;
 
                             gsRecalcStableford();
                             gsTally();
@@ -2054,8 +2019,8 @@
                     results: {},
                     labels: {},
                     stableford: {
-                        A: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] },
-                        B: { f9: ['', '', '', '', '', ''], b9: ['', '', '', '', '', ''] }
+                        A: ['', '', '', '', '', ''],
+                        B: ['', '', '', '', '', '']
                     },
                     activeDay: 'day1'
                 };
@@ -2081,7 +2046,26 @@
                     }
                     gsState.results = saved.results || {};
                     gsState.labels = saved.labels || {};
-                    if (saved.stableford) gsState.stableford = saved.stableford;
+                    
+                    if (saved.stableford) {
+                        if (Array.isArray(saved.stableford.A)) {
+                            gsState.stableford = saved.stableford;
+                        } else if (saved.stableford.A && saved.stableford.A.f9) {
+                            // Auto-migrate legacy f9/b9 stored data into a single 18-hole total
+                            gsState.stableford = {
+                                A: saved.stableford.A.f9.map((f, idx) => {
+                                    const fNum = parseFloat(f) || 0;
+                                    const bNum = parseFloat(saved.stableford.A.b9[idx]) || 0;
+                                    return (f !== '' || saved.stableford.A.b9[idx] !== '') ? (fNum + bNum).toString() : '';
+                                }),
+                                B: saved.stableford.B.f9.map((f, idx) => {
+                                    const fNum = parseFloat(f) || 0;
+                                    const bNum = parseFloat(saved.stableford.B.b9[idx]) || 0;
+                                    return (f !== '' || saved.stableford.B.b9[idx] !== '') ? (fNum + bNum).toString() : '';
+                                })
+                            };
+                        }
+                    }
                     if (saved.activeDay) gsState.activeDay = saved.activeDay;
                 }
                 gsBuild();
